@@ -3,7 +3,7 @@
 ## Specifications
 
 ## To-Dos
-- [ ] Generate /server with Express.js
+- [x] Generate /server with Express.js
 - [ ] DB Model with Mongoose.js
 - [ ] Upload dummy data
 - [ ] Basic CRUD from MongoDB to JSON
