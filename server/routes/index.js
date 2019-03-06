@@ -5,33 +5,33 @@ const Mdb = require('../controllers/mdb-cards');
 const router = express.Router();
 
 /* GET home page. */
-router.post('/api/v1/create', (req, res) => {
+router.post('/create', (req, res) => {
   console.log(req.body);
   Mdb.createCard(req, res, (err, result) => {
     res.json(result);
   });
 });
 
-router.post('/api/v1/cards', (req, res) => {
+router.post('/cards', (req, res) => {
   Mdb.fetchCards(req, res, (err, result) => {
     res.json(result);
   });
 });
 
-router.post('/api/v1/update', (req, res) => {
+router.post('/update', (req, res) => {
   Mdb.updateCard(req, res, (err, result) => {
     res.json(result);
   });
 });
 
-router.post('/api/v1/remove', (req, res) => {
+router.post('/remove', (req, res) => {
   Mdb.removeCard(req, res, (err, result) => {
     if (err) res.json(err);
     res.json(result);
   });
 });
 
-router.post('/api/v1/delete', (req, res) => {
+router.post('/delete', (req, res) => {
   Mdb.destroyCard(req, res, (err) => {
     if (err) res.json(err);
     res.json({ value: '', done: true });

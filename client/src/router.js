@@ -1,25 +1,55 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import firebase from '@/store/firebase';
+import Dashboard from '@/views/Dashboard';
+import Contacts from '@/views/Contacts';
+import Login from '@/views/Login';
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+console.log('router.js after Vue.use(Router)');
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+      path: '/contacts',
+      name: 'contacts',
+      component: Contacts,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const currentUser = firebase.auth.currentUser;
+  console.log('router.js, ', currentUser);
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !currentUser) next('login');
+  else if (!requiresAuth && currentUser) next('dashboard');
+  else next();
+});
+// router.beforeEach((to, from, next) => {
+//   const currentUser = fb.auth.currentUser;
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   if (requiresAuth && !currentUser) next('about');
+//   else if (!requiresAuth && currentUser) next();
+//   else next();
+// })
+
+export default router;

@@ -19,6 +19,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('x-powered-by', false);
 
-app.use('/', indexRouter);
+app.use('/api/v2', indexRouter);
+
+app.listen(process.env.PORT || 8081);
 
 module.exports = app;
