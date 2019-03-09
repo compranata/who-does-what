@@ -1,21 +1,16 @@
-import Vue from 'vue'
-import './plugins/vuetify'
-import App from './App.vue'
-import router from './router'
-import store from '@/store/store'
-import firebase from '@/store/firebase'
+import Vue from 'vue';
+import './plugins/vuetify';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
-Vue.config.productionTip = false
-// firebase.init();
-// firebase.onAuth();
-
-firebase.auth.onAuthStateChanged(user => {
-  if (user) console.log(user);
-  else console.log(null);
-});
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: h => h(App),
+  created () {
+    this.$store.dispatch('autoSignin', { uid: '1234', email: 'compra@nata.es', displayName: 'CompraNata' });
+  }
+}).$mount('#app');

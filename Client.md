@@ -3,8 +3,8 @@
 ## Specifications
 
 ## To-Dos
-- [ ] Create a project via Vue CLI3
-- [ ] Vue-Router, Vuex, Vuetify, axios
+- [x] Create a project via Vue CLI3
+- [x] Vue-Router, Vuex, Vuetify, axios
 - [ ] moment.js, Vue-i18n
 - [ ] Create base component
   - [ ] Header

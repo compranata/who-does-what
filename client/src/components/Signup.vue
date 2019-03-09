@@ -1,97 +1,150 @@
 <template>
-  <v-dialog max-width="600px" v-model="dialog">
-    <v-btn flat slot="activator" color="grey">Sign Up</v-btn>
-    <v-card>
-      <v-card-title>
-        <h2>Sign Up</h2>
-      </v-card-title>
-      <v-card-text>
-        <v-alert :value="error" type="error">Oooops, something went wrong. {{ message }}</v-alert>
-        <p>If you have alread an account, please signin here.
-          <v-tooltip top>
-            <v-icon left small slot="activator">help_outline</v-icon>
-            <span class="caption text-lowercase">Only one account by one email address allowed</span>
-          </v-tooltip>
-        </p>
-        <v-form class="px-3" ref="login" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="email"
-            append-icon="mail"
-            :rules="[rules.required, rules.emailMatch]"
-            label="Email"
-          ></v-text-field>
-          <v-text-field
-            v-model="password"
-            :append-icon="show1 ? 'visibility_off' : 'visibility'"
-            :rules="[rules.required, rules.min]"
-            :type="show1 ? 'text' : 'password'"
-            label="Password"
-            hint="At least 8 characters"
-            @click:append="show1 = !show1"
-          ></v-text-field>
-          <v-text-field
-            v-model="repeat"
-            :append-icon="show2 ? 'visibility_off' : 'visibility'"
-            :rules="[rules.required, rules.repeated]"
-            :type="show2 ? 'text' : 'password'"
-            label="Repeat"
-            hint="Repeat the password"
-            @click:append="show2 = !show2"
-          ></v-text-field>
-          <v-btn flat :loading="loading" :disabled="!valid" class="success mx-0 mt-3" @click="signUp">Sign Up</v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+  <v-layout row justify-center>
+    <p>If you have no account yet, then just join!</p>
+    <v-dialog v-model="dialog" persistent max-width="400px">
+      <v-btn flat small outline color="grey" slot="activator">
+        <v-icon left>how_to_reg</v-icon>
+        <span>Join</span>
+      </v-btn>
+      <v-card>
+        <v-card-title class="headline">Sign Up</v-card-title>
+        <v-card-text>
+          <v-form class="px-3 mt-3" ref="signunForm" v-model="valid">
+            <v-text-field
+             v-model="name"
+             append-icon="person"
+             label="Display Name"
+             :persistentHint="true"
+             hint="(Optional)"
+            ></v-text-field>
+            <v-text-field
+              v-model="email"
+              append-icon="mail"
+              :rules="[rules.required, rules.emailMatch]"
+              label="Email*"
+              validate-on-blur
+            ></v-text-field>
+            <v-text-field
+              v-model="password"
+              :append-icon="show ? 'visibility_off' : 'visibility'"
+              :rules="[rules.required, rules.min8]"
+              :type="show ? 'text' : 'password'"
+              label="Password*"
+              hint="At least 8 characters"
+              @click:append="show = !show"
+              validate-on-blur
+            ></v-text-field>
+            <v-text-field
+              v-model="confirmPassword"
+              :append-icon="show ? 'visibility_off' : 'visibility'"
+              :rules="[rules.required, rules.emailConfirm]"
+              :type="show ? 'text' : 'password'"
+              label="Confirm Password*"
+              @click:append="show = !show"
+              validate-on-blur
+            ></v-text-field>
+            <v-checkbox v-model="agree" :rules=[rules.agree] color="success">
+              <template v-slot:label>
+                <div @click.stop="">
+                  Do you accept the
+                  <a @click.stop="terms = true">terms</a>
+                  and
+                  <a @click.stop="conditions = true">conditions</a>
+                  ?
+                </div>
+              </template>
+            </v-checkbox>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            flat
+            class=""
+            @click="dialog = false"
+            >Cancel</v-btn>
+          <v-btn
+            flat
+            :loading="loading"
+            :disabled="!valid"
+            color="success"
+            @click="signUp"
+          >Sign Up</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="terms" width="70%">
+      <v-card>
+        <v-card-title class="title">Terms</v-card-title>
+        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat color="success" @click="terms = false">
+            <span>Ok</span>
+            <v-icon small right>done</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="conditions" width="70%">
+      <v-card>
+        <v-card-title class="title">Conditions</v-card-title>
+        <v-card-text>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat color="success" @click="conditions = false">
+            <span>Ok</span>
+            <v-icon small right>done</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-layout>
 </template>
 
 <script>
-// import fb from '@/services/fb'
-
 export default {
-  data() {
+  data () {
     return {
       valid: false,
+      show: false,
+      dialog: false,
+      rules: {
+        required: v => !!v || 'Required.',
+        min8: v => v.length >= 8 || 'Min 8 characters.',
+        emailMatch: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
+        emailConfirm: v => this.password === v || 'Type in carefully once again',
+        agree: v => v === true || 'Accept terms & conditions',
+      },
+      name: '',
       email: '',
       password: '',
-      repeat: '',
-      show1: false,
-      show2: false,
-      dialog: false,
-      loading: false,
-      error: false,
-      message: '',
-      rules: {
-          required: v => !!v || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
-          emailMatch: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
-          repeated: v => this.password.includes(v) || 'Type in carefully once again'
-        }
+      confirmPassword: '',
+      agree: false,
+      terms: false,
+      conditions: false,
     }
   },
-  methods: {
-    signUp() {
-      if (this.$refs.login.validate()) {
-        this.loading = true;
-        this.$store.dispatch('userJoin', {
-          email: this.email,
-          password: this.password
-        });
-        // fb.auth.createUserWithEmailAndPassword(this.email, this.password).then(
-        //   (user) => {
-        //     this.loading = false;
-        //     this.dialog = false;
-        //     this.$emit('userLoggedIn', `You are now loggerd in as ${user.email}`);
-        //   },
-        //   (err) => {
-        //     this.loading = false;
-        //     this.message = err.message;
-        //     this.error = true;
-        //   }
-        // )
-      }
+  computed: {
+    user () {
+      return this.$store.getters.user;
     },
-  }
+    loading () {
+      return this.$store.getters.loading;
+    },
+    error () {
+      return this.$store.getter.error;
+    },
+  },
+  methods: {
+    signUp () {
+      if (this.$refs.signunForm.validate()) {
+        this.$store.dispatch('signupUser', {email: this.email, password: this.password});
+      } else throw new Error('Ensure to fill the fields below!');
+    },
+  },
 }
 </script>
 

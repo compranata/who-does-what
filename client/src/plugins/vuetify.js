@@ -12,5 +12,9 @@ Vue.use(Vuetify, {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107',
-  }
+    alpha: '#5F6A72',
+    beta: '#D3222A',
+    gamma: '#00B0E8',
+    delta: '#719500',
+  },
 })

@@ -1,55 +1,37 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import firebase from '@/store/firebase';
-import Dashboard from '@/views/Dashboard';
-import Contacts from '@/views/Contacts';
-import Login from '@/views/Login';
+import Home from '@/views/Home';
+import Signin from '@/views/Signin';
+import WdW from '@/views/WhoDoesWhat';
+import Search from '@/views/Search';
 
 Vue.use(Router);
 
-console.log('router.js after Vue.use(Router)');
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: Dashboard,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/',
+      name: 'home',
+      component: Home
     },
     {
-      path: '/contacts',
-      name: 'contacts',
-      component: Contacts,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/signin',
+      name: 'signin',
+      component: Signin
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/wdw',
+      name: 'wdw',
+      component: WdW
     },
-  ]
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
+    },
+  ],
 });
-
-router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth.currentUser;
-  console.log('router.js, ', currentUser);
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser) next('login');
-  else if (!requiresAuth && currentUser) next('dashboard');
-  else next();
-});
-// router.beforeEach((to, from, next) => {
-//   const currentUser = fb.auth.currentUser;
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   if (requiresAuth && !currentUser) next('about');
-//   else if (!requiresAuth && currentUser) next();
-//   else next();
-// })
 
 export default router;

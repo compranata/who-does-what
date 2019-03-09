@@ -1,109 +1,154 @@
 <template>
   <nav>
 
-    <v-snackbar v-model="snackLogin" :timeout="4000" top color="success">
-      <span>You are now logged in as {{ this.loginUser }}</span>
-      <v-btn flat color="white" @click="snackLogin = false">Close</v-btn>
-    </v-snackbar>
-
     <v-toolbar flat app>
-      <v-toolbar-side-icon class="grey--text" @click="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon class="grey--text" :disabled="!isAuth" @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
         <span>Who</span>
-        <span class="font-weight-light">Does</span>
-        <span >What</span>
+        <span class="font-weight-light">does</span>
+        <span>what</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <Login v-if="loggedOff" @userLoggedIn="snackMessage" class="hidden-xs-only" />
-      <Signup v-if="loggedOff" @userLoggedIn="snackMessage" class="hidden-xs-only" />
-      <v-menu v-if="loggedOff" offset-y class="hidden-sm-and-up">
-        <v-btn flat slot="activator" color="grey">
-          <v-icon left>expand_more</v-icon>
-        </v-btn>
+      <v-btn icon class="grey--text" to="/search">
+        <v-icon >search</v-icon>
+      </v-btn>
+      <v-menu :nudge-width="100">
+        <template v-slot:activator="{ on }">
+          <v-btn icon class="grey--text" v-on="on">
+            <v-icon >more_vert</v-icon>
+          </v-btn>
+        </template>
+
         <v-list>
-          <v-list-tile>
-            <Login @userLoggedIn="snackMessage" />
-            <Signup @userLoggedIn="snackMessage" />
+          <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
+            <v-list-tile-title>
+              <v-icon small left>{{ link.icon }}</v-icon>
+              <span>{{ link.text }}</span>
+            </v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
-      <v-btn flat color="grey" @click="logout">
-        <span class="hidden-xs-only">Log Out</span>
+
+        <!-- <v-layout row class="pt-2">
+          <v-flex>
+            <v-text-field
+              v-model="search"
+              solo
+              append-icon="search"
+              label="Search"
+              class="cute-input stretch"
+              v-if="isAuth"
+              :autofocus="true"
+            ></v-text-field>
+          </v-flex>
+          <v-flex>
+            <v-icon>more_vert</v-icon>
+          </v-flex>
+        </v-layout> -->
+      <!-- </v-toolbar-items> -->
+      <!-- <v-btn flat color="grey">Profile</v-btn> -->
+      <!-- <v-btn flat color="grey" router to="signin">Sign In</v-btn> -->
+      <!-- <v-btn flat v-if="isAuth" color="grey">
+        <span>Sign Out</span>
         <v-icon right>exit_to_app</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" app class="primary">
+    <v-navigation-drawer app light v-model="drawer" class="kolme">
+      <v-img :aspect-ratio="16/9" src="https://images.unsplash.com/photo-1547892984-fb5ef9f020a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80">
+        <v-layout pa-2 column fill-height class="lightbox white--text">
+          <v-spacer></v-spacer>
+          <v-flex shrink>
+            <div class="subheading">{{ user.displayName }}</div>
+            <div class="body-1">{{ user.email }}</div>
+          </v-flex>
+        </v-layout>
+      </v-img>
       <v-layout column align-center>
-        <v-flex class="mt-4 mb-3">
-          <Popup />
-        </v-flex>
-        <v-flex class="mt-1 mb-1">
-          <div class="white--text">{{ loggedT }}</div>
+        <v-flex xs12>
+          <v-text-field
+            v-model="keywords"
+            prepend-icon="search"
+            single-line
+            full-width
+            hide-details
+            clearable
+            label="Tags"
+            type="text"
+          >
+          <v-icon slot:append-icon>search</v-icon>
+            <template v-slot:append>
+              <v-fade-transition leave-absolute>
+                <v-progress-circular
+                  v-show="loading"
+                  size="24"
+                  color="info"
+                  indeterminate
+                ></v-progress-circular>
+              </v-fade-transition>
+            </template>
+          </v-text-field>
+          <v-divider></v-divider>
+            <v-btn flat color="grey" class="my-3">
+              <span>Tag Filter</span>
+            </v-btn>
+          <v-divider></v-divider>
+          <v-list>
+            <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
+              <v-list-tile-action>
+                <v-icon class="grey--text">{{ link.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="grey--text">{{ link.text }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
         </v-flex>
       </v-layout>
-      <v-list>
-        <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
-          <v-list-tile-action>
-            <v-icon class="white--text">{{ link.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="white--text">{{ link.text }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
     </v-navigation-drawer>
 
   </nav>
 </template>
 
 <script>
-import fb from '@/store/firebase'
-import Signup from './Signup'
-import Login from './Login'
-import Popup from './Popup'
-
 export default {
-  components: { Signup, Login, Popup },
-  data() {
+  data () {
     return {
       drawer: false,
-      snackLogin: false,
-      loginUser: 'nobody',
-      loggedIn: false,
-      loggedOff: true,
+      keywords: '',
+      search: '',
+      expand: false,
       links: [
-        { icon: 'dashboard', text: 'Dashborad', route: '/dashboard' },
-        { icon: 'folder', text: 'Contacts', route: '/contacts' },
-        { icon: 'person', text: 'Team', route: '/login' },
+        { icon: 'dashboard', text: 'Dashborad(home)', route: '/' },
+        { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
+        { icon: 'person', text: 'Login', route: '/signin' },
       ],
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('userLogoff');
-      // fb.auth.signOut().then(() => {
-      //   this.loggedIn = false;
-      //   this.loggedOff = true;
-      //   console.log(this);
-      // })
-    },
-    snackMessage() {
-      this.snackLogin = true;
-        this.loggedIn = true;
-        this.loggedOff = false;
-    },
-    // snackMessage() {
-    //   this.loginUser = fb.auth.currentUser.email;
-    //   this.snackLogin = true;
-    //   this.loggedIn = true;
-    //   this.loggedOff = false;
-    // }
-  },
   computed: {
-    loggedT() {
-      return this.$store.state.isAuthenticated;
+    user () {
+      return this.$store.getters.user;
     },
+    isAuth () {
+      return this.$store.getters.isAuth;
+    },
+    loading () {
+      return this.$store.getters.loading;
+    }
   },
+  methods: {
+  }
 }
 </script>
+
+<style>
+.v-input.cute-input .v-input__slot {
+  border-radius: 100px!important;
+  /* min-height: 18px; */
+}
+
+.lightbox {
+  box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+}
+</style>

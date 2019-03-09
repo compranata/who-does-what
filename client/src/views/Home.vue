@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <h1 class="subheading grey--text">Homepage</h1>
+    <h1 class="subheading grey--text">Dashboard</h1>
 
     <v-container class="my-5">
 
@@ -21,31 +21,30 @@
             </v-btn>
             <span>Sort cards by lead name</span>
           </v-tooltip>
-          <span>Hey {{ getUser.isAuth }}</span>
         </div>
       </v-layout>
 
-      <v-card flat v-for="card in cards" :key="card.id">
-        <v-layout row wrap :class="`pa-3 card ${card.unit}`">
+      <v-card flat v-for="wdw in wdws" :key="wdw.id">
+        <v-layout row wrap :class="`pa-3 wdw ${wdw.unit}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Team</div>
-            <div>{{ card.name }}</div>
+            <div>{{ wdw.name }}</div>
           </v-flex>
           <v-flex xs12 sm3 md2>
             <div class="caption grey--text">Lead</div>
-            <div>{{ card.lead }}</div>
+            <div>{{ wdw.lead }}</div>
           </v-flex>
           <v-flex xs12 sm3 md2>
             <div class="caption grey--text">Phone</div>
-            <div>{{ card.phone }}</div>
+            <div>{{ wdw.phone }}</div>
           </v-flex>
           <v-flex xs12 sm3 md2>
             <div class="caption grey--text">Mail</div>
-            <div>{{ card.mail }}</div>
+            <div>{{ wdw.mail }}</div>
           </v-flex>
           <v-flex xs12 sm3 md2>
             <div class="right">
-              <v-chip small :class="`${card.unit} white--text text-uppercase caption my-2`">{{ card.unit }}</v-chip>
+              <v-chip small :class="`${wdw.unit} white--text text-uppercase caption my-2`">{{ wdw.unit }}</v-chip>
             </div>
           </v-flex>
         </v-layout>
@@ -57,48 +56,43 @@
 </template>
 
 <script>
-
-  export default {
-    data() {
-      return {
-        person: {},
-      }
+export default {
+  computed: {
+    wdws () {
+      return this.$store.state.wdws;
     },
-    methods: {
-      // sortBy(prop) {
-      //   this.cards.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
-      // }
+    user () {
+      return this.$store.getters.user;
     },
-    computed: {
-      cards() {
-        return this.$store.state.cards;
-      },
-      getUser() {
-        return this.$store.getters.currentUser;
-      }
+    isAuth () {
+      return this.$sotre.getters.isAuth;
     },
+    loading () {
+      return this.$store.getters.loading;
+    },
+    error () {
+      return this.$store.getter.error;
+    },
+  },
+  methods: {
+    sortBy (prop) {
+      this.wdws.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
+    }
   }
+}
 </script>
 
 <style scoped>
-
-.card.brand {
+.wdw.yksi {
   border-left: 4px solid #5f6a72;
 }
-.card.diamond {
-  border-left: 4px solid #923148;
+.wdw.kaksi {
+  border-left: 4px solid #d3222a;
 }
-.card.premium {
+.wdw.kolme {
   border-left: 4px solid #00b0e8;
 }
-
-.v-chip.brand {
-  background: #5f6a72;
-}
-.v-chip.diamond {
-  background: #923148;
-}
-.v-chip.premium {
-  background: #00b0e8;
+.wdw.nelja {
+  border-left: 4px solid #719500;
 }
 </style>
