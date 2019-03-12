@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/views/Home';
-import Signin from '@/views/Signin';
-import WdW from '@/views/WhoDoesWhat';
-import Search from '@/views/Search';
+import Home from '@/components/Home';
+import Signin from '@/components/User/Signin';
+import WdW from '@/components/WDW/WhoDoesWhat';
+import Search from '@/components/WDW/Search';
 
 Vue.use(Router);
 

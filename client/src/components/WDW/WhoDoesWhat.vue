@@ -34,10 +34,12 @@
             <v-card-text>
               <div class="subheading">{{ wdw.name }}</div>
               <v-divider></v-divider>
-              <div class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
-              <div class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.phone }}</div>
-              <div class="grey--text"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
-              <div class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead }}</div>
+              <template>
+                <div class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
+                <div class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.phone }}</div>
+                <div class="grey--text"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
+                <div class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead }}</div>
+              </template>
             </v-card-text>
 
             <!-- <v-card-actions>
@@ -61,6 +63,9 @@ export default {
   computed: {
     wdws () {
       return this.$store.state.wdws;
+    },
+    tags () {
+      return this.$store.state.tags;
     },
   },
   methods: {

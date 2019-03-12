@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import Signup from '@/components/Signup'
+import Signup from '@/components/User/Signup'
 
 export default {
   components: { Signup },

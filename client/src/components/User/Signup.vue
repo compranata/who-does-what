@@ -7,22 +7,25 @@
         <span>Join</span>
       </v-btn>
       <v-card>
-        <v-card-title class="headline">Sign Up</v-card-title>
+        <v-card-title class="headline">
+          <v-icon left>how_to_reg</v-icon>
+          <span>Sign Up</span>
+        </v-card-title>
         <v-card-text>
           <v-form class="px-3 mt-3" ref="signunForm" v-model="valid">
-            <v-text-field
-             v-model="name"
-             append-icon="person"
-             label="Display Name"
-             :persistentHint="true"
-             hint="(Optional)"
-            ></v-text-field>
             <v-text-field
               v-model="email"
               append-icon="mail"
               :rules="[rules.required, rules.emailMatch]"
               label="Email*"
               validate-on-blur
+            ></v-text-field>
+            <v-text-field
+             v-model="name"
+             append-icon="person"
+             label="Name"
+             :persistentHint="true"
+             hint="(Optional)"
             ></v-text-field>
             <v-text-field
               v-model="password"
