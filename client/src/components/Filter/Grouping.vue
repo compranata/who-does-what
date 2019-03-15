@@ -1,9 +1,9 @@
 <template>
   <div>
-    <span v-for="group in tagGroups" class="mb-1">
-      <div class="subheading grey--text">{{ group }}</div>
+    <div v-for="group in tagGroups" :key="group" class="mb-1 mx-3">
+      <div class="body-2 grey--text">{{ group }}</div>
       <FilterButtons :label="label" :group="group"></FilterButtons>
-    </span>
+    </div>
   </div>
 </template>
 

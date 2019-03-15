@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn-toggle v-model="filterKeys" multiple @change="pushValues">
+    <v-btn-toggle v-model="filterQuery" multiple @change="pushKeywords">
       <v-layout row wrap justify-start>
-        <span v-for="button in tagButtons">
-          <v-btn small flat round outline color="grey" :value="button">{{ button }}</v-btn>
+        <span v-for="button in tagButtons" :key="button">
+          <v-btn small flat round outline color="grey" class="ml-1 mb-1" :value="button">{{ button }}</v-btn>
         </span>
       </v-layout>
     </v-btn-toggle>
@@ -15,7 +15,7 @@ export default {
   props: ['group', 'label'],
   data () {
     return {
-      filterKeys: [],
+      filterQuery: [],
     }
   },
   computed: {
@@ -31,9 +31,14 @@ export default {
     },
   },
   methods: {
-    pushValues (e) {
-      this.$store.dispatch('pushTagKeys', this.filterKeys);
-    }
+    pushKeywords () {
+      const obj = {
+        label: this.label,
+        group: this.group,
+        keys: this.filterQuery,
+      };
+      this.$store.dispatch('pushFilterQuery', obj);
+    },
   },
 }
 </script>
@@ -44,8 +49,8 @@ export default {
   border: 1px solid #ff0000;
 }
 .v-btn-toggle .v-btn:last-child {
-  border-radius: 30px;
-  height: 18px;
+  border-radius: 10px;
+  height: 20px;
 }
 .v-btn-toggle--selected {
   box-shadow: none;

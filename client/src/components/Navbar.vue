@@ -14,7 +14,7 @@
         </v-layout>
       </v-img>
 
-      <v-layout column align-center>
+      <!-- <v-layout column align-center>
         <v-flex xs12>
           <v-text-field
             v-model="keywords"
@@ -39,6 +39,17 @@
             </template>
           </v-text-field>
 
+          <v-divider></v-divider> -->
+          <v-form>
+            <v-container class="ma-0">
+              <v-radio-group v-model="filterStyle" :mandatory="true" row class="ma-0" @change="toggleFilterStyle">
+                <!-- <v-icon small left>filter</v-icon> -->
+                <span class="subheading grey--text mr-1">Filter:</span>
+                <v-radio label="OR" value="OR"></v-radio>
+                <v-radio label="AND" value="AND"></v-radio>
+              </v-radio-group>
+            </v-container>
+          </v-form>
           <v-divider></v-divider>
           <Labeling></Labeling>
           <v-divider></v-divider>
@@ -53,8 +64,6 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-        </v-flex>
-      </v-layout>
 
     </v-navigation-drawer>
 
@@ -91,7 +100,7 @@
 
       <template v-else>
         <v-text-field
-          v-model="search"
+          v-model="keywords"
           solo
           flat
           full-width
@@ -148,6 +157,7 @@ export default {
       drawer: false,
       keywords: '',
       expand: false,
+      filterStyle: 'OR',
       links: [
         { icon: 'dashboard', text: 'Dashborad(home)', route: '/' },
         { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
@@ -172,6 +182,11 @@ export default {
       return this.$store.state.entities;
     },
   },
+  methods: {
+    toggleFilterStyle () {
+      this.$store.dispatch('toggleFilterStyle', this.filterStyle);
+    },
+  }
 }
 </script>
 

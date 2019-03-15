@@ -1,6 +1,8 @@
 <template>
-  <v-layout row justify-center>
-    <p>If you have no account yet, then just join!</p>
+  <v-layout column align-center>
+    <div>
+      <p>If you have no account yet, then just join!</p>
+    </div>
     <v-dialog v-model="dialog" persistent max-width="400px">
       <v-btn flat small outline color="grey" slot="activator">
         <v-icon left>how_to_reg</v-icon>
@@ -76,6 +78,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="terms" width="70%">
       <v-card>
         <v-card-title class="title">Terms</v-card-title>
@@ -90,6 +93,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="conditions" width="70%">
       <v-card>
         <v-card-title class="title">Conditions</v-card-title>
@@ -104,6 +108,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    
   </v-layout>
 </template>
 

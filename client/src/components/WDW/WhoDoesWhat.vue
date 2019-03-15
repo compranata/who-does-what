@@ -30,9 +30,10 @@
                 <v-icon class="white--text">business</v-icon>
               </div>
             </v-responsive> -->
-
-            <v-card-text>
-              <div class="subheading">{{ wdw.name }}</div>
+            <v-card-text class="pb-0">
+              <div class="subheading">
+                <span>{{ wdw.name }}</span>
+              </div>
               <v-divider></v-divider>
               <template>
                 <div class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
@@ -41,16 +42,15 @@
                 <div class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead }}</div>
               </template>
             </v-card-text>
+            <v-card-actions class="pt-0">
+              <v-spacer></v-spacer>
+              <v-btn icon right class="grey--text"><v-icon small>email</v-icon></v-btn>
+              <v-btn icon right class="grey--text"><v-icon small>call</v-icon></v-btn>
+              <DisplayWDW :id="wdw._id"></DisplayWDW>
+            </v-card-actions>
 
-            <!-- <v-card-actions>
-              <v-btn flat color="grey" class="mx-0 mt-3">
-                <v-icon small>person</v-icon>
-              </v-btn>
-              <v-btn flat color="grey" class="mx-0 mt-3">
-                <v-icon small>contact_mail</v-icon>
-              </v-btn>
-            </v-card-actions> -->
           </v-card>
+          {{ wdw.length }}
         </v-flex>
       </v-layout>
 
@@ -59,10 +59,13 @@
 </template>
 
 <script>
+import DisplayWDW from './DisplayWDW';
+
 export default {
+  components: { DisplayWDW },
   computed: {
     wdws () {
-      return this.$store.state.wdws;
+      return this.$store.getters.filteredWdws;
     },
     tags () {
       return this.$store.state.tags;
@@ -72,6 +75,9 @@ export default {
     sortBy (prop) {
       this.wdws.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
     },
+    openDetails (prop) {
+      console.log(prop);
+    }
   },
 }
 </script>
