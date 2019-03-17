@@ -1,7 +1,7 @@
 <template>
   <nav>
 
-    <v-navigation-drawer app light v-model="drawer" class="kolme">
+    <v-navigation-drawer app light v-model="drawer">
 
       <v-img :aspect-ratio="16/9"
         src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80">
@@ -40,19 +40,39 @@
           </v-text-field>
 
           <v-divider></v-divider> -->
-          <v-form>
+          <div>
             <v-container class="ma-0">
-              <v-radio-group v-model="filterStyle" :mandatory="true" row class="ma-0" @change="toggleFilterStyle">
+              <v-btn small flat :value="isFiltered">Go Ahead</v-btn>
+            </v-container>
+          </div>
+          <v-divider></v-divider>
+          <div>
+            <v-container class="ma-0">
+              <v-radio-group v-model="sorting" mandatory row hide-details class="ma-0">
                 <!-- <v-icon small left>filter</v-icon> -->
-                <span class="subheading grey--text mr-1">Filter:</span>
-                <v-radio label="OR" value="OR"></v-radio>
-                <v-radio label="AND" value="AND"></v-radio>
+                <span class="subheading grey--text mr-1">Sort:</span>
+                <v-radio label="By team" value="name"></v-radio>
+                <v-radio label="By lead" value="lead"></v-radio>
               </v-radio-group>
             </v-container>
-          </v-form>
+          </div>
+          <v-divider></v-divider>
+          <div>
+            <v-container class="ma-0">
+              <v-radio-group v-model="filterStyle" mandatory row hide-details class="ma-0">
+                <!-- <v-icon small left>filter</v-icon> -->
+                <v-layout row wrap justify-center>
+                <span class="subheading grey--text mr-1 mt-1">Filter:</span>
+                <v-radio label="OR" value="OR"></v-radio>
+                <v-radio label="AND" value="AND"></v-radio>
+                <!-- <v-spacer></v-spacer>
+                <v-btn v-show="isFiltered" icon small left class="grey--text mx-0" @click="removeFilter"><v-icon>clear</v-icon></v-btn> -->
+                </v-layout>
+              </v-radio-group>
+            </v-container>
+          </div>
           <v-divider></v-divider>
           <Labeling></Labeling>
-          <v-divider></v-divider>
 
           <v-list>
             <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
@@ -157,7 +177,6 @@ export default {
       drawer: false,
       keywords: '',
       expand: false,
-      filterStyle: 'OR',
       links: [
         { icon: 'dashboard', text: 'Dashborad(home)', route: '/' },
         { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
@@ -181,11 +200,27 @@ export default {
     entities () {
       return this.$store.state.entities;
     },
+    isFiltered () {
+      return this.$store.getters.isFiltered;
+    },
+    filterStyle: {
+      get: function () {
+        return this.$store.getters.filterStyle;
+      },
+      set: function (newValue) {
+        this.$store.dispatch('toggleFilterStyle', newValue);
+      }
+    },
+    sorting: {
+      get: function () {
+        return this.$store.getters.sorting;
+      },
+      set: function (newValue) {
+        this.$store.dispatch('toggleSorting', newValue);
+      }
+    },
   },
   methods: {
-    toggleFilterStyle () {
-      this.$store.dispatch('toggleFilterStyle', this.filterStyle);
-    },
   }
 }
 </script>

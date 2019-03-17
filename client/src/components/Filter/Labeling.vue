@@ -4,7 +4,8 @@
       <v-expansion-panel v-model="panel" expand>
         <v-expansion-panel-content v-for="label in tagLabels" class="mb-3" :key="label">
           <template v-slot:header>
-              <span class="subheading font-weight-medium grey--text">{{ label }} ({{ countTags(`${ label }`) }})</span>
+              <span class="subheading font-weight-medium grey--text">{{ label }}</span>
+              <span class="caption grey--text">(Selected: {{ countTags(`${ label }`) }})</span>
           </template>
           <Grouping :label="label"></Grouping>
         </v-expansion-panel-content>
@@ -21,7 +22,7 @@ export default {
   data () {
     return {
       panel: [],
-      show: true,
+      // isSelected: false,
     }
   },
   computed: {
@@ -33,19 +34,27 @@ export default {
       }
       return labels;
     },
+    // isSelectedTags () {
+    //   return this.$store.getters.isSelectedTags(this.label);
+    // },
+    // getCountTags () {
+    //   return this.$store.getters.countTags;
+    // },
   },
   methods: {
     countTags (label) {
-      const selectedTags = this.$store.getters.filterQuery.filter((value) => {
-        return value.label === label;
-      });
       let count = 0;
-      selectedTags.forEach((tag) => {
-        count += tag.keys.length;
-      })
-      // this.show = (count !== 0) ? true : false;
+      const filterQuery = this.$store.getters.filterQuery;
+      (filterQuery.filter((v) => v.label === label)).forEach((s) => {
+        count += (s.keys.length) ? s.keys.length : 0;
+      });
       return count;
-    },
+    }
+    // countTags (label) {
+    //   const labelSet = this.$store.getters.countTags(label);
+    //   const count = (count) ? labelSet.count : 0;
+    //   return count;
+    // },
   },
 }
 </script>

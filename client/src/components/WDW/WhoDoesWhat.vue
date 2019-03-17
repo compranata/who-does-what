@@ -4,7 +4,7 @@
 
     <v-container class="my-3">
 
-      <v-layout row justify-start class="mb-3">
+      <!-- <v-layout row justify-start class="mb-3">
         <v-tooltip top>
           <v-btn small flat color="grey" @click="sortBy('name')" slot="activator">
             <v-icon left small>folder</v-icon>
@@ -20,7 +20,7 @@
           </v-btn>
           <span>Sort cards by lead name</span>
         </v-tooltip>
-      </v-layout>
+      </v-layout> -->
 
       <v-layout row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
@@ -44,8 +44,8 @@
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn icon right class="grey--text"><v-icon small>email</v-icon></v-btn>
-              <v-btn icon right class="grey--text"><v-icon small>call</v-icon></v-btn>
+              <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`"><v-icon small>email</v-icon></v-btn>
+              <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`"><v-icon small>call</v-icon></v-btn>
               <DisplayWDW :id="wdw._id"></DisplayWDW>
             </v-card-actions>
 
@@ -70,14 +70,6 @@ export default {
     tags () {
       return this.$store.state.tags;
     },
-  },
-  methods: {
-    sortBy (prop) {
-      this.wdws.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
-    },
-    openDetails (prop) {
-      console.log(prop);
-    }
   },
 }
 </script>

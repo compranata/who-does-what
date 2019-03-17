@@ -24,7 +24,7 @@
         </div>
       </v-layout>
 
-      <v-card flat v-for="wdw in wdws" :key="wdw.id">
+      <v-card flat v-for="wdw in wdws" :key="wdw._id">
         <v-layout row wrap :class="`pa-3 wdw ${wdw.unit}`">
           <v-flex xs12 md4>
             <div class="caption grey--text">Team</div>
@@ -59,7 +59,7 @@
 export default {
   computed: {
     wdws () {
-      return this.$store.state.wdws;
+      return this.$store.getters.filteredWdws;
     },
     user () {
       return this.$store.getters.user;
@@ -74,11 +74,6 @@ export default {
       return this.$store.getter.error;
     },
   },
-  methods: {
-    sortBy (prop) {
-      this.wdws.sort((a,b) => a[prop] < b[prop] ? -1 : 1);
-    }
-  }
 }
 </script>
 

@@ -7,26 +7,26 @@ export default new Vuex.Store({
   state: {
     wdws: [
       { _id: '001', name: 'Operation Germany', entities: '001', phone: '+49-69-123123-99', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'germany'], unit: 'yksi' },
-      { _id: '002', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Susi', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '003', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Matt', tags: ['Events', 'France'], unit: 'nelja' },
+      { _id: '002', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'France'], unit: 'kolme' },
+      { _id: '003', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'France'], unit: 'nelja' },
       { _id: '004', name: 'Procurement Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Spain'], unit: 'yksi' },
       { _id: '005', name: 'Procurement Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Portugal'], unit: 'kaksi' },
       { _id: '006', name: 'Procurement Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
       { _id: '007', name: 'Customer Relations Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'United Kingdam'], unit: 'yksi' },
-      { _id: '008', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '009', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'nelja' },
+      { _id: '008', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
+      { _id: '009', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
       { _id: '010', name: 'Finance Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
       { _id: '011', name: 'Finance Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Germany', 'portugal'], unit: 'kaksi' },
       { _id: '012', name: 'Finance Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
       { _id: '013', name: 'Operation Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'Germany'], unit: 'yksi' },
-      { _id: '014', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '015', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'nelja' },
+      { _id: '014', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
+      { _id: '015', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
       { _id: '016', name: 'Procurement Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
       { _id: '017', name: 'Procurement Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Spain'], unit: 'kaksi' },
       { _id: '018', name: 'Procurement Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'Germany'], unit: 'kolme' },
       { _id: '019', name: 'Customer Relations Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'Germany', 'Chinese'], unit: 'yksi' },
-      { _id: '020', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '021', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'nelja' },
+      { _id: '020', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
+      { _id: '021', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
       { _id: '022', name: 'Finance Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany', "service operations"], unit: 'yksi' },
       { _id: '023', name: 'Finance Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Germany'], unit: 'kaksi' },
       { _id: '024', name: 'Finance Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'Germany', 'sales operations'], unit: 'kolme' },
@@ -66,16 +66,23 @@ export default new Vuex.Store({
     isAuth: false,
 
     isFiltered: false,
-    filterStyle: 'OR',
+    filterStyle: 'AND',
     filterQuery: [],
+
+    sorting: 'name',
+
+    countTags: [],
+    isSelectedTags: [],
 
     searchQuery: [],
   },
   mutations: {
     setLoading (state, payload) {
+      // payload: Boolean
       state.loading = payload;
     },
     setError (state, payload) {
+      // payload: {ErrorObject}
       state.error = payload;
     },
     clearError (state) {
@@ -83,21 +90,62 @@ export default new Vuex.Store({
     },
 
     setUser (state, payload) {
+      // payload: { email, name }
       state.user = payload;
     },
     setIsAuth (state, payload) {
+      // payload: Boolean
       state.isAuth = payload;
     },
 
     setFilterStyle (state, payload) {
+      // payload: 'AND' || 'OR'
       state.filterStyle = payload;
     },
     setFilterQuery (state, payload) {
+      // payload: [{ label, group, keys }]
       state.filterQuery.push(payload);
     },
     removeFilterQuery (state, payload) {
+      // payload: { label, group, keys }
       state.filterQuery.splice(state.filterQuery.indexOf(payload), 1);
     },
+    setIsFiltered (state, payload) {
+      // payload: Boolean
+      state.isFiltered = payload;
+    },
+    setIsSelectedTags (state, payload) {
+      // payload: label
+      if (payload !== '') {
+        state.isSelectedTags.push(payload);
+      }
+    },
+    removeIsSelectedTags (state, payload) {
+      state.isSelectedTags.splice(state.isSelectedTags.indexOf(payload), 1);
+    },
+    // removeFilter (state) {
+    //   state.filterQuery.length = 0;
+    //   state.isFiltered = false;
+    // },
+
+    setSorting (state, payload) {
+      // payload: Boolean
+      state.sorting = payload;
+    },
+
+    // incrementCountTags (state, payload) {
+    //   const record = state.countTags.find((v) => v.label === payload.label);
+    //   if (record) {
+    //     record.count += parseInt(payload.count);
+    //   } else {
+    //     state.countTags.push({ label: payload.label, count: parseInt(payload.count) });
+    //   }
+    // },
+    // decrementCountTags (state, payload) {
+    //   const record = state.countTags.find((v) => v.label === payload.label);
+    //   record.count -= parseInt(payload.count);
+    // },
+
   },
   actions: {
     clearError ({ commit }) {
@@ -138,18 +186,38 @@ export default new Vuex.Store({
       commit('setIsAuth', true);
     },
 
-    toggleFilterStyle({ commit }, payload) {
+    toggleFilterStyle ({ commit }, payload) {
       commit('setFilterStyle', payload);
     },
     pushFilterQuery({ commit }, payload) {
       const currentKeys = this.getters.filterQuery;
       for (let key in currentKeys) {
         if (currentKeys[key].label === payload.label && currentKeys[key].group === payload.group) {
+          commit('removeIsSelectedTags', currentKeys[key].label);
+          // commit('decrementCountTags', { label: currentKeys[key].label, count: currentKeys[key].keys.length });
           commit('removeFilterQuery', currentKeys[key]);
         }
       }
       commit('setFilterQuery', payload);
+      commit('setIsFiltered', (this.getters.filterQueryArray.length < 1) ? false : true);
+      commit('setIsSelectedTags', (payload.keys.length !== 0) ? payload.label : '');
+      // commit('incrementCountTags', { label: payload.label, count: parseInt(payload.keys.length) });
     },
+    toggleSorting ({ commit }, payload) {
+      commit('setSorting', payload);
+    },
+    // removeFilter ({ commit}) {
+    //   function removeClass (elements) {
+    //     Array.from(elements).forEach((element) => {
+    //       element.classList.remove('v-btn--active', 'v-btn-toggle--selected', 'v-btn-toggle--only-child');
+    //     })
+    //   }
+    //   removeClass(document.getElementsByClassName('v-btn--active'));
+    //   removeClass(document.getElementsByClassName('v-btn-toggle--selected'));
+    //
+    //
+    //   commit('removeFilter');
+    // },
   },
   getters: {
     loading: (state) => {
@@ -166,6 +234,12 @@ export default new Vuex.Store({
       return state.isAuth;
     },
 
+    isFiltered: (state) => {
+      return state.isFiltered;
+    },
+    filterStyle: (state) => {
+      return state.filterStyle;
+    },
     filterQuery: (state) => {
       return state.filterQuery;
     },
@@ -178,10 +252,21 @@ export default new Vuex.Store({
       return filterQueryArray;
     },
 
-    filteredWdws: (state, getters) => {
-      const isFiltered = (getters.filterQueryArray.length !== 0) ? true : false;
-      if (!isFiltered) return state.wdws;
+    sorting: (state) => {
+      return state.sorting;
+    },
 
+    // countTags: (state) => (label) => {
+    //   return state.countTags.find((v) => v.label === label);
+    // },
+
+    isSelectedTags: (state) => (label) => {
+      return state.isSelectedTags.includes(label);
+    },
+
+    filteredWdws: (state, getters) => {
+      if (state.sorting === '') state.sorting = '_id';
+      if (!getters.isFiltered) return state.wdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
 
       let filteredWdws = [];
       const filteredWdwsId = [];
@@ -204,7 +289,7 @@ export default new Vuex.Store({
           })
         })
       }
-      return filteredWdws;
+      return filteredWdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
     },
 
     selectedWdw: (state) => (id) => {
