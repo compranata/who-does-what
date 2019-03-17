@@ -4,8 +4,12 @@
       <v-expansion-panel v-model="panel" expand>
         <v-expansion-panel-content v-for="label in tagLabels" class="mb-3" :key="label">
           <template v-slot:header>
+            <v-badge overlap color="grey">
+              <template v-slot:badge>
+                <span>{{ countTags(`${ label }`) }}</span>
+              </template>
               <span class="subheading font-weight-medium grey--text">{{ label }}</span>
-              <span class="caption grey--text">(Selected: {{ countTags(`${ label }`) }})</span>
+            </v-badge>
           </template>
           <Grouping :label="label"></Grouping>
         </v-expansion-panel-content>
@@ -22,7 +26,6 @@ export default {
   data () {
     return {
       panel: [],
-      // isSelected: false,
     }
   },
   computed: {
