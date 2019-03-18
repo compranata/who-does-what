@@ -65,6 +65,8 @@ export default new Vuex.Store({
     user: null,
     isAuth: false,
 
+    keywords: '',
+
     isFiltered: false,
     filterStyle: 'AND',
     filterQuery: [],
@@ -78,11 +80,9 @@ export default new Vuex.Store({
   },
   mutations: {
     setLoading (state, payload) {
-      // payload: Boolean
       state.loading = payload;
     },
     setError (state, payload) {
-      // payload: {ErrorObject}
       state.error = payload;
     },
     clearError (state) {
@@ -90,32 +90,29 @@ export default new Vuex.Store({
     },
 
     setUser (state, payload) {
-      // payload: { email, name }
       state.user = payload;
     },
     setIsAuth (state, payload) {
-      // payload: Boolean
       state.isAuth = payload;
     },
 
+    setKeywords (state, payload) {
+      state.keywords = payload;
+    },
+
     setFilterStyle (state, payload) {
-      // payload: 'AND' || 'OR'
       state.filterStyle = payload;
     },
     setFilterQuery (state, payload) {
-      // payload: [{ label, group, keys }]
       state.filterQuery.push(payload);
     },
     removeFilterQuery (state, payload) {
-      // payload: { label, group, keys }
       state.filterQuery.splice(state.filterQuery.indexOf(payload), 1);
     },
     setIsFiltered (state, payload) {
-      // payload: Boolean
       state.isFiltered = payload;
     },
     setIsSelectedTags (state, payload) {
-      // payload: label
       if (payload !== '') {
         state.isSelectedTags.push(payload);
       }
@@ -129,7 +126,6 @@ export default new Vuex.Store({
     // },
 
     setSorting (state, payload) {
-      // payload: Boolean
       state.sorting = payload;
     },
 
@@ -186,6 +182,10 @@ export default new Vuex.Store({
       commit('setIsAuth', true);
     },
 
+    setKeywords ({ commit }, payload) {
+      commit('setKeywords', payload);
+    },
+
     toggleFilterStyle ({ commit }, payload) {
       commit('setFilterStyle', payload);
     },
@@ -220,6 +220,15 @@ export default new Vuex.Store({
     // },
   },
   getters: {
+    wdws: (state => {
+      return state.wdws;
+    }),
+    tags: (state => {
+      return state.tags;
+    }),
+    entities: (state => {
+      return state.entities;
+    }),
     loading: (state) => {
       return state.loading;
     },
@@ -232,6 +241,10 @@ export default new Vuex.Store({
     },
     isAuth: (state) => {
       return state.isAuth;
+    },
+
+    keywords: (state) => {
+      return state.keywords;
     },
 
     isFiltered: (state) => {
@@ -266,13 +279,16 @@ export default new Vuex.Store({
 
     filteredWdws: (state, getters) => {
       if (state.sorting === '') state.sorting = '_id';
-      if (!getters.isFiltered) return state.wdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
+      // if (getters.keywords) console.log(getters.keywords);
+      // if (!getters.isFiltered) return state.wdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
 
       let filteredWdws = [];
       const filteredWdwsId = [];
       const filterQueryArray = getters.filterQueryArray.map((v) => v.toLowerCase());
 
-      if (state.filterStyle === 'AND') {
+      if (!getters.isFiltered) {
+        filteredWdws = state.wdws;
+      } else if (state.filterStyle === 'AND') {
         filteredWdws = state.wdws.filter((value) => {
           const wdwsTags = value.tags.map((v) => v.toLowerCase());
           return filterQueryArray.every((tag) => {
@@ -289,6 +305,17 @@ export default new Vuex.Store({
           })
         })
       }
+      if (state.keywords !== '' && state.keywords !== null) {
+        filteredWdws = filteredWdws.filter((value) => {
+          return value.name.toLowerCase().includes(state.keywords.toLowerCase());
+        })
+      }
+
+      // if (state.keyword) {
+      //   returnValue = filteredWdws.filter((value) => {
+      //     return true;
+      //   })
+      // }
       return filteredWdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
     },
 

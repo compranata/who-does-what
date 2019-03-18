@@ -2,27 +2,29 @@
   <div class="contacts">
     <h1 class="subheading grey--text">Who Does What...?</h1>
 
-    <v-container class="my-3">
+    <v-container class="mb-3">
 
-      <!-- <v-layout row justify-start class="mb-3">
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('name')" slot="activator">
-            <v-icon left small>folder</v-icon>
-            <span class="caption text-lowercase">by team</span>
-          </v-btn>
-          <span>Sort cards by team name</span>
-        </v-tooltip>
+      <v-layout row class="mb-3">
+        <v-spacer></v-spacer>
+        <div class="right">
+          <v-btn-toggle mandatory v-model="viewStyle">
+            <v-tooltip top>
+              <v-btn flat slot="activator">
+                <v-icon small>view_list</v-icon>
+              </v-btn>
+              <span>display the contacts in list style.</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <v-btn flat slot="activator">
+                <v-icon small>dashboard</v-icon>
+              </v-btn>
+              <span>display the contacts in card style</span>
+            </v-tooltip>
+          </v-btn-toggle>
+        </div>
+      </v-layout>
 
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('lead')" slot="activator">
-            <v-icon left small>person</v-icon>
-            <span class="caption text-lowercase">by lead</span>
-          </v-btn>
-          <span>Sort cards by lead name</span>
-        </v-tooltip>
-      </v-layout> -->
-
-      <v-layout row wrap>
+      <v-layout v-if="viewStyle" row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
           <v-card flat :class="`wdw ma-3 ${wdw.unit}`">
             <!-- <v-responsive class="pt-0">
@@ -54,6 +56,35 @@
         </v-flex>
       </v-layout>
 
+      <v-layout v-else column>
+        <v-card flat v-for="wdw in wdws" :key="wdw._id">
+          <v-layout row wrap :class="`pa-3 wdw ${wdw.unit}`">
+            <v-flex xs12 md4>
+              <div class="caption grey--text">Team</div>
+              <div>{{ wdw.name }}</div>
+            </v-flex>
+            <v-flex xs12 sm3 md2>
+              <div class="caption grey--text">Lead</div>
+              <div>{{ wdw.lead }}</div>
+            </v-flex>
+            <v-flex xs12 sm3 md2>
+              <div class="caption grey--text">Phone</div>
+              <div>{{ wdw.phone }}</div>
+            </v-flex>
+            <v-flex xs12 sm3 md2>
+              <div class="caption grey--text">Mail</div>
+              <div>{{ wdw.mail }}</div>
+            </v-flex>
+            <v-flex xs12 sm3 md2>
+              <div class="right">
+                <v-chip small :class="`${wdw.unit} white--text text-uppercase caption my-2`">{{ wdw.unit }}</v-chip>
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-divider></v-divider>
+        </v-card>
+      </v-layout>
+
     </v-container>
   </div>
 </template>
@@ -63,13 +94,21 @@ import DisplayWDW from './DisplayWDW';
 
 export default {
   components: { DisplayWDW },
+  data () {
+    return {
+      viewStyle: 0,
+    }
+  },
   computed: {
     wdws () {
       return this.$store.getters.filteredWdws;
     },
     tags () {
-      return this.$store.state.tags;
+      return this.$store.getters.tags;
     },
+    keywords () {
+      return this.$store.state.keywords;
+    }
   },
 }
 </script>

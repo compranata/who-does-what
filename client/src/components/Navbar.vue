@@ -42,12 +42,6 @@
           <v-divider></v-divider> -->
           <div>
             <v-container class="ma-0">
-              <v-btn small flat :value="isFiltered">Go Ahead</v-btn>
-            </v-container>
-          </div>
-          <v-divider></v-divider>
-          <div>
-            <v-container class="ma-0">
               <v-radio-group v-model="sorting" mandatory row hide-details class="ma-0">
                 <!-- <v-icon small left>filter</v-icon> -->
                 <span class="subheading grey--text mr-1">Sort:</span>
@@ -88,8 +82,7 @@
     </v-navigation-drawer>
 
     <v-toolbar flat app>
-
-      <template v-if="!expand">
+      <template>
         <v-toolbar-side-icon class="grey--text" :disabled="!isAuth" @click="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="text-uppercase grey--text">
           <span>Who</span>
@@ -97,16 +90,40 @@
           <span>what</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon class="grey--text" @click="expand = !expand">
-          <v-icon>search</v-icon>
-        </v-btn>
+
+        <div class="text-xs-center">
+          <v-layout justify-space-around row>
+            <v-flex shrink>
+              <v-expand-x-transition mode="out-in">
+                  <v-text-field
+                    v-model="keywords"
+                    v-if="expand"
+                    solo
+                    flat
+                    full-width
+                    prepend-inner-icon="search"
+                    append-icon="indeterminate_check_box"
+                    label="Keywords"
+                    :autofocus="true"
+                    clearable
+                    :height="24"
+                    @click:append="clearKeywords"
+                    key="search"
+                    class="keywords-field"
+                  ></v-text-field>
+                  <v-btn v-else icon class="grey--text" @click="expand = !expand" key="icon">
+                    <v-icon>search</v-icon>
+                  </v-btn>
+              </v-expand-x-transition>
+            </v-flex>
+          </v-layout>
+        </div>
         <v-menu :nudge-width="100">
           <template v-slot:activator="{ on }">
             <v-btn icon class="grey--text" v-on="on">
               <v-icon >more_vert</v-icon>
             </v-btn>
           </template>
-
           <v-list>
             <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
               <v-list-tile-title>
@@ -118,7 +135,7 @@
         </v-menu>
       </template>
 
-      <template v-else>
+      <!-- <template v-else>
         <v-text-field
           v-model="keywords"
           solo
@@ -134,7 +151,7 @@
         <v-btn icon class="grey--text" @click="expand = !expand">
           CLOSE
         </v-btn>
-      </template>
+      </template> -->
 
 
     </v-toolbar>
@@ -175,10 +192,8 @@ export default {
   data () {
     return {
       drawer: false,
-      keywords: '',
       expand: false,
       links: [
-        { icon: 'dashboard', text: 'Dashborad(home)', route: '/' },
         { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
         { icon: 'person', text: 'Login', route: '/signin' },
       ],
@@ -195,11 +210,21 @@ export default {
       return this.$store.getters.loading;
     },
     tags () {
-      return this.$store.state.tags;
+      return this.$store.getters.tags;
     },
     entities () {
-      return this.$store.state.entities;
+      return this.$store.getters.entities;
     },
+
+    keywords: {
+      get: function () {
+        return this.$store.state.keywords;
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setKeywords', newValue);
+      }
+    },
+
     isFiltered () {
       return this.$store.getters.isFiltered;
     },
@@ -221,7 +246,11 @@ export default {
     },
   },
   methods: {
-  }
+    clearKeywords () {
+      this.keywords = null;
+      this.expand = false;
+    },
+  },
 }
 </script>
 
@@ -229,5 +258,8 @@ export default {
 .lightbox {
   box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+}
+.keyword-field {
+  height: 24px;
 }
 </style>
