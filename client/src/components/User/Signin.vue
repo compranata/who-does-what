@@ -1,9 +1,9 @@
 <template>
   <div class="signin">
-    <v-container align-content-center >
+    <v-container align-content-center>
       <v-layout row wrap justify-space-around class="mb-3 grey--text">
 
-        <v-flex xs12 sm7>
+        <v-flex xs12 sm6>
           <h1 class="subheading grey--text">User Accounts</h1>
           <v-divider></v-divider>
           <p>
@@ -11,9 +11,7 @@
             saved your crediential in your browser, unless you sign out
             explicitly.
           </p>
-        </v-flex>
 
-        <v-flex xs12 sm7>
           <v-card flat>
             <v-card-title>
               <v-icon left color="grey">launch</v-icon>
@@ -25,7 +23,7 @@
                 <v-text-field
                  v-model="email"
                  append-icon="mail"
-                 :rules="[rules.required, rules.emailMatch]"
+                 :rules="[rules.required, rules.emailValid]"
                  label="Email"
                  validate-on-blur
                 ></v-text-field>
@@ -51,10 +49,9 @@
               >Sign In</v-btn>
             </v-card-actions>
           </v-card>
-        </v-flex>
-
-        <v-flex xs12 sm7 class="mt-3">
-          <Signup />
+          <div class="mt-3">
+            <Signup></Signup>
+          </div>
         </v-flex>
 
       </v-layout>
@@ -75,13 +72,13 @@ export default {
     return {
       valid: false,
       show: false,
+      email: '',
+      password: '',
       rules: {
         required: v => !!v || 'Required.',
         min8: v => v.length >= 8 || 'Min 8 characters.',
-        emailMatch: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
+        emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
       },
-      email: '',
-      password: '',
     }
   },
   computed: {

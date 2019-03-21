@@ -16,7 +16,7 @@
             </v-tooltip>
             <v-tooltip top>
               <v-btn flat slot="activator">
-                <v-icon small>dashboard</v-icon>
+                <v-icon small>mdi-view-grid</v-icon>
               </v-btn>
               <span>display the contacts in card style</span>
             </v-tooltip>
@@ -27,32 +27,48 @@
       <v-layout v-if="viewStyle" row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
           <v-card flat :class="`wdw ma-3 ${wdw.unit}`">
-            <!-- <v-responsive class="pt-0">
-              <div :class="`white--text px-1 titlebar ${wdw.unit}`">
-                <v-icon class="white--text">business</v-icon>
-              </div>
-            </v-responsive> -->
+
+            <v-img class="white--text" height="80px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+              <v-container fill-height fluid class="lightbox">
+                <v-flex xs12 align-end justify-start flexbox>
+                  <span class="subheading font-weight-medium">{{ wdw.name }}</span>
+                </v-flex>
+              </v-container>
+            </v-img>
             <v-card-text class="pb-0">
-              <div class="subheading">
-                <span>{{ wdw.name }}</span>
-              </div>
-              <v-divider></v-divider>
               <template>
+                <v-tooltip bottom>
+                  <div class="grey--text" slot="activator"><v-icon small class="mr-1">business</v-icon>{{ wdw.entities.name }}</div>
+                  <span>{{ wdw.entities.address }}, {{ wdw.entities.country }}</span>
+                </v-tooltip>
+
                 <div class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
                 <div class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.phone }}</div>
-                <div class="grey--text"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
+                <div class="grey--text"><v-icon small class="mr-1 text-none">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
                 <div class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead }}</div>
               </template>
             </v-card-text>
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
-              <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`"><v-icon small>email</v-icon></v-btn>
-              <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`"><v-icon small>call</v-icon></v-btn>
-              <DisplayWDW :id="wdw._id"></DisplayWDW>
+              <v-tooltip top>
+                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
+                <span>Send email to the team leader ({{ wdw.mail }})</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`" slot="activator"><v-icon small>email</v-icon></v-btn>
+                <span>Send email to the team ({{ wdw.mail }})</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`" slot="activator"><v-icon small>call</v-icon></v-btn>
+                <span>Call the team ({{ wdw.phone }})</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <DisplayWDW :id="wdw._id" slot="activator"></DisplayWDW>
+                <span>Display the detailed window.</span>
+              </v-tooltip>
             </v-card-actions>
 
           </v-card>
-          {{ wdw.length }}
         </v-flex>
       </v-layout>
 
@@ -63,7 +79,7 @@
               <div class="caption grey--text">Team</div>
               <div>{{ wdw.name }}</div>
             </v-flex>
-            <v-flex xs12 sm3 md2>
+            <v-flex xs12 sm2 md2>
               <div class="caption grey--text">Lead</div>
               <div>{{ wdw.lead }}</div>
             </v-flex>
@@ -80,6 +96,9 @@
                 <v-chip small :class="`${wdw.unit} white--text text-uppercase caption my-2`">{{ wdw.unit }}</v-chip>
               </div>
             </v-flex>
+            <!-- <v-flex xs1>
+              <v-img src="https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg"></v-img>
+            </v-flex> -->
           </v-layout>
           <v-divider></v-divider>
         </v-card>
@@ -126,18 +145,10 @@ export default {
 .wdw.nelja {
   border-left: 4px solid #719500;
 }
-/* .titlebar.yksi {
-  background: #5f6a72;
+.lightbox {
+  box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 72px);
 }
-.titlebar.kaksi {
-  background: #d3222a;
-}
-.titlebar.kolme {
-  background: #00B0E8;
-}
-.titlebar.nelja {
-  background: #719500;
-} */
 a {
   text-decoration: none;
   color: inherit;

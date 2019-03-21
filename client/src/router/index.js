@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Signin from '@/components/User/Signin';
 import WdW from '@/components/WDW/WhoDoesWhat';
-import Search from '@/components/WDW/Search';
-
+import CreateWdW from '@/components/WDW/CreateWDW';
+import TestLayout from '@/components/WDW/TestLayout';
 Vue.use(Router);
 
 const router = new Router({
@@ -26,9 +26,14 @@ const router = new Router({
       component: WdW
     },
     {
-      path: '/search',
-      name: 'search',
-      component: Search
+      path: '/wdw/new',
+      name: 'createWdW',
+      component: CreateWdW
+    },
+    {
+      path: '/test',
+      name: 'testLayout',
+      component: TestLayout
     },
   ],
 });

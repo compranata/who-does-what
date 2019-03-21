@@ -6,30 +6,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     wdws: [
-      { _id: '001', name: 'Operation Germany', entities: '001', phone: '+49-69-123123-99', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'germany'], unit: 'yksi' },
-      { _id: '002', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '003', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'France'], unit: 'nelja' },
-      { _id: '004', name: 'Procurement Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Spain'], unit: 'yksi' },
-      { _id: '005', name: 'Procurement Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Portugal'], unit: 'kaksi' },
-      { _id: '006', name: 'Procurement Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '007', name: 'Customer Relations Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'United Kingdam'], unit: 'yksi' },
-      { _id: '008', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '009', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
-      { _id: '010', name: 'Finance Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
-      { _id: '011', name: 'Finance Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Germany', 'portugal'], unit: 'kaksi' },
-      { _id: '012', name: 'Finance Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '013', name: 'Operation Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'Germany'], unit: 'yksi' },
-      { _id: '014', name: 'Operation Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '015', name: 'Operation Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
-      { _id: '016', name: 'Procurement Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
-      { _id: '017', name: 'Procurement Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Spain'], unit: 'kaksi' },
-      { _id: '018', name: 'Procurement Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '019', name: 'Customer Relations Germany', entities: '001', phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'Germany', 'Chinese'], unit: 'yksi' },
-      { _id: '020', name: 'Customer Relations Austria', entities: '001', phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'Germany'], unit: 'kolme' },
-      { _id: '021', name: 'Customer Relations Scandinavia', entities: '001', phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
-      { _id: '022', name: 'Finance Germany', entities: '001', phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany', "service operations"], unit: 'yksi' },
-      { _id: '023', name: 'Finance Austria', entities: '001', phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Germany'], unit: 'kaksi' },
-      { _id: '024', name: 'Finance Scandinavia', entities: '001', phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'Germany', 'sales operations'], unit: 'kolme' },
+      { _id: '001', name: 'Operation Germany', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-99', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'germany'], unit: 'yksi' },
+      { _id: '002', name: 'Operation Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Frankfurt Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'France'], unit: 'kolme' },
+      { _id: '003', name: 'Operation Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Japanese', 'France'], unit: 'nelja' },
+      { _id: '004', name: 'Procurement Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Spain'], unit: 'yksi' },
+      { _id: '005', name: 'Procurement Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Portugal'], unit: 'kaksi' },
+      { _id: '006', name: 'Procurement Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Barcelona Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
+      { _id: '007', name: 'Customer Relations Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'United Kingdam'], unit: 'yksi' },
+      { _id: '008', name: 'Customer Relations Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Service Operations', 'Germany', 'American'], unit: 'kolme' },
+      { _id: '009', name: 'Customer Relations Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Barcelona Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
+      { _id: '010', name: 'Finance Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
     ],
     entities: [
       { _id: '001', name: 'Berlin Office', address: 'Friedrichstr. 123, 10211 Berlin', country: 'Germany', phone: '+49-30-12345566' },
@@ -40,18 +26,18 @@ export default new Vuex.Store({
       { _id: '006', name: 'Milano Office', address: 'Milano', country: 'Italy', phone: '+42-110202012' },
     ],
     tags: [
-      { _id: '001', name: 'Germany', group: 'Europe', label: 'Destinations' },
-      { _id: '002', name: 'France', group: 'Europe', label: 'Destinations' },
-      { _id: '003', name: 'United Kingdam', group: 'Europe', label: 'Destinations' },
-      { _id: '004', name: 'Spain', group: 'Europe', label: 'Destinations' },
-      { _id: '005', name: 'Portugal', group: 'Europe', label: 'Destinations' },
+      { _id: '001', name: 'Germany', group: 'C.Europe', label: 'Destinations' },
+      { _id: '005', name: 'Portugal', group: 'S.Europe', label: 'Destinations' },
+      { _id: '002', name: 'France', group: 'W.Europe', label: 'Destinations' },
+      { _id: '009', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
+      { _id: '010', name: 'Japanese', group: '', label: 'Markets' },
+      { _id: '003', name: 'United Kingdam', group: 'N.Europe', label: 'Destinations' },
+      { _id: '004', name: 'Spain', group: 'S.Europe', label: 'Destinations' },
       { _id: '006', name: 'Events', group: 'Incentives', label: 'Business' },
       { _id: '007', name: 'Customer Care', group: 'Inbound', label: 'Functions' },
+      { _id: '011', name: 'Chinese', group: '', label: 'Markets' },
+      { _id: '012', name: 'American', group: '', label: 'Markets' },
       { _id: '008', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
-      { _id: '009', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
-      { _id: '010', name: 'Japanese', group: 'Asia', label: 'Markets' },
-      { _id: '011', name: 'Chinese', group: 'Asia', label: 'Markets' },
-      { _id: '012', name: 'American', group: 'North America', label: 'Markets' },
     ],
     leads: [
       { _id: '100', name: 'John', phone: '', mail: 'john@mail.com', user_id: 'asdf'},
@@ -59,6 +45,15 @@ export default new Vuex.Store({
       { _id: '300', name: 'Mia', phone: '', mail: 'mia@mail.com', user_id: 'jkly'},
       { _id: '400', name: 'Maria', phone: '', mail: 'maria@mail.com', user_id: 'uiop'},
     ],
+    icons: [
+      { provider: 'Chat', mdi: 'chat' },
+      { provider: 'Facebook', mdi: 'mdi-facebook-messenger' },
+      { provider: 'WhatsApp', mdi: 'mdi-whatsapp' },
+      { provider: 'WeChat', mdi: 'mdi-wechat' },
+      { provider: 'Hangouts', mdi: 'mdi-google-hangouts' },
+      { provider: 'Skype', mdi: 'mdi-skype' },
+    ],
+
     loading: false,
     error: {},
 
@@ -77,6 +72,7 @@ export default new Vuex.Store({
     isSelectedTags: [],
 
     searchQuery: [],
+
   },
   mutations: {
     setLoading (state, payload) {
@@ -153,6 +149,7 @@ export default new Vuex.Store({
       commit('clearError');
       const newUser = {
         email: payload.email,
+        name: payload.name,
         password: payload.password
       };
       commit('setUser', newUser);
@@ -166,6 +163,7 @@ export default new Vuex.Store({
         const newUser = {
           id: '1',
           email: payload.email,
+          name: payload.name,
           password: payload.password,
         };
         commit('setUser', newUser);
@@ -177,6 +175,7 @@ export default new Vuex.Store({
       commit('setUser', {
         id: payload.uid,
         email: payload.email,
+        name: payload.name,
         displayName: payload.displayName,
       });
       commit('setIsAuth', true);
@@ -220,15 +219,15 @@ export default new Vuex.Store({
     // },
   },
   getters: {
-    wdws: (state => {
-      return state.wdws;
-    }),
-    tags: (state => {
-      return state.tags;
-    }),
-    entities: (state => {
+    icons: (state) => {
+      return state.icons;
+    },
+    entities: (state) => {
       return state.entities;
-    }),
+    },
+    leads: (state) => {
+      return state.leads;
+    },
     loading: (state) => {
       return state.loading;
     },
@@ -241,6 +240,32 @@ export default new Vuex.Store({
     },
     isAuth: (state) => {
       return state.isAuth;
+    },
+
+    tags: (state) => {
+      return state.tags
+        .sort((a, b) => (a.group < b.group) ? -1 : 1)
+        .sort((a, b) => (a.label < b.label) ? -1 : 1);
+    },
+    tagSelections: (state, getters) => {
+      const sortedTags = getters.tags;
+      const tagSelections = [];
+      const tagLabels = [];
+      sortedTags.forEach((tag) => {
+        if (!tagLabels.includes(tag.label)) {
+          if (tagLabels.length > 0) tagSelections.push({ divider: true });
+          tagLabels.push(tag.label);
+          tagSelections.push({ header: tag.label });
+        }
+        tagSelections.push({
+          _id: tag._id,
+          name: tag.name,
+          group: tag.group,
+          label: tag.label,
+          avatar: tag.label.slice(0,1),
+        });
+      });
+      return tagSelections;
     },
 
     keywords: (state) => {
@@ -269,18 +294,13 @@ export default new Vuex.Store({
       return state.sorting;
     },
 
-    // countTags: (state) => (label) => {
-    //   return state.countTags.find((v) => v.label === label);
-    // },
-
     isSelectedTags: (state) => (label) => {
       return state.isSelectedTags.includes(label);
     },
 
     filteredWdws: (state, getters) => {
+      // [[todo]] filteredWdws() must be splited up into filter / sort / search
       if (state.sorting === '') state.sorting = '_id';
-      // if (getters.keywords) console.log(getters.keywords);
-      // if (!getters.isFiltered) return state.wdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
 
       let filteredWdws = [];
       const filteredWdwsId = [];
@@ -307,15 +327,10 @@ export default new Vuex.Store({
       }
       if (state.keywords !== '' && state.keywords !== null) {
         filteredWdws = filteredWdws.filter((value) => {
-          return value.name.toLowerCase().includes(state.keywords.toLowerCase());
+          return JSON.stringify(value).toLowerCase().includes(state.keywords.toLowerCase());
         })
       }
 
-      // if (state.keyword) {
-      //   returnValue = filteredWdws.filter((value) => {
-      //     return true;
-      //   })
-      // }
       return filteredWdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
     },
 

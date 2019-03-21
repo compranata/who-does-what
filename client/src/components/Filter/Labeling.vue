@@ -4,12 +4,12 @@
       <v-expansion-panel v-model="panel" expand>
         <v-expansion-panel-content v-for="label in tagLabels" class="mb-3" :key="label">
           <template v-slot:header>
-            <v-badge overlap color="grey">
-              <template v-slot:badge>
-                <span>{{ countTags(`${ label }`) }}</span>
-              </template>
-              <span class="subheading font-weight-medium grey--text">{{ label }}</span>
-            </v-badge>
+            <div class="text-xs-left">
+              <v-chip  outline small text-color="white">
+                <v-avatar class="grey">{{ countTags(`${label}`) }}</v-avatar>
+              </v-chip>
+              <span class="subheading font-weght-medium grey--text">{{ label }}</span>
+            </div>
           </template>
           <Grouping :label="label"></Grouping>
         </v-expansion-panel-content>

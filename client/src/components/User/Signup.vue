@@ -3,7 +3,7 @@
     <div>
       <p>If you have no account yet, then just join!</p>
     </div>
-    <v-dialog v-model="dialog" persistent max-width="400px">
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <v-btn flat small outline color="grey" slot="activator">
         <v-icon left>how_to_reg</v-icon>
         <span>Join</span>
@@ -18,7 +18,7 @@
             <v-text-field
               v-model="email"
               append-icon="mail"
-              :rules="[rules.required, rules.emailMatch]"
+              :rules="[rules.required, rules.emailValid]"
               label="Email*"
               validate-on-blur
             ></v-text-field>
@@ -42,13 +42,13 @@
             <v-text-field
               v-model="confirmPassword"
               :append-icon="show ? 'visibility_off' : 'visibility'"
-              :rules="[rules.required, rules.emailConfirm]"
+              :rules="[rules.required, rules.confirmValid]"
               :type="show ? 'text' : 'password'"
               label="Confirm Password*"
               @click:append="show = !show"
               validate-on-blur
             ></v-text-field>
-            <v-checkbox v-model="agree" :rules=[rules.agree] color="success">
+            <v-checkbox v-model="agree" :rules="[rules.agree]" color="success">
               <template v-slot:label>
                 <div @click.stop="">
                   Do you accept the
@@ -87,7 +87,7 @@
           <v-spacer></v-spacer>
           <v-btn flat color="success" @click="terms = false">
             <span>Ok</span>
-            <v-icon small right>done</v-icon>
+            <v-icon small right>accept</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
@@ -102,13 +102,13 @@
           <v-spacer></v-spacer>
           <v-btn flat color="success" @click="conditions = false">
             <span>Ok</span>
-            <v-icon small right>done</v-icon>
+            <v-icon small right>accept</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
   </v-layout>
 </template>
 
@@ -119,13 +119,6 @@ export default {
       valid: false,
       show: false,
       dialog: false,
-      rules: {
-        required: v => !!v || 'Required.',
-        min8: v => v.length >= 8 || 'Min 8 characters.',
-        emailMatch: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
-        emailConfirm: v => this.password === v || 'Type in carefully once again',
-        agree: v => v === true || 'Accept terms & conditions',
-      },
       name: '',
       email: '',
       password: '',
@@ -133,6 +126,13 @@ export default {
       agree: false,
       terms: false,
       conditions: false,
+      rules: {
+        required: v => !!v || 'Required.',
+        min8: v => v.length >= 8 || 'Min 8 characters.',
+        emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
+        confirmValid: v => this.password === v || 'Type in carefully once again',
+        agree: v => v === true || 'Accept terms & conditions',
+      },
     }
   },
   computed: {
@@ -149,12 +149,10 @@ export default {
   methods: {
     signUp () {
       if (this.$refs.signunForm.validate()) {
-        this.$store.dispatch('signupUser', {email: this.email, password: this.password});
+        (this.name === '') ? this.name = this.email : this.name;
+        this.$store.dispatch('signupUser', {email: this.email, name: this.name, password: this.password});
       } else throw new Error('Ensure to fill the fields below!');
     },
   },
 }
 </script>
-
-<style scoped>
-</style>

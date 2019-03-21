@@ -11,6 +11,6 @@ new Vue({
   store,
   render: h => h(App),
   created () {
-    this.$store.dispatch('autoSignin', { uid: '1234', email: 'compra@nata.es', displayName: 'CompraNata' });
+    this.$store.dispatch('autoSignin', { uid: '1234', email: 'compra@nata.es', name: 'CompraNata' });
   }
 }).$mount('#app');

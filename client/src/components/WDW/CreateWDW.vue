@@ -1,83 +1,339 @@
 <template>
+  <div id="createForm">
 
-    <v-dialog v-model="dialog" max-width="400px">
-      <v-btn icon right class="grey--text" slot="activator"><v-icon small>open_in_new</v-icon></v-btn>
-      <v-card flat :class="`wdw ${selectedWdw.unit}`">
-        <v-card-title primary-title>
-          <h1 class="headline pb-0">{{ selectedWdw.name }}</h1>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          <v-form refs="newWdw">
-            <v-textfield class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ selectedWdw.phone}`">{{ selectedWdw.phone }}</a></v-textfield>
-            <v-textfield class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ selectedWdw.phone }}</v-textfield>
-            <v-textfield class="grey--text"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ selectedWdw.mail }`">{{ selectedWdw.mail }}</a></v-textfield>
-            <v-textfield class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ selectedWdw.lead }}</div>
-          </template>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="primary">text</v-btn>
-          <v-btn flat color="primary">text</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-layout row justify-space-around>
+      <v-flex xs12 sm10 md8 lg6 color="white">
+        <v-img height="200" :src="url">
+          <v-layout wrap>
+            <v-flex xs12>
+              <v-progress-linear
+                :active="isUpdating"
+                class="ma-0"
+                color="green lighten-3"
+                height="4"
+                indeterminate
+              ></v-progress-linear>
+            </v-flex>
+            <v-flex text-xs-right xs12>
+              <v-btn color="white" light fab small @click="isEditing = !isEditing">
+                <v-icon v-if="isEditing">close</v-icon>
+                <v-icon v-else>edit</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-layout column align-start justify-end pa-3>
+              <h3 class="headline white--text">{{ name }}</h3>
+              <span class="grey--text text--lighten-1">{{ description }}</span>
+            </v-layout>
+          </v-layout>
+        </v-img>
 
+        <v-form ref="newWDW">
+          <v-container>
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="name"
+                  :disabled="isUpdating"
+                  outline
+                  label="Team Name*"
+                  prepend-inner-icon="group"
+                  :rules="[rules.required]"
+                  :persistentHint="true"
+                  hint="Unique name of team"
+                  validate-on-blur
+                  ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="description"
+                  :disabled="isUpdating"
+                  outline
+                  right
+                  counter="255"
+                  :rules="[rules.required, rules.max255]"
+                  label="Description*"
+                  prepend-inner-icon="comment"
+                  :persistentHint="true"
+                  hint="Short introduction for your team up to 255 characters."
+                  validate-on-blur
+                  ></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 sm6>
+                <v-autocomplete
+                  v-model="entity"
+                  :disabled="isUpdating"
+                  :items="entities"
+                  outline
+                  label="Entity*"
+                  item-text="name"
+                  item-value="_id"
+                  prepend-inner-icon="business"
+                  :rules="[rules.required]"
+                  validate-on-blur
+                >
+                  <template v-slot:selection="data">
+                    {{ data.item.name }}
+                  </template>
+                  <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                      <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                    </template>
+                    <template v-else>
+                      <v-list-tile-content>
+                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="data.item.address + ', ' + data.item.country"></v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </template>
+                  </template>
+                </v-autocomplete>
+              </v-flex>
+
+              <v-flex xs12 sm6>
+                <v-autocomplete
+                  v-model="lead"
+                  :disabled="isUpdating"
+                  :items="leads"
+                  outline
+                  label="Lead*"
+                  item-text="name"
+                  item-value="_id"
+                  prepend-inner-icon="person"
+                  :rules="[rules.required]"
+                  validate-on-blur
+                >
+                  <template v-slot:selection="data">
+                    {{ data.item.name }}
+                  </template>
+                  <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                      <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                    </template>
+                    <template v-else>
+                      <v-list-tile-content>
+                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="data.item.mail"></v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </template>
+                  </template>
+                </v-autocomplete>
+              </v-flex>
+
+              <v-flex xs12 sm6>
+                <v-text-field
+                  v-model="phone"
+                  :disabled="isUpdating"
+                  outline
+                  label="Phone*"
+                  prepend-inner-icon="call"
+                  :rules="[rules.required]"
+                  validate-on-blur
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-text-field
+                  v-model="fax"
+                  :disabled="isUpdating"
+                  outline
+                  label="Fax"
+                  prepend-inner-icon="print"
+                  validate-on-blur
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-text-field
+                  v-model="email"
+                  :disabled="isUpdating"
+                  outline
+                  label="Email*"
+                  prepend-inner-icon="mail"
+                  :rules="[rules.required, rules.emailValid]"
+                  validate-on-blur
+                ></v-text-field>
+              </v-flex>
+
+              <v-flex xs11 sm5>
+                <v-text-field
+                  v-model="sip"
+                  :disabled="isUpdating"
+                  outline
+                  label="Account ID"
+                  :prepend-inner-icon="icons[icon].mdi"
+                  :persistentHint="true"
+                  :hint="`${ icons[icon].provider } (click incon right end for change the provider)`"
+                  validate-on-blur
+                  ></v-text-field>
+                </v-flex>
+              <v-flex xs1>
+                <v-menu offet-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon class="grey--text" v-on="on">
+                      <v-icon>mdi-apps</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-tile v-for="(item, key) in icons" :key="key" @click="icon = key">
+                      <v-icon left>{{ icons[key].mdi }}</v-icon>
+                      <v-list-tile-title>{{ icons[key].provider }}</v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
+              </v-flex>
+
+              <v-flex xs12>
+                <v-textarea
+                  v-model="remark"
+                  :disabled="isUpdating"
+                  outline
+                  label="Addition Information"
+                  prepend-inner-icon="mdi-calendar-edit"
+                  :persistent-hint="true"
+                  hint="Availability of teams, office hours, weekdays, seasons also emergency supports."
+                  validate-on-blur
+                ></v-textarea>
+              </v-flex>
+
+              <v-flex xs12>
+                <v-divider></v-divider>
+
+                <v-autocomplete
+                  v-model="selectedTags"
+                  :disabled="isUpdating"
+                  :items="tagSelections"
+                  outline
+                  chips
+                  label="Tags"
+                  item-text="name"
+                  item-value="_id"
+                  multiple
+                >
+                  <template v-slot:selection="data">
+                    <v-chip
+                      :selected="data.selected"
+                      close
+                      class="chip--select-multi"
+                      @input="remove(data.item)"
+                    >
+                      <v-avatar color="success">
+                        {{ data.item.avatar }}
+                      </v-avatar>
+                      {{ data.item.name }}
+                    </v-chip>
+                  </template>
+                  <template v-slot:item="data">
+                    <template v-if="typeof data.item !== 'object'">
+                      <v-list-tile-content v-text="data.item">@</v-list-tile-content>
+                    </template>
+                    <template v-else>
+                      <v-list-tile-content>
+                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </template>
+                  </template>
+                </v-autocomplete>
+
+                <v-divider></v-divider>
+              </v-flex>
+
+              <v-layout row justify-end align-end>
+                  <v-spacer></v-spacer>
+                  <v-btn left :disabled="!isEditing" color="success" @click="save">Save</v-btn>
+              </v-layout>
+
+
+            </v-layout>
+          </v-container>
+        </v-form>
+
+      </v-flex>
+    </v-layout>
+
+  </div>
 </template>
 
 <script>
 export default {
-  props: [ 'id' ],
   data () {
     return {
-      dialog: false,
+      isUpdating: false,
+      isEditing: true,
+
+      url: 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg',
+      name: '',
+      description: '',
+      phone: '',
+      fax: '',
+      email: '',
+      sip: '',
+      remark: '',
+      entity: '',
+      lead: '',
+      label: '',
+      selectedTags: [],
+      icon : 0,
+      rules: {
+        required: v => !!v || 'Required.',
+        max255: v => v.length <= 255 || 'Max 255 characters.',
+        emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
+      }
     }
   },
   computed: {
-    user () {
-      return this.$store.getters.user;
+    icons () {
+      return this.$store.getters.icons;
     },
-    loading () {
-      return this.$store.getters.loading;
+    entities () {
+      return this.$store.getters.entities;
     },
-    error () {
-      return this.$store.getters.error;
+    tags () {
+      return this.$store.getters.tags;
     },
-    selectedWdw () {
-      return this.$store.getters.selectedWdw(this.id);
+    tagGroups () {
+      return this.$store.getters.tagGroups(this.label);
+    },
+    tagLabels () {
+      return this.$store.getters.tagLabels;
+    },
+    leads () {
+      return this.$store.getters.leads;
+    },
+    tagSelections () {
+      return this.$store.getters.tagSelections;
+    },
+  },
+
+  watch: {
+    isUpdating (val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000)
+      }
     }
   },
+
   methods: {
-  },
+    remove (item) {
+      const index = this.selectedTags.indexOf(item._id)
+      if (index >= 0) this.selectedTags.splice(index, 1)
+    },
+    save () {
+      console.log(
+        this.url,
+        this.name,
+        this.description,
+        this.phone,
+        this.fax,
+        this.email,
+        this.sip,
+        this.remark,
+        this.entity,
+        this.lead,
+        this.label,
+        this.selectedTags,
+        this.icon,
+        this.$refs.newWDW
+      )
+    },
+  }
 }
 </script>
-
-<style scoped>
-.wdw.yksi {
-  border-left: 16px solid #5f6a72;
-}
-.wdw.kaksi {
-  border-left: 16px solid #d3222a;
-}
-.wdw.kolme {
-  border-left: 16px solid #00b0e8;
-}
-.wdw.nelja {
-  border-left: 16px solid #719500;
-}
-/* .titlebar.yksi {
-  background: #5f6a72;
-}
-.titlebar.kaksi {
-  background: #d3222a;
-}
-.titlebar.kolme {
-  background: #00B0E8;
-}
-.titlebar.nelja {
-  background: #719500;
-} */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-</style>

@@ -4,42 +4,16 @@
     <v-navigation-drawer app light v-model="drawer">
 
       <v-img :aspect-ratio="16/9"
-        src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1334&q=80">
+        src="https://images.unsplash.com/photo-1438758886433-4875b7ad923b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2200&q=80">
         <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
           <v-flex shrink>
-            <div class="subheading">{{ user.displayName }}</div>
+            <div class="subheading">{{ user.name }}</div>
             <div class="body-1">{{ user.email }}</div>
           </v-flex>
         </v-layout>
       </v-img>
 
-      <!-- <v-layout column align-center>
-        <v-flex xs12>
-          <v-text-field
-            v-model="keywords"
-            prepend-icon="search"
-            single-line
-            full-width
-            hide-details
-            clearable
-            label="Tags"
-            type="text"
-          >
-          <v-icon slot:append-icon>search</v-icon>
-            <template v-slot:append>
-              <v-fade-transition leave-absolute>
-                <v-progress-circular
-                  v-show="loading"
-                  size="24"
-                  color="info"
-                  indeterminate
-                ></v-progress-circular>
-              </v-fade-transition>
-            </template>
-          </v-text-field>
-
-          <v-divider></v-divider> -->
           <div>
             <v-container class="ma-0">
               <v-radio-group v-model="sorting" mandatory row hide-details class="ma-0">
@@ -100,16 +74,14 @@
                     v-if="expand"
                     solo
                     flat
-                    full-width
+                    fill-width
                     prepend-inner-icon="search"
                     append-icon="indeterminate_check_box"
                     label="Keywords"
                     :autofocus="true"
                     clearable
-                    :height="24"
                     @click:append="clearKeywords"
                     key="search"
-                    class="keywords-field"
                   ></v-text-field>
                   <v-btn v-else icon class="grey--text" @click="expand = !expand" key="icon">
                     <v-icon>search</v-icon>
@@ -135,51 +107,7 @@
         </v-menu>
       </template>
 
-      <!-- <template v-else>
-        <v-text-field
-          v-model="keywords"
-          solo
-          flat
-          full-width
-          append-icon="search"
-          label="Search"
-          v-if="isAuth"
-          :autofocus="true"
-          clearable
-          :height="18"
-        ></v-text-field>
-        <v-btn icon class="grey--text" @click="expand = !expand">
-          CLOSE
-        </v-btn>
-      </template> -->
-
-
     </v-toolbar>
-
-        <!-- <v-layout row class="pt-2">
-          <v-flex>
-            <v-text-field
-              v-model="search"
-              solo
-              append-icon="search"
-              label="Search"
-              class="cute-input stretch"
-              v-if="isAuth"
-              :autofocus="true"
-            ></v-text-field>
-          </v-flex>
-          <v-flex>
-            <v-icon>more_vert</v-icon>
-          </v-flex>
-        </v-layout> -->
-      <!-- </v-toolbar-items> -->
-      <!-- <v-btn flat color="grey">Profile</v-btn> -->
-      <!-- <v-btn flat color="grey" router to="signin">Sign In</v-btn> -->
-      <!-- <v-btn flat v-if="isAuth" color="grey">
-        <span>Sign Out</span>
-        <v-icon right>exit_to_app</v-icon>
-      </v-btn> -->
-    <!-- </v-toolbar> -->
 
   </nav>
 </template>
@@ -194,6 +122,7 @@ export default {
       drawer: false,
       expand: false,
       links: [
+        { icon: 'add_to_photos', text: 'Create New', route: '/wdw/new'},
         { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
         { icon: 'person', text: 'Login', route: '/signin' },
       ],
@@ -255,11 +184,24 @@ export default {
 </script>
 
 <style>
+.wdw.yksi {
+  border-left: 4px solid #5f6a72;
+}
+.wdw.kaksi {
+  border-left: 4px solid #d3222a;
+}
+.wdw.kolme {
+  border-left: 4px solid #00b0e8;
+}
+.wdw.nelja {
+  border-left: 4px solid #719500;
+}
 .lightbox {
   box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 72px);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 72px);
 }
-.keyword-field {
-  height: 24px;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 </style>
