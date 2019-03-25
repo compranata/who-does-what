@@ -8,7 +8,7 @@ const WdwSchema = new Schema({
   phone: String,
   fax: String,
   mail: String,
-  sip: { provider: String, icon: String, account: String },
+  sip: { provider: String, mdi: String, account: String },
   remark: String,
   // entity: { type: Schema.Types.ObjectId, ref: 'Entities' },
   // lead: [{ type: Schema.Types.ObjectId, ref: 'Users' }],

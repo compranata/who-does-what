@@ -12,7 +12,7 @@ router.post('/create', (req, res) => {
   });
 });
 
-router.post('/cards', (req, res) => {
+router.post('/wdws', (req, res) => {
   Mdb.fetchWdws(req, res, (err, result) => {
     res.json(result);
   });

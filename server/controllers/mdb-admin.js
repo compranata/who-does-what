@@ -1,2 +1,2 @@
 // ./controllers/db-admin.js
-const { Card, Tag, Lead, Entity } = require('../models/model');
+const { Wdw, Tag, Lead, Entity } = require('../models/model');
