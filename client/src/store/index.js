@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+
 export default new Vuex.Store({
   state: {
     wdws: [
@@ -125,18 +126,9 @@ export default new Vuex.Store({
       state.sorting = payload;
     },
 
-    // incrementCountTags (state, payload) {
-    //   const record = state.countTags.find((v) => v.label === payload.label);
-    //   if (record) {
-    //     record.count += parseInt(payload.count);
-    //   } else {
-    //     state.countTags.push({ label: payload.label, count: parseInt(payload.count) });
-    //   }
-    // },
-    // decrementCountTags (state, payload) {
-    //   const record = state.countTags.find((v) => v.label === payload.label);
-    //   record.count -= parseInt(payload.count);
-    // },
+    saveWdw (state, payload) {
+      state.wdws.push(payload);
+    },
 
   },
   actions: {
@@ -204,6 +196,24 @@ export default new Vuex.Store({
     },
     toggleSorting ({ commit }, payload) {
       commit('setSorting', payload);
+    },
+
+    saveWdw ({ commit }, payload) {
+      const wdw = {
+        url: payload.url,
+        name: payload.name,
+        description: payload.description,
+        phone: payload.phone,
+        fax: payload.fax,
+        email: payload.email,
+        sip: payload.sip,
+        sipicon: payload.icon,
+        remark: payload.remark,
+        entity: payload.entity,
+        lead: payload.lead,
+        tags: payload.selectedTags,
+      };
+      commit('saveWdw', wdw);
     },
     // removeFilter ({ commit}) {
     //   function removeClass (elements) {
@@ -299,9 +309,17 @@ export default new Vuex.Store({
     },
 
     filteredWdws: (state, getters) => {
-      // [[todo]] filteredWdws() must be splited up into filter / sort / search
       if (state.sorting === '') state.sorting = '_id';
+      let filteredWdws = getters.filteringWdws;
+      if (state.keywords !== '' && state.keywords !== null) {
+        filteredWdws = filteredWdws.filter((value) => {
+          return JSON.stringify(value).toLowerCase().includes(state.keywords.toLowerCase());
+        })
+      }
+      return filteredWdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
+    },
 
+    filteringWdws: (state, getters) => {
       let filteredWdws = [];
       const filteredWdwsId = [];
       const filterQueryArray = getters.filterQueryArray.map((v) => v.toLowerCase());
@@ -325,13 +343,7 @@ export default new Vuex.Store({
           })
         })
       }
-      if (state.keywords !== '' && state.keywords !== null) {
-        filteredWdws = filteredWdws.filter((value) => {
-          return JSON.stringify(value).toLowerCase().includes(state.keywords.toLowerCase());
-        })
-      }
-
-      return filteredWdws.sort((a, b) => a[state.sorting] < b[state.sorting] ? -1 : 1);
+      return filteredWdws;
     },
 
     selectedWdw: (state) => (id) => {

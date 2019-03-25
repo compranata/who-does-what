@@ -160,7 +160,7 @@
                   label="Account ID"
                   :prepend-inner-icon="icons[icon].mdi"
                   :persistentHint="true"
-                  :hint="`${ icons[icon].provider } (click incon right end for change the provider)`"
+                  :hint="`${ icons[icon].provider } (click app incon in right end for change the provider)`"
                   validate-on-blur
                   ></v-text-field>
                 </v-flex>
@@ -317,22 +317,20 @@ export default {
       if (index >= 0) this.selectedTags.splice(index, 1)
     },
     save () {
-      console.log(
-        this.url,
-        this.name,
-        this.description,
-        this.phone,
-        this.fax,
-        this.email,
-        this.sip,
-        this.remark,
-        this.entity,
-        this.lead,
-        this.label,
-        this.selectedTags,
-        this.icon,
-        this.$refs.newWDW
-      )
+      this.$store.dispatch('saveWdw', {
+        url: this.url,
+        name: this.name,
+        description: this.description,
+        phone: this.phone,
+        fax: this.fax,
+        email: this.email,
+        sip: this.sip,
+        sipicon: this.icon,
+        remark: this.remark,
+        entity: this.entity,
+        lead: this.lead,
+        tags: this.selectedTags,
+      });
     },
   }
 }
