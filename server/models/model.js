@@ -2,30 +2,14 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const CardSchema = new Schema({
+const WdwSchema = new Schema({
   name: String,
-  // description: String,
-  // phones: [{
-  //   sensibility: String,
-  //   phone: String,
-  // }],
-  // faxs: [{
-  //   sensibility: String,
-  //   fax: String,
-  // }],
-  mails: [{
-    sensibility: String,
-    mail: String,
-  }],
-  // sip: [{
-  //   type: String,
-  //   accountId: String,
-  //   icon: String,
-  // }],
-  // hours: [{
-  //   week: String,
-  //   hour: String,
-  // }],
+  description: String,
+  phone: String,
+  fax: String,
+  mail: String,
+  sip: { provider: String, icon: String, account: String },
+  remark: String,
   // entity: { type: Schema.Types.ObjectId, ref: 'Entities' },
   // lead: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   // tags: [{ type: Schema.Types.ObjectId, ref: 'Tags' }],
@@ -63,4 +47,4 @@ const TagSchema = new Schema({
 exports.Lead = mongoose.model('Lead', LeadSchema);
 exports.Entity = mongoose.model('Entity', EntitySchema);
 exports.Tag = mongoose.model('Tag', TagSchema);
-exports.Card = mongoose.model('Card', CardSchema);
+exports.Wdw = mongoose.model('Wdw', WdwSchema);
