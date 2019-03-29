@@ -5,7 +5,7 @@
         <v-expansion-panel-content v-for="label in tagLabels" class="mb-3" :key="label">
           <template v-slot:header>
             <div class="text-xs-left">
-              <v-chip  outline small text-color="white">
+              <v-chip  outline small text-color="white" v-if="countTags(`${label}`) !== 0">
                 <v-avatar class="grey">{{ countTags(`${label}`) }}</v-avatar>
               </v-chip>
               <span class="subheading font-weght-medium grey--text">{{ label }}</span>

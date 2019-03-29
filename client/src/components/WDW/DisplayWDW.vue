@@ -14,21 +14,49 @@
         </v-img>
         <v-card-text class="pb-0" overflow>
           <template>
-            <v-tooltip bottom>
-              <div class="grey--text" slot="activator"><v-icon small class="mr-1">business</v-icon>{{ wdw.entities.name }}</div>
-              <span>{{ wdw.entities.address }}, {{ wdw.entities.country }}</span>
-            </v-tooltip>
-
-            <div class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
-            <div class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.phone }}</div>
-            <div class="grey--text"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
-            <div class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead }}</div>
+            <div v-if="(!!wdw.entity.name)" class="grey--text mb-2">
+              <h4 class="caption">Entity:</h4>
+              <div><v-icon small class="mr-1">business</v-icon>{{ wdw.entity.name }}</div>
+              <div><v-icon small class="mr-1 ml-2">map</v-icon>{{ wdw.entity.address }}, {{ wdw.entity.country }}</div>
+              <div v-if="(!!wdw.entity.phone)"><v-icon small class="mr-1 ml-2">call</v-icon>{{ wdw.entity.phone }}</div>
+            </div>
+            <v-divider></v-divider>
+            <div class="grey--text mb-2">
+              <h4 class="caption">Contacts: </h4>
+              <div v-if="(!!wdw.phone)"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
+              <div v-if="(!!wdw.fax)"><v-icon small class="mr-1">print</v-icon>{{ wdw.fax }}</div>
+              <div v-if="(!!wdw.mail)"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
+              <div v-if="(!!wdw.sip.account)"><v-icon small class="mr-1">{{ wdw.sip.mdi }}</v-icon>{{ wdw.sip.provider }} / {{ wdw.sip.account }}</div>
+            </div>
+            <v-divider></v-divider>
+            <div v-if="(!!wdw.lead.name)" class="grey--text mb-2">
+              <h4 class="caption">Team Leader:</h4>
+              <div><v-icon small class="mr-1">person</v-icon>{{ wdw.lead.name }}</div>
+              <div><v-icon small class="mr-1 ml-2">alternate_email</v-icon><a :href="`mailto:${ wdw.lead.mail }`">{{ wdw.lead.mail }}</a></div>
+            </div>
+            <v-divider></v-divider>
+            <div v-if="(!!wdw.remark)" class="grey--text mb-2">
+              <h3 class="caption">Remark:</h3>
+              <p>{{ wdw.remark }}</p>
+              <v-divider></v-divider>
+            </div>
+            <TagList :tags="wdw.tags"></TagList>
           </template>
         </v-card-text>
         <v-card-actions class="pt-0">
           <v-spacer></v-spacer>
-          <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`"><v-icon small>email</v-icon></v-btn>
-          <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`"><v-icon small>call</v-icon></v-btn>
+          <v-tooltip top v-if="(!!wdw.lead.name)">
+            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.lead.mail }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
+            <span>Send email to the team leader ({{ wdw.lead.mail }})</span>
+          </v-tooltip>
+          <v-tooltip top v-if="(!!wdw.mail)">
+            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`" slot="activator"><v-icon small>email</v-icon></v-btn>
+            <span>Send email to the team ({{ wdw.mail }})</span>
+          </v-tooltip>
+          <v-tooltip top v-if="(!!wdw.phone)">
+            <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`" slot="activator"><v-icon small>call</v-icon></v-btn>
+            <span>Call the team ({{ wdw.phone }})</span>
+          </v-tooltip>
         </v-card-actions>
 
       </v-card>
@@ -37,7 +65,10 @@
 </template>
 
 <script>
+import TagList from './TagList';
+
 export default {
+  components: { TagList },
   props: [ 'id' ],
   data () {
     return {

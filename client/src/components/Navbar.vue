@@ -4,7 +4,7 @@
     <v-navigation-drawer app light v-model="drawer">
 
       <v-img :aspect-ratio="16/9"
-        src="https://images.unsplash.com/photo-1438758886433-4875b7ad923b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2200&q=80">
+        src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80">
         <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
           <v-flex shrink>
@@ -20,7 +20,7 @@
                 <!-- <v-icon small left>filter</v-icon> -->
                 <span class="subheading grey--text mr-1">Sort:</span>
                 <v-radio label="By team" value="name"></v-radio>
-                <v-radio label="By lead" value="lead"></v-radio>
+                <v-radio label="By lead" value="lead.name"></v-radio>
               </v-radio-group>
             </v-container>
           </div>
@@ -34,7 +34,7 @@
                 <v-radio label="OR" value="OR"></v-radio>
                 <v-radio label="AND" value="AND"></v-radio>
                 <!-- <v-spacer></v-spacer>
-                <v-btn v-show="isFiltered" icon small left class="grey--text mx-0" @click="removeFilter"><v-icon>clear</v-icon></v-btn> -->
+                <v-btn v-show="isFiltered" icon small left class="mx-0" @click="removeFilter"><v-icon>clear</v-icon></v-btn> -->
                 </v-layout>
               </v-radio-group>
             </v-container>
@@ -119,6 +119,7 @@ export default {
   components: { Labeling },
   data () {
     return {
+      today: new Date(),
       drawer: false,
       expand: false,
       links: [

@@ -5,7 +5,17 @@ const { Wdw } = require('../models/model');
 function createWdwObject(body) {
   const wdw = new Wdw();
   wdw.name = body.name;
-  wdw.mails = [{ sensibility: 'shared', mail: 'grp@mail.com' }];
+  wdw.description = body.description;
+  wdw.phone = body.phone;
+  wdw.fax = body.fax;
+  wdw.mail = body.email;
+  wdw.sip = body.sip;
+  wdw.remark = body.remark;
+  wdw.entity = body.entity;
+  wdw.lead = body.lead;
+  wdw.tags = body.tags;
+  wdw.unit = body.unit;
+  wdw.publish = true;
   return wdw;
 }
 
@@ -22,8 +32,9 @@ exports.createWdw = (req, res, next) => {
   //   publish: true,
   // });
   const wdw = createWdwObject(req.body);
-  wdw.save((err, result) => {
-    next(err, result);
+  wdw.save((err) => {
+    if (err) next(err);
+    next(null, true);
   });
 };
 

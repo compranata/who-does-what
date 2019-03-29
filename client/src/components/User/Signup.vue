@@ -86,8 +86,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat color="success" @click="terms = false">
-            <span>Ok</span>
-            <v-icon small right>accept</v-icon>
+            <span>Accept</span>
+            <v-icon small right>mdi-check-outline</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
@@ -101,8 +101,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat color="success" @click="conditions = false">
-            <span>Ok</span>
-            <v-icon small right>accept</v-icon>
+            <span>Accept</span>
+            <v-icon small right>mdi-check-outline</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

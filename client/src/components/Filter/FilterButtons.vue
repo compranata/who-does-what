@@ -2,8 +2,8 @@
   <div>
     <v-btn-toggle v-model="filterQuery" multiple @change="pushKeywords">
       <v-layout row wrap justify-start>
-        <span v-for="button in tagButtons" :key="button">
-          <v-btn small flat round outline color="grey" class="ml-1 mb-1" :value="button">{{ button }}</v-btn>
+        <span v-for="button in tagButtons" :key="button._id">
+          <v-btn small flat round outline color="grey" class="ml-1 mb-1" :value="button._id">{{ button.name }}</v-btn>
         </span>
       </v-layout>
     </v-btn-toggle>
@@ -21,10 +21,10 @@ export default {
   computed: {
     tagButtons () {
       const buttons = new Set();
-      const obj = this.$store.state.tags;
+      const obj = this.$store.getters.tags;
       for (let key in obj) {
         if (obj[key].label === this.label && obj[key].group === this.group) {
-          buttons.add(obj[key].name);
+          buttons.add({ name: obj[key].name, _id: obj[key]._id });
         }
       }
       return buttons;

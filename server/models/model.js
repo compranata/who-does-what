@@ -10,11 +10,24 @@ const WdwSchema = new Schema({
   mail: String,
   sip: { provider: String, mdi: String, account: String },
   remark: String,
-  // entity: { type: Schema.Types.ObjectId, ref: 'Entities' },
-  // lead: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
-  // tags: [{ type: Schema.Types.ObjectId, ref: 'Tags' }],
+  entity: {
+    _id: String,
+    name: String,
+    address: String,
+    country: String,
+    phone: String,
+  },
+  lead: {
+    _id: String,
+    name: String,
+    phone: String,
+    mail: String,
+    user_id: String,
+  },
+  tags: { type: String },
+  unit: { name: String, branding: String },
   // owner: [{ }],
-  // publish: Boolean,
+  publish: Boolean,
 }, { timestamps: true });
 
 const LeadSchema = new Schema({

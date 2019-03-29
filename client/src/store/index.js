@@ -1,23 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Ajax from './axios';
 
 Vue.use(Vuex);
 
 
 export default new Vuex.Store({
   state: {
-    wdws: [
-      { _id: '001', name: 'Operation Germany', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-99', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'germany'], unit: 'yksi' },
-      { _id: '002', name: 'Operation Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Frankfurt Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '003', name: 'Operation Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Japanese', 'France'], unit: 'nelja' },
-      { _id: '004', name: 'Procurement Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Spain'], unit: 'yksi' },
-      { _id: '005', name: 'Procurement Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Berlin Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-60', mail: 'p.austria@mail.com', lead: 'Pius', tags: ['Events', 'Portugal'], unit: 'kaksi' },
-      { _id: '006', name: 'Procurement Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Barcelona Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-70', mail: 'p.scandinavia@mail.com', lead: 'Robert', tags: ['Events', 'France'], unit: 'kolme' },
-      { _id: '007', name: 'Customer Relations Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-10', mail: 'germany@mail.com', lead: 'John', tags: ['Events', 'United Kingdam'], unit: 'yksi' },
-      { _id: '008', name: 'Customer Relations Austria', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-20', mail: 'austria@mail.com', lead: 'Matt', tags: ['Service Operations', 'Germany', 'American'], unit: 'kolme' },
-      { _id: '009', name: 'Customer Relations Scandinavia', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'Barcelona Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-30', mail: 'scandinavia@mail.com', lead: 'Susi', tags: ['Events', 'Germany'], unit: 'nelja' },
-      { _id: '010', name: 'Finance Germany', description: 'Lorem ipsum dolor sit amet,  laborum.',entities: {name: 'London Office', address: 'address', country: 'Germany'}, phone: '+49-69-123123-50', mail: 'p.germany@mail.com', lead: 'Angela', tags: ['Events', 'Germany'], unit: 'yksi' },
-    ],
+    wdws: [],
     entities: [
       { _id: '001', name: 'Berlin Office', address: 'Friedrichstr. 123, 10211 Berlin', country: 'Germany', phone: '+49-30-12345566' },
       { _id: '002', name: 'Frankfurt Office', address: 'Rossmarkt. 6, 60311 Frankfurt', country: 'Germany', phone: '+49-69-3432938' },
@@ -27,24 +17,30 @@ export default new Vuex.Store({
       { _id: '006', name: 'Milano Office', address: 'Milano', country: 'Italy', phone: '+42-110202012' },
     ],
     tags: [
-      { _id: '001', name: 'Germany', group: 'C.Europe', label: 'Destinations' },
-      { _id: '005', name: 'Portugal', group: 'S.Europe', label: 'Destinations' },
-      { _id: '002', name: 'France', group: 'W.Europe', label: 'Destinations' },
-      { _id: '009', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
-      { _id: '010', name: 'Japanese', group: '', label: 'Markets' },
-      { _id: '003', name: 'United Kingdam', group: 'N.Europe', label: 'Destinations' },
-      { _id: '004', name: 'Spain', group: 'S.Europe', label: 'Destinations' },
-      { _id: '006', name: 'Events', group: 'Incentives', label: 'Business' },
-      { _id: '007', name: 'Customer Care', group: 'Inbound', label: 'Functions' },
-      { _id: '011', name: 'Chinese', group: '', label: 'Markets' },
-      { _id: '012', name: 'American', group: '', label: 'Markets' },
-      { _id: '008', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
+      { _id: '001x', name: 'Germany', group: 'C.Europe', label: 'Destinations' },
+      { _id: '005x', name: 'Portugal', group: 'S.Europe', label: 'Destinations' },
+      { _id: '002x', name: 'France', group: 'W.Europe', label: 'Destinations' },
+      { _id: '009x', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
+      { _id: '010x', name: 'Japanese', group: '', label: 'Markets' },
+      { _id: '003x', name: 'United Kingdam', group: 'N.Europe', label: 'Destinations' },
+      { _id: '004x', name: 'Spain', group: 'S.Europe', label: 'Destinations' },
+      { _id: '006r', name: 'Events', group: 'Incentives', label: 'Business' },
+      { _id: '007r', name: 'Customer Care', group: 'Inbound', label: 'Functions' },
+      { _id: '011t', name: 'Chinese', group: '', label: 'Markets' },
+      { _id: '012t', name: 'American', group: '', label: 'Markets' },
+      { _id: '008y', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
     ],
     leads: [
-      { _id: '100', name: 'John', phone: '', mail: 'john@mail.com', user_id: 'asdf'},
-      { _id: '200', name: 'Mike', phone: '', mail: 'mike@mail.com', user_id: 'qwer'},
-      { _id: '300', name: 'Mia', phone: '', mail: 'mia@mail.com', user_id: 'jkly'},
-      { _id: '400', name: 'Maria', phone: '', mail: 'maria@mail.com', user_id: 'uiop'},
+      { _id: '100', name: 'Toad', phone: '', mail: 'john@mail.com', user_id: 'asdf'},
+      { _id: '200', name: 'Mario', phone: '', mail: 'mike@mail.com', user_id: 'qwer'},
+      { _id: '300', name: 'Luigi', phone: '', mail: 'mia@mail.com', user_id: 'jkly'},
+      { _id: '400', name: 'Peach', phone: '', mail: 'maria@mail.com', user_id: 'uiop'},
+    ],
+    units: [
+      { name: 'Fire', branding: '#D3222A' },
+      { name: 'Water', branding: '#00B0E8'},
+      { name: 'Air', branding: '#5F6A72'},
+      { name: 'Earth', branding: '#719500'},
     ],
     icons: [
       { provider: 'Chat', mdi: 'chat' },
@@ -56,7 +52,7 @@ export default new Vuex.Store({
     ],
 
     loading: false,
-    error: {},
+    error: null,
 
     user: null,
     isAuth: false,
@@ -126,6 +122,9 @@ export default new Vuex.Store({
       state.sorting = payload;
     },
 
+    setWdws (state, payload) {
+      state.wdws = payload;
+    },
     saveWdw (state, payload) {
       state.wdws.push(payload);
     },
@@ -198,6 +197,11 @@ export default new Vuex.Store({
       commit('setSorting', payload);
     },
 
+    fetchWdws ({ commit }) {
+      Ajax.fetchWdws().then((response) => {
+        commit('setWdws', response.data)
+      });
+    },
     saveWdw ({ commit }, payload) {
       const wdw = {
         url: payload.url,
@@ -206,14 +210,17 @@ export default new Vuex.Store({
         phone: payload.phone,
         fax: payload.fax,
         email: payload.email,
-        sip: payload.sip,
-        sipicon: payload.icon,
+        sip: { ...(this.state.icons[payload.sipicon]), account: payload.sip },
+        sipicon: payload.sipicon,
         remark: payload.remark,
-        entity: payload.entity,
-        lead: payload.lead,
-        tags: payload.selectedTags,
+        entity: (this.state.entities.filter((e) => e._id == payload.entity))[0],
+        lead: (this.state.leads.filter((l) => l._id === payload.lead))[0],
+        tags: payload.tags,
+        unit: (this.state.units.filter((u) => u.name === payload.unit))[0],
       };
-      commit('saveWdw', wdw);
+      Ajax.createWdw(wdw).then((response) => {
+        commit('saveWdw', response);
+      })
     },
     // removeFilter ({ commit}) {
     //   function removeClass (elements) {
@@ -250,6 +257,10 @@ export default new Vuex.Store({
     },
     isAuth: (state) => {
       return state.isAuth;
+    },
+
+    units: (state) => {
+      return state.units;
     },
 
     tags: (state) => {
@@ -322,21 +333,20 @@ export default new Vuex.Store({
     filteringWdws: (state, getters) => {
       let filteredWdws = [];
       const filteredWdwsId = [];
-      const filterQueryArray = getters.filterQueryArray.map((v) => v.toLowerCase());
+      const filterQueryArray = getters.filterQueryArray;
 
       if (!getters.isFiltered) {
         filteredWdws = state.wdws;
       } else if (state.filterStyle === 'AND') {
         filteredWdws = state.wdws.filter((value) => {
-          const wdwsTags = value.tags.map((v) => v.toLowerCase());
           return filterQueryArray.every((tag) => {
-            return wdwsTags.includes(tag.toLowerCase());
+            return value.tags.includes(tag);
           })
         })
       } else {
         filteredWdws = state.wdws.filter((value) => {
-          return value.tags.some((tag) => {
-            if (filterQueryArray.includes(tag.toLowerCase()) && !filteredWdwsId.includes(value._id)) {
+          return value.tags.split(',').some((tag) => {
+            if (filterQueryArray.includes(tag) && !filteredWdwsId.includes(value._id)) {
               filteredWdwsId.push(value._id);
               return true;
             }

@@ -27,7 +27,7 @@
           </v-layout>
         </v-img>
 
-        <v-form ref="newWDW">
+        <v-form ref="newWDW" v-model="valid">
           <v-container>
             <v-layout row wrap>
               <v-flex xs12>
@@ -57,6 +57,14 @@
                   hint="Short introduction for your team up to 255 characters."
                   validate-on-blur
                   ></v-text-field>
+              </v-flex>
+
+              <v-flex xs12>
+                <v-radio-group v-model="unit" row>
+                  <template v-for="unit in units">
+                    <v-radio :label="`${unit.name}`" :value="unit.name" :key="unit.name" :color="unit.branding"></v-radio>
+                  </template>
+                </v-radio-group>
               </v-flex>
 
               <v-flex xs12 sm6>
@@ -238,7 +246,8 @@
 
               <v-layout row justify-end align-end>
                   <v-spacer></v-spacer>
-                  <v-btn left :disabled="!isEditing" color="success" @click="save">Save</v-btn>
+                  <v-btn left flat class="grey--text" @click="cancel">Cancel</v-btn>
+                  <v-btn left flat :disabled="!valid" color="success" @click="save">Save</v-btn>
               </v-layout>
 
 
@@ -259,6 +268,7 @@ export default {
       isUpdating: false,
       isEditing: true,
 
+      valid: false,
       url: 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg',
       name: '',
       description: '',
@@ -271,7 +281,8 @@ export default {
       lead: '',
       label: '',
       selectedTags: [],
-      icon : 0,
+      icon: 0,
+      unit: '',
       rules: {
         required: v => !!v || 'Required.',
         max255: v => v.length <= 255 || 'Max 255 characters.',
@@ -301,6 +312,9 @@ export default {
     tagSelections () {
       return this.$store.getters.tagSelections;
     },
+    units () {
+      return this.$store.getters.units;
+    },
   },
 
   watch: {
@@ -318,19 +332,37 @@ export default {
     },
     save () {
       this.$store.dispatch('saveWdw', {
-        url: this.url,
-        name: this.name,
-        description: this.description,
-        phone: this.phone,
-        fax: this.fax,
-        email: this.email,
-        sip: this.sip,
+        url: this.url.trim(),
+        name: this.name.trim(),
+        description: this.description.trim(),
+        phone: this.phone.trim(),
+        fax: this.fax.trim(),
+        email: this.email.trim(),
+        sip: this.sip.trim(),
         sipicon: this.icon,
-        remark: this.remark,
+        remark: this.remark.trim(),
         entity: this.entity,
         lead: this.lead,
         tags: this.selectedTags,
+        unit: this.unit,
       });
+    },
+    cancel () {
+      // this.$refs.newWDW.reset();
+      this.valid = false;
+      this.name = '';
+      this.description = '';
+      this.phone = '';
+      this.fax = '';
+      this.email = '';
+      this.sip = '';
+      this.remark = '';
+      this.entity = '';
+      this.lead = '';
+      this.label = '';
+      this.selectedTags = [];
+      this.icon = 0;
+      this.unit = '';
     },
   }
 }
