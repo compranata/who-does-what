@@ -31,7 +31,7 @@ export default {
   computed: {
     tagLabels () {
       const labels = new Set();
-      const obj = this.$store.state.tags;
+      const obj = this.$store.getters.tags;
       for (let key in obj) {
         labels.add(obj[key].label);
       }

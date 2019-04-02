@@ -14,6 +14,11 @@
           <span>Sign Up</span>
         </v-card-title>
         <v-card-text>
+          <v-layout row v-if="error">
+            <v-flex>
+              <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+            </v-flex>
+          </v-layout>
           <v-form class="px-3 mt-3" ref="signunForm" v-model="valid">
             <v-text-field
               v-model="email"
@@ -23,9 +28,9 @@
               validate-on-blur
             ></v-text-field>
             <v-text-field
-             v-model="name"
+             v-model="displayName"
              append-icon="person"
-             label="Name"
+             label="Display Name"
              :persistentHint="true"
              hint="(Optional)"
             ></v-text-field>
@@ -71,10 +76,12 @@
           <v-btn
             flat
             :loading="loading"
-            :disabled="!valid"
+            :disabled="!valid || loading"
             color="success"
             @click="signUp"
-          >Sign Up</v-btn>
+          >
+            Sign Up
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -119,7 +126,7 @@ export default {
       valid: false,
       show: false,
       dialog: false,
-      name: '',
+      displayName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -130,7 +137,7 @@ export default {
         required: v => !!v || 'Required.',
         min8: v => v.length >= 8 || 'Min 8 characters.',
         emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
-        confirmValid: v => this.password === v || 'Type in carefully once again',
+        confirmValid: v => this.password === v || 'Passwords do not match',
         agree: v => v === true || 'Accept terms & conditions',
       },
     }
@@ -139,20 +146,36 @@ export default {
     user () {
       return this.$store.getters.user;
     },
+    isAuth () {
+      return this.$store.getters.isAuth;
+    },
     loading () {
       return this.$store.getters.loading;
     },
     error () {
-      return this.$store.getter.error;
+      return this.$store.getters.error;
+    },
+  },
+  watch: {
+    user (value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push('/');
+      }
     },
   },
   methods: {
     signUp () {
       if (this.$refs.signunForm.validate()) {
-        (this.name === '') ? this.name = this.email : this.name;
-        this.$store.dispatch('signupUser', {email: this.email, name: this.name, password: this.password});
+        (this.displayName === '') ? this.displayName = this.email : this.displayName;
+        this.$store.dispatch('signupUser', {email: this.email, displayName: this.displayName, password: this.password});
       } else throw new Error('Ensure to fill the fields below!');
     },
+    onDismissed () {
+      this.$store.dispatch('clearError');
+    },
+  },
+  mounted: function () {
+    this.$store.dispatch('clearError');
   },
 }
 </script>

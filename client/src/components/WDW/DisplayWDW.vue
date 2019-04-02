@@ -4,7 +4,7 @@
       <v-btn icon right class="grey--text" slot="activator"><v-icon small>open_in_new</v-icon></v-btn>
       <v-card flat :class="`wdw ${wdw.unit}`">
 
-        <v-img class="white--text" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+        <v-img class="white--text" height="200px" :src="(wdw.imageUrl) ? wdw.imageUrl : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'">
           <v-container fill-height fluid class="lightbox">
             <v-flex xs12 align-end justify-start flexbox>
               <span class="headline font-weight-medium">{{ wdw.name }}</span>

@@ -18,7 +18,11 @@
               <h2 class="grey--text">Sign In</h2>
             </v-card-title>
             <v-card-text>
-              <v-alert :value="valid" type="error">Ooops, something went wrong!</v-alert>
+              <v-layout row v-if="error">
+                <v-flex>
+                  <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+                </v-flex>
+              </v-layout>
               <v-form class="px-3 mt-3" ref="signinForm" v-model="valid">
                 <v-text-field
                  v-model="email"
@@ -42,11 +46,13 @@
               <v-spacer></v-spacer>
               <v-btn
                 flat
-               :loading="loading"
-               :disabled="!valid"
-               color="success"
-               @click="signIn"
-              >Sign In</v-btn>
+                :loading="loading"
+                :disabled="!valid || loading"
+                color="success"
+                @click="signIn"
+              >
+                Sign In
+              </v-btn>
             </v-card-actions>
           </v-card>
           <div class="mt-3">
@@ -70,6 +76,7 @@ export default {
   components: { Signup },
   data () {
     return {
+      loader: null,
       valid: false,
       show: false,
       email: '',
@@ -89,7 +96,7 @@ export default {
       return this.$store.getters.loading;
     },
     error () {
-      return this.$store.getter.error;
+      return this.$store.getters.error;
     },
   },
   watch: {
@@ -97,14 +104,17 @@ export default {
       if (value !== null && value !== undefined) {
         this.$router.push('/');
       }
-    }
+    },
   },
   methods: {
     signIn () {
       if (this.$refs.signinForm.validate()) {
         this.$store.dispatch('signinUser', {email: this.email, password: this.password});
       } else throw new Error('Ensure to fill the fields below!');
-    }
+    },
+    onDismissed () {
+      this.$store.dispatch('clearError');
+    },
   }
 }
 </script>

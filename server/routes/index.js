@@ -18,8 +18,8 @@ router.post('/wdws/create', (req, res) => {
   });
 });
 
-router.post('/wdws/update', (req, res) => {
-  Mdb.updateWdw(req, res, (err, result) => {
+router.post('/wdws/imgupdate', (req, res) => {
+  Mdb.updateImageWdw(req, res, (err, result) => {
     res.json(result);
   });
 });

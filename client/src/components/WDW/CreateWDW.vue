@@ -3,7 +3,7 @@
 
     <v-layout row justify-space-around>
       <v-flex xs12 sm10 md8 lg6 color="white">
-        <v-img height="200" :src="url">
+        <v-img height="200" :src="imageUrl">
           <v-layout wrap>
             <v-flex xs12>
               <v-progress-linear
@@ -15,9 +15,16 @@
               ></v-progress-linear>
             </v-flex>
             <v-flex text-xs-right xs12>
-              <v-btn color="white" light fab small @click="isEditing = !isEditing">
-                <v-icon v-if="isEditing">close</v-icon>
+              <v-btn color="white" light fab small @click="onPickFile">
+                <v-icon v-if="!isEditing">close</v-icon>
                 <v-icon v-else>edit</v-icon>
+                <input
+                  type="file"
+                  style="display: none"
+                  ref="fileInput"
+                  accept="image/*"
+                  @change="onFilePicked"
+                />
               </v-btn>
             </v-flex>
             <v-layout column align-start justify-end pa-3>
@@ -246,8 +253,8 @@
 
               <v-layout row justify-end align-end>
                   <v-spacer></v-spacer>
-                  <v-btn left flat class="grey--text" @click="cancel">Cancel</v-btn>
-                  <v-btn left flat :disabled="!valid" color="success" @click="save">Save</v-btn>
+                  <v-btn left flat class="grey--text" @click="cancel">Clear</v-btn>
+                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Save</v-btn>
               </v-layout>
 
 
@@ -269,9 +276,9 @@ export default {
       isEditing: true,
 
       valid: false,
-      url: 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg',
+      imageUrl: 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg',
       name: '',
-      description: '',
+      description: ' ',
       phone: '',
       fax: '',
       email: '',
@@ -283,9 +290,10 @@ export default {
       selectedTags: [],
       icon: 0,
       unit: '',
+      image: null,
       rules: {
         required: v => !!v || 'Required.',
-        max255: v => v.length <= 255 || 'Max 255 characters.',
+        max255: v => !!v && v.length <= 255 || 'Max 255 characters.',
         emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
       }
     }
@@ -315,6 +323,9 @@ export default {
     units () {
       return this.$store.getters.units;
     },
+    loading () {
+      return this.$store.getters.loading;
+    },
   },
 
   watch: {
@@ -332,7 +343,7 @@ export default {
     },
     save () {
       this.$store.dispatch('saveWdw', {
-        url: this.url.trim(),
+        image: this.image,
         name: this.name.trim(),
         description: this.description.trim(),
         phone: this.phone.trim(),
@@ -348,10 +359,10 @@ export default {
       });
     },
     cancel () {
-      // this.$refs.newWDW.reset();
-      this.valid = false;
+      this.$refs.newWDW.reset();
       this.name = '';
-      this.description = '';
+      this.imageUrl = 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg';
+      this.description = ' ';
       this.phone = '';
       this.fax = '';
       this.email = '';
@@ -364,6 +375,23 @@ export default {
       this.icon = 0;
       this.unit = '';
     },
+    onPickFile () {
+      this.$refs.fileInput.click();
+    },
+    onFilePicked (event) {
+      const files = event.target.files;
+      if (files.length <= 0) return false;
+      let filename = files[0].name;
+      if (filename.lastIndexOf('.') <= 0) {
+        return alert('Please add a valid file!');
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0]);
+      this.image = files[0];
+    }
   }
 }
 </script>

@@ -22,3 +22,4 @@ yarn-error.log*
 
 # confidential files
 /src/store/firebase-config.json
+/src/store/__*

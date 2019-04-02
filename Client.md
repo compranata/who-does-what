@@ -7,19 +7,19 @@
 - [x] Vue-Router, Vuex, Vuetify, axios
 - [ ] moment.js, Vue-i18n
 - [ ] Create base component
-  - [ ] Header
-  - [ ] Footer
-  - [ ] Menu / drawer
-  - [ ] Connection to API
-  - [ ] List-view component
-  - [ ] Details component
-  - [ ] New Contact component
+  - [x] Header
+  - [x] Footer
+  - [x] Menu / drawer
+  - [x] Connection to API
+  - [x] List-view component
+  - [x] Details component
+  - [x] New Contact component
   - [ ] Edit Contact component
   - [ ] Delete Contact component
   - [ ] Admin table view component
   - [ ] Managing tag component
   - [ ] Config component
-- [ ] Authentication with Firebase
-  - [ ] Login / Logout
+- [x] Authentication with Firebase
+  - [x] Login / Logout
   - [ ] Role restriction
   - [ ] Service Worker

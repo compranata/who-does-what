@@ -28,6 +28,8 @@ const WdwSchema = new Schema({
   unit: { name: String, branding: String },
   // owner: [{ }],
   publish: Boolean,
+  imageUrl: String,
+  creatorId: String,
 }, { timestamps: true });
 
 const LeadSchema = new Schema({

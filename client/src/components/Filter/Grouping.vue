@@ -16,7 +16,7 @@ export default {
   computed: {
     tagGroups () {
       const tags = new Set();
-      const obj = this.$store.state.tags;
+      const obj = this.$store.getters.tags;
       for (let key in obj) {
         if (obj[key].label === this.label) {
           tags.add(obj[key].group);

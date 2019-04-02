@@ -15,26 +15,18 @@ function createWdwObject(body) {
   wdw.lead = body.lead;
   wdw.tags = body.tags;
   wdw.unit = body.unit;
+  wdw.creatorId = body.creatorId;
   wdw.publish = true;
+  wdw.imageUrl = body.imageUrl;
   return wdw;
 }
 
 // Create
 exports.createWdw = (req, res, next) => {
-  // DEV - required a method to built the object to pass mongoose
-  // const card = new Card({
-  //   name: 'test name',
-  //   description: 'test description',
-  //   phones: [{ sensibility: 'shared', phone: '111' }],
-  //   faxs: [{ sensibility: 'shared', fax: '111' }, { sensibility: 'private', fax: '222' }],
-  //   mails: [{ sensibility: 'shared', mail: '111' }],
-  //   hours: [{ week: '0111110', hour: '09:00-13:00' }, { week: '0111110', hour: '14:00-18:00' }],
-  //   publish: true,
-  // });
   const wdw = createWdwObject(req.body);
-  wdw.save((err) => {
+  wdw.save((err, result) => {
     if (err) next(err);
-    next(null, true);
+    next(null, result);
   });
 };
 
@@ -49,10 +41,9 @@ exports.fetchWdws = (req, res, next) => {
 };
 
 // Update
-exports.updateWdw = (req, res, next) => {
+exports.updateImageWdw = (req, res, next) => {
   // DEV - auth users
-  const wdw = new Wdw();
-  Wdw.updateOne({ _id: req.body.id }, wdw, (err, result) => {
+  Wdw.findOneAndUpdate({ _id: req.body._id }, req.body.query, { new: true }, (err, result) => {
     // preferable, update with $set, in order to avoid override
     // question is: how to multiple fields (FRONT)
     if (err) next(err);

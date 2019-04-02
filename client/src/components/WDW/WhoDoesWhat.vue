@@ -25,11 +25,23 @@
         </div>
       </v-layout>
 
+      <v-layout>
+        <v-flex xs12 class="text-xs-center">
+          <v-progress-circular
+            indeterminate
+            class="primary--text"
+            :width="7"
+            :size="70"
+            v-if="loading"
+          ></v-progress-circular>
+        </v-flex>
+      </v-layout>
+
       <v-layout v-if="viewStyle" row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
           <v-card flat :class="`wdw ma-3 ${wdw.unit.name}`">
 
-            <v-img class="white--text" height="80px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+            <v-img class="white--text" height="80px" :src="(wdw.imageUrl) ? wdw.imageUrl : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'">
               <v-container fill-height fluid class="lightbox">
                 <v-flex xs12 align-end justify-start flexbox>
                   <span class="subheading font-weight-medium">{{ wdw.name }}</span>
@@ -79,7 +91,7 @@
           <v-layout row wrap :class="`pa-3 wdw ${wdw.unit.name}`">
             <v-flex xs12 md4>
               <div class="caption grey--text">Team</div>
-              <div>{{ wdw.name }}</div>
+              <div>{{ wdw }}</div>
             </v-flex>
             <v-flex xs12 sm2 md2>
               <div class="caption grey--text">Lead</div>
@@ -129,6 +141,9 @@ export default {
     },
     keywords () {
       return this.$store.state.keywords;
+    },
+    loading () {
+      return this.$store.getters.loading;
     }
   },
 }

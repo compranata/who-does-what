@@ -7,28 +7,31 @@
         src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80">
         <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
-          <v-flex shrink>
-            <div class="subheading">{{ user.name }}</div>
+          <v-flex shrink v-if="user">
+            <div class="subheading">{{ user.displayName }}</div>
             <div class="body-1">{{ user.email }}</div>
           </v-flex>
         </v-layout>
       </v-img>
 
           <div>
-            <v-container class="ma-0">
-              <v-radio-group v-model="sorting" mandatory row hide-details class="ma-0">
-                <!-- <v-icon small left>filter</v-icon> -->
-                <span class="subheading grey--text mr-1">Sort:</span>
-                <v-radio label="By team" value="name"></v-radio>
-                <v-radio label="By lead" value="lead.name"></v-radio>
-              </v-radio-group>
+            <v-container class="ma-0 py-0 px-3">
+              <v-select
+                v-model="sorting"
+                :items="items"
+                prefix="SortedBy:"
+                flat
+                solo
+                hide-details
+                color="grey"
+                class="grey--text"
+              ></v-select>
             </v-container>
           </div>
           <v-divider></v-divider>
           <div>
-            <v-container class="ma-0">
+            <v-container class="ma-0 pt-1 pb-3">
               <v-radio-group v-model="filterStyle" mandatory row hide-details class="ma-0">
-                <!-- <v-icon small left>filter</v-icon> -->
                 <v-layout row wrap justify-center>
                 <span class="subheading grey--text mr-1 mt-1">Filter:</span>
                 <v-radio label="OR" value="OR"></v-radio>
@@ -39,16 +42,17 @@
               </v-radio-group>
             </v-container>
           </div>
+
           <v-divider></v-divider>
           <Labeling></Labeling>
 
           <v-list>
-            <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
+            <v-list-tile v-for="item in menuItems" :key="item.text" :to="item.route">
               <v-list-tile-action>
-                <v-icon class="grey--text">{{ link.icon }}</v-icon>
+                <v-icon class="grey--text">{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title class="grey--text">{{ link.text }}</v-list-tile-title>
+                <v-list-tile-title class="grey--text">{{ item.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -97,10 +101,17 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-tile v-for="link in links" :key="link.text" :to="link.route">
+            <v-list-tile v-for="item in menuItems" :key="item.text" :to="item.route">
               <v-list-tile-title>
-                <v-icon small left>{{ link.icon }}</v-icon>
-                <span>{{ link.text }}</span>
+                <v-icon small left>{{ item.icon }}</v-icon>
+                <span>{{ item.text }}</span>
+              </v-list-tile-title>
+            </v-list-tile>
+            <v-divider v-if="isAuth"></v-divider>
+            <v-list-tile v-if="isAuth">
+              <v-list-tile-title @click="signOut">
+                <v-icon small left>exit_to_app</v-icon>
+                <span>Log Out</span>
               </v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -122,11 +133,7 @@ export default {
       today: new Date(),
       drawer: false,
       expand: false,
-      links: [
-        { icon: 'add_to_photos', text: 'Create New', route: '/wdw/new'},
-        { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
-        { icon: 'person', text: 'Login', route: '/signin' },
-      ],
+      items: ['Name', 'Lead', 'Entity', 'Unit'],
     }
   },
   computed: {
@@ -139,11 +146,26 @@ export default {
     loading () {
       return this.$store.getters.loading;
     },
+    error () {
+      return this.$store.getters.error;
+    },
     tags () {
       return this.$store.getters.tags;
     },
-    entities () {
-      return this.$store.getters.entities;
+
+    menuItems () {
+      let menuItems = [
+        { icon: 'add_to_photos', text: 'Create New', route: '/wdw/new'},
+        { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
+        { icon: 'person', text: 'Login', route: '/signin' },
+      ];
+      if (this.isAuth) {
+        menuItems = [
+          { icon: 'add_to_photos', text: 'Create New', route: '/wdw/new'},
+          { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
+        ];
+      }
+      return menuItems;
     },
 
     keywords: {
@@ -175,11 +197,15 @@ export default {
       }
     },
   },
+
   methods: {
     clearKeywords () {
       this.keywords = null;
       this.expand = false;
     },
+    signOut () {
+      this.$store.dispatch('logout');
+    }
   },
 }
 </script>
