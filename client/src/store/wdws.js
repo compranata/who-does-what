@@ -27,26 +27,28 @@ export default {
       { _id: '008y', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
     ],
     leads: [
-      { _id: '100', name: 'Toad', phone: '', mail: 'john@mail.com', user_id: 'asdf'},
-      { _id: '200', name: 'Mario', phone: '', mail: 'mike@mail.com', user_id: 'qwer'},
-      { _id: '300', name: 'Luigi', phone: '', mail: 'mia@mail.com', user_id: 'jkly'},
-      { _id: '400', name: 'Peach', phone: '', mail: 'maria@mail.com', user_id: 'uiop'},
+      { _id: 't01o', name: 'Toad', phone: '', email: 'toad@mail.com', user_id: 'asdf'},
+      { _id: 'm02o', name: 'Mario', phone: '', email: 'mario@mail.com', user_id: 'qwer'},
+      { _id: 'l03i', name: 'Luigi', phone: '', email: 'luigi@mail.com', user_id: 'jkly'},
+      { _id: 'p04h', name: 'Peach', phone: '', email: 'peach@mail.com', user_id: 'uiop'},
+      { _id: 'b05r', name: 'Bowser', phone: '', email: 'bowser@mail.com', user_id: 'jfkl'},
     ],
     units: [
-      { name: 'Fire', branding: '#D3222A' },
-      { name: 'Water', branding: '#00B0E8'},
-      { name: 'Air', branding: '#5F6A72'},
-      { name: 'Earth', branding: '#719500'},
+      { _id: 'fire', name: 'Fire', branding: '#D3222A' },
+      { _id: 'water', name: 'Water', branding: '#00B0E8'},
+      { _id: 'air', name: 'Air', branding: '#5F6A72'},
+      { _id: 'earth', name: 'Earth', branding: '#719500'},
     ],
     icons: [
-      { provider: 'Chat', mdi: 'chat' },
-      { provider: 'Facebook', mdi: 'mdi-facebook-messenger' },
-      { provider: 'WhatsApp', mdi: 'mdi-whatsapp' },
-      { provider: 'WeChat', mdi: 'mdi-wechat' },
-      { provider: 'Hangouts', mdi: 'mdi-google-hangouts' },
-      { provider: 'Skype', mdi: 'mdi-skype' },
+      { _id: 'chat', provider: 'Chat', mdi: 'chat' },
+      { _id: 'what', provider: 'WhatsApp', mdi: 'mdi-whatsapp' },
+      { _id: 'face', provider: 'Facebook', mdi: 'mdi-facebook-messenger' },
+      { _id: 'wech', provider: 'WeChat', mdi: 'mdi-wechat' },
+      { _id: 'hang', provider: 'Hangouts', mdi: 'mdi-google-hangouts' },
+      { _id: 'skyp', provider: 'Skype', mdi: 'mdi-skype' },
     ],
 
+    defaultImage: 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=8012e3ea-8349-4168-a0c0-06e3db846221',
     keywords: '',
 
     isFiltered: false,
@@ -95,10 +97,34 @@ export default {
       state.sorting = payload;
     },
 
+    setEntities (state, payload) {
+      state.entities = payload;
+    },
+    setTags (state, payload) {
+      state.tags = payload;
+    },
+    setLeads (state, payload) {
+      state.leads = payload;
+    },
+    setUnits (state, payload) {
+      state.units = payload;
+    },
+    setIcons (state, payload) {
+      state.icons = payload;
+    },
     setWdws (state, payload) {
       state.wdws = payload;
     },
-    saveWdw (state, payload) {
+    putWdw (state, payload) {
+      const wdws = state.wdws;
+      for (let idx = 0; idx < wdws.length; idx++) {
+        if (wdws[idx]._id === payload._id) {
+          wdws.splice(idx, 1, payload);
+          break;
+        }
+      }
+    },
+    pushWdw (state, payload) {
       state.wdws.push(payload);
     },
 
@@ -127,6 +153,9 @@ export default {
       commit('setSorting', payload);
     },
 
+    fetchDataSet ({ commit }) {
+
+    },
     fetchWdws ({ commit }) {
       commit('setLoading', true);
       Ajax.fetchWdws().then((response) => {
@@ -139,41 +168,61 @@ export default {
       const wdw = {
         name: payload.name,
         description: payload.description,
+        unit: (getters.units.filter((u) => u.name === payload.unit))[0],
+        entity: (getters.entities.filter((e) => e._id == payload.entity))[0],
+        lead: (getters.leads.filter((l) => l._id === payload.lead))[0],
         phone: payload.phone,
         fax: payload.fax,
         email: payload.email,
-        sip: { ...(this.state.icons[payload.sipicon]), account: payload.sip },
-        sipicon: payload.sipicon,
+        sip: { ...payload.sipProvider, account: payload.sipAccount },
         remark: payload.remark,
-        entity: (this.state.entities.filter((e) => e._id == payload.entity))[0],
-        lead: (this.state.leads.filter((l) => l._id === payload.lead))[0],
         tags: payload.tags,
-        unit: (this.state.units.filter((u) => u.name === payload.unit))[0],
         creatorId: getters.user.id,
-        image: payload.image,
       };
+
+
+      const router = payload.router;
       let imageUrl;
       let key;
-      Ajax.createWdw(wdw)
+      const promise = () => {
+        if (payload.isEditing && payload._id) {
+          return Ajax.updateWdw({ _id: payload._id, query: wdw })
+        } else {
+          return Ajax.createWdw(wdw)
+        }
+      }
+      promise()
         .then((result) => {
           key = result.data._id;
           return key;
-        // commit('saveWdw', JSON.parse(data.config.data));
         })
         .then((key) => {
-          const filename = payload.image.name
-          const ext = filename.slice(filename.lastIndexOf('.'));
-          return firebase.storage.ref('wdws/' + key + ext).put(payload.image);
+          if (payload.image) {
+            const filename = payload.image.name
+            const ext = filename.slice(filename.lastIndexOf('.'));
+            return firebase.storage.ref('wdws/' + key + ext).put(payload.image);
+          } else if (payload.isEditing) {
+            let fileUrl = payload.imageUrl.slice(payload.imageUrl.lastIndexOf('/'), payload.imageUrl.lastIndexOf('?')).replace('%2F', '/');
+            return firebase.storage.ref(fileUrl);
+          } else {
+            return firebase.storage.ref('wdws/defaultWdw.jpg');
+          }
         })
         .then((fileData) => {
-          return fileData.ref.getDownloadURL().then((downloadURL) => {
+          const ref = (fileData.ref) ? fileData.ref : fileData;
+          return ref.getDownloadURL().then((downloadURL) => {
             imageUrl = downloadURL;
-            return Ajax.updateImageWdw({_id: key, query: { $set: { imageUrl: imageUrl } } });
+            return Ajax.updateWdw({ _id: key, query: { $set: { imageUrl: imageUrl } } });
           });
         })
         .then((wdw) => {
           commit('setLoading', false);
-          commit('saveWdw', wdw.data);
+          if (payload.isEditing) {
+            commit('putWdw', wdw.data);
+          } else {
+            commit('pushWdw', wdw.data);
+          }
+          router.go('/wdw');
         })
         .catch((error) => {
           commit('setLoading', false);
@@ -205,6 +254,10 @@ export default {
     },
     units: (state) => {
       return state.units;
+    },
+
+    defaultImage: (state) => {
+      return state.defaultImage;
     },
 
     tags: (state) => {

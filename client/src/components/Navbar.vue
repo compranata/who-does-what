@@ -69,7 +69,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
 
-        <div class="text-xs-center">
+        <div class="text-xs-center" v-if="isAuth">
           <v-layout justify-space-around row>
             <v-flex shrink>
               <v-expand-x-transition mode="out-in">
@@ -155,9 +155,7 @@ export default {
 
     menuItems () {
       let menuItems = [
-        { icon: 'add_to_photos', text: 'Create New', route: '/wdw/new'},
-        { icon: 'folder', text: 'WhoDoesWhat', route: '/wdw' },
-        { icon: 'person', text: 'Login', route: '/signin' },
+        { icon: 'person', text: 'SignIn / SignUp', route: '/signin' },
       ];
       if (this.isAuth) {
         menuItems = [
@@ -170,7 +168,7 @@ export default {
 
     keywords: {
       get: function () {
-        return this.$store.state.keywords;
+        return this.$store.getters.keywords;
       },
       set: function (newValue) {
         this.$store.dispatch('setKeywords', newValue);
@@ -204,7 +202,7 @@ export default {
       this.expand = false;
     },
     signOut () {
-      this.$store.dispatch('logout');
+      this.$store.dispatch('signout', { router: this.$router });
     }
   },
 }

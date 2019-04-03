@@ -74,13 +74,14 @@ export default {
       });
       commit('setIsAuth', true);
     },
-    logout ({ commit }) {
+    signout ({ commit }, payload) {
       firebase.auth.signOut()
         .then(
           user => {
             user = user ? user : {};
             commit('setUser', user);
             commit('setIsAuth', user.uid ? true : false);
+            payload.router.go('/singin');
           }
         );
     },

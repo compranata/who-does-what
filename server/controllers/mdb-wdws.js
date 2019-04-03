@@ -8,7 +8,7 @@ function createWdwObject(body) {
   wdw.description = body.description;
   wdw.phone = body.phone;
   wdw.fax = body.fax;
-  wdw.mail = body.email;
+  wdw.email = body.email;
   wdw.sip = body.sip;
   wdw.remark = body.remark;
   wdw.entity = body.entity;
@@ -41,7 +41,7 @@ exports.fetchWdws = (req, res, next) => {
 };
 
 // Update
-exports.updateImageWdw = (req, res, next) => {
+exports.updateWdw = (req, res, next) => {
   // DEV - auth users
   Wdw.findOneAndUpdate({ _id: req.body._id }, req.body.query, { new: true }, (err, result) => {
     // preferable, update with $set, in order to avoid override

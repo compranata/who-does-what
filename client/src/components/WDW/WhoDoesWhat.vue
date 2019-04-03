@@ -3,23 +3,27 @@
     <h1 class="subheading grey--text">Who Does What...?</h1>
 
     <v-container class="mb-3">
-      <p v-if="wdws.length <= 0" class="grey--text">Ups,, unfortunately nothing to display.</p>
+      <v-layout column v-if="wdws.length <= 0">
+        <v-flex xs12 class="text-xs-center">
+          <p class="grey--text">Ups,, unfortunately nothing to display.</p>
+        </v-flex>
+      </v-layout>
 
-      <v-layout row class="mb-3">
+      <v-layout row class="mb-3" v-if="!wdws.length <= 0">
         <v-spacer></v-spacer>
         <div class="right">
           <v-btn-toggle mandatory v-model="viewStyle">
             <v-tooltip top>
               <v-btn flat slot="activator">
-                <v-icon small>view_list</v-icon>
+                <v-icon small>mdi-view-grid</v-icon>
               </v-btn>
-              <span>display the contacts in list style.</span>
+              <span>display the contacts in card style.</span>
             </v-tooltip>
             <v-tooltip top>
               <v-btn flat slot="activator">
-                <v-icon small>mdi-view-grid</v-icon>
+                <v-icon small>view_list</v-icon>
               </v-btn>
-              <span>display the contacts in card style</span>
+              <span>display the contacts in list style</span>
             </v-tooltip>
           </v-btn-toggle>
         </div>
@@ -37,7 +41,7 @@
         </v-flex>
       </v-layout>
 
-      <v-layout v-if="viewStyle" row wrap>
+      <v-layout v-if="!viewStyle" row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
           <v-card flat :class="`wdw ma-3 ${wdw.unit.name}`">
 
@@ -57,7 +61,7 @@
 
                 <div v-if="(!!wdw.phone)" class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
                 <div v-if="(!!wdw.fax)" class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.fax }}</div>
-                <div v-if="(!!wdw.mail)" class="grey--text"><v-icon small class="mr-1 text-none">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
+                <div v-if="(!!wdw.email)" class="grey--text"><v-icon small class="mr-1 text-none">alternate_email</v-icon><a :href="`mailto:${ wdw.email }`">{{ wdw.email }}</a></div>
                 <div v-if="(!!wdw.sip.account)" class="grey--text"><v-icon small class="mr-1">{{ wdw.sip.mdi }}</v-icon>{{ wdw.sip.provider }} / {{ wdw.sip.account }}</div>
                 <div v-if="(!!wdw.lead.name)" class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead.name }}</div>
               </template>
@@ -65,12 +69,12 @@
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
               <v-tooltip top v-if="(!!wdw.lead.name)">
-                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.lead.mail }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
-                <span>Send email to the team leader ({{ wdw.lead.mail }})</span>
+                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.lead.email }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
+                <span>Send email to the team leader ({{ wdw.lead.email }})</span>
               </v-tooltip>
-              <v-tooltip top v-if="(!!wdw.mail)">
-                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`" slot="activator"><v-icon small>email</v-icon></v-btn>
-                <span>Send email to the team ({{ wdw.mail }})</span>
+              <v-tooltip top v-if="(!!wdw.email)">
+                <v-btn icon right class="grey--text" :href="`mailto:${ wdw.email }`" slot="activator"><v-icon small>email</v-icon></v-btn>
+                <span>Send email to the team ({{ wdw.email }})</span>
               </v-tooltip>
               <v-tooltip top v-if="(!!wdw.phone)">
                 <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`" slot="activator"><v-icon small>call</v-icon></v-btn>
@@ -102,8 +106,8 @@
               <div>{{ wdw.phone }}</div>
             </v-flex>
             <v-flex xs12 sm3 md2>
-              <div class="caption grey--text">Mail</div>
-              <div>{{ wdw.mail }}</div>
+              <div class="caption grey--text">Email</div>
+              <div>{{ wdw.email }}</div>
             </v-flex>
             <v-flex xs12 sm3 md2>
               <div class="right">
@@ -140,10 +144,13 @@ export default {
       return this.$store.getters.tags;
     },
     keywords () {
-      return this.$store.state.keywords;
+      return this.$store.getters.keywords;
     },
     loading () {
       return this.$store.getters.loading;
+    },
+    user () {
+      return this.$store.getters.user;
     }
   },
 }

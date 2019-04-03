@@ -7,7 +7,7 @@
           <v-layout wrap>
             <v-flex xs12>
               <v-progress-linear
-                :active="isUpdating"
+                :active="loading"
                 class="ma-0"
                 color="green lighten-3"
                 height="4"
@@ -15,17 +15,19 @@
               ></v-progress-linear>
             </v-flex>
             <v-flex text-xs-right xs12>
-              <v-btn color="white" light fab small @click="onPickFile">
-                <v-icon v-if="!isEditing">close</v-icon>
-                <v-icon v-else>edit</v-icon>
-                <input
-                  type="file"
-                  style="display: none"
-                  ref="fileInput"
-                  accept="image/*"
-                  @change="onFilePicked"
-                />
-              </v-btn>
+              <v-tooltip bottom>
+                <v-btn color="white" light fab small @click="onPickFile" slot="activator">
+                  <v-icon class="grey--text">mdi-file-upload-outline</v-icon>
+                  <input
+                    type="file"
+                    style="display: none"
+                    ref="fileInput"
+                    accept="image/*"
+                    @change="onFilePicked"
+                  />
+                </v-btn>
+                <span>Please upload your team image.</span>
+              </v-tooltip>
             </v-flex>
             <v-layout column align-start justify-end pa-3>
               <h3 class="headline white--text">{{ name }}</h3>
@@ -40,7 +42,6 @@
               <v-flex xs12>
                 <v-text-field
                   v-model="name"
-                  :disabled="isUpdating"
                   outline
                   label="Team Name*"
                   prepend-inner-icon="group"
@@ -53,15 +54,14 @@
               <v-flex xs12>
                 <v-text-field
                   v-model="description"
-                  :disabled="isUpdating"
                   outline
                   right
-                  counter="255"
-                  :rules="[rules.required, rules.max255]"
+                  counter="200"
+                  :rules="[rules.required, rules.max200]"
                   label="Description*"
                   prepend-inner-icon="comment"
                   :persistentHint="true"
-                  hint="Short introduction for your team up to 255 characters."
+                  hint="Short introduction for your team up to 200 characters."
                   validate-on-blur
                   ></v-text-field>
               </v-flex>
@@ -77,7 +77,6 @@
               <v-flex xs12 sm6>
                 <v-autocomplete
                   v-model="entity"
-                  :disabled="isUpdating"
                   :items="entities"
                   outline
                   label="Entity*"
@@ -107,7 +106,6 @@
               <v-flex xs12 sm6>
                 <v-autocomplete
                   v-model="lead"
-                  :disabled="isUpdating"
                   :items="leads"
                   outline
                   label="Lead*"
@@ -127,7 +125,7 @@
                     <template v-else>
                       <v-list-tile-content>
                         <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.mail"></v-list-tile-sub-title>
+                        <v-list-tile-sub-title v-html="data.item.email"></v-list-tile-sub-title>
                       </v-list-tile-content>
                     </template>
                   </template>
@@ -137,7 +135,6 @@
               <v-flex xs12 sm6>
                 <v-text-field
                   v-model="phone"
-                  :disabled="isUpdating"
                   outline
                   label="Phone*"
                   prepend-inner-icon="call"
@@ -148,7 +145,6 @@
               <v-flex xs12 sm6>
                 <v-text-field
                   v-model="fax"
-                  :disabled="isUpdating"
                   outline
                   label="Fax"
                   prepend-inner-icon="print"
@@ -158,7 +154,6 @@
               <v-flex xs12 sm6>
                 <v-text-field
                   v-model="email"
-                  :disabled="isUpdating"
                   outline
                   label="Email*"
                   prepend-inner-icon="mail"
@@ -169,8 +164,7 @@
 
               <v-flex xs11 sm5>
                 <v-text-field
-                  v-model="sip"
-                  :disabled="isUpdating"
+                  v-model="sipAccount"
                   outline
                   label="Account ID"
                   :prepend-inner-icon="icons[icon].mdi"
@@ -187,7 +181,7 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <v-list-tile v-for="(item, key) in icons" :key="key" @click="icon = key">
+                    <v-list-tile v-for="(item, key) in icons" :key="item._id" @click="setIcon(key, item)">
                       <v-icon left>{{ icons[key].mdi }}</v-icon>
                       <v-list-tile-title>{{ icons[key].provider }}</v-list-tile-title>
                     </v-list-tile>
@@ -198,7 +192,6 @@
               <v-flex xs12>
                 <v-textarea
                   v-model="remark"
-                  :disabled="isUpdating"
                   outline
                   label="Addition Information"
                   prepend-inner-icon="mdi-calendar-edit"
@@ -213,7 +206,6 @@
 
                 <v-autocomplete
                   v-model="selectedTags"
-                  :disabled="isUpdating"
                   :items="tagSelections"
                   outline
                   chips
@@ -251,10 +243,21 @@
                 <v-divider></v-divider>
               </v-flex>
 
-              <v-layout row justify-end align-end>
+              <v-layout row v-if="error">
+                <v-flex>
+                  <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+                </v-flex>
+              </v-layout>
+              <v-layout row justify-end align-end v-if="!isEditing">
                   <v-spacer></v-spacer>
-                  <v-btn left flat class="grey--text" @click="cancel">Clear</v-btn>
-                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Save</v-btn>
+                  <v-btn left flat class="grey--text" @click="clear">Clear</v-btn>
+                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Create</v-btn>
+              </v-layout>
+
+              <v-layout row justify-end align-end v-else>
+                  <v-spacer></v-spacer>
+                  <v-btn left flat class="grey--text" @click="cancel">Cancel</v-btn>
+                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Update</v-btn>
               </v-layout>
 
 
@@ -270,30 +273,32 @@
 
 <script>
 export default {
+  props: [ 'id' ],
   data () {
     return {
-      isUpdating: false,
-      isEditing: true,
+      isEditing: false,
 
       valid: false,
-      imageUrl: 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg',
+      imageUrl: '',
+      image: null,
       name: '',
       description: ' ',
+      unit: '',
+      entity: '',
+      lead: '',
       phone: '',
       fax: '',
       email: '',
-      sip: '',
+      sipAccount: '',
+      sipProvider: {},
       remark: '',
-      entity: '',
-      lead: '',
-      label: '',
       selectedTags: [],
+
       icon: 0,
-      unit: '',
-      image: null,
+      label: '',
       rules: {
         required: v => !!v || 'Required.',
-        max255: v => !!v && v.length <= 255 || 'Max 255 characters.',
+        max200: v => !!v && v.length <= 200 || 'Max 200 characters.',
         emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
       }
     }
@@ -323,8 +328,14 @@ export default {
     units () {
       return this.$store.getters.units;
     },
+    defaultImage () {
+      return this.$store.getters.defaultImage;
+    },
     loading () {
       return this.$store.getters.loading;
+    },
+    error () {
+      return this.$store.getters.error;
     },
   },
 
@@ -343,37 +354,48 @@ export default {
     },
     save () {
       this.$store.dispatch('saveWdw', {
+        _id: (this.id) ? this.id : null,
+        imageUrl: this.imageUrl,
         image: this.image,
         name: this.name.trim(),
         description: this.description.trim(),
+        unit: this.unit,
+        entity: this.entity,
+        lead: this.lead,
         phone: this.phone.trim(),
         fax: this.fax.trim(),
         email: this.email.trim(),
-        sip: this.sip.trim(),
-        sipicon: this.icon,
+        sipAccount: this.sipAccount.trim(),
+        sipProvider: this.sipProvider,
         remark: this.remark.trim(),
-        entity: this.entity,
-        lead: this.lead,
         tags: this.selectedTags,
-        unit: this.unit,
+        sipicon: this.icon,
+        router: this.$router,
+        isEditing: this.isEditing,
       });
     },
-    cancel () {
+    update () {
+
+    },
+    clear () {
       this.$refs.newWDW.reset();
+      this.imageUrl = this.defaultImage;
       this.name = '';
-      this.imageUrl = 'https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg';
       this.description = ' ';
+      this.unit = '';
+      this.entity = '';
+      this.lead = '';
       this.phone = '';
       this.fax = '';
       this.email = '';
-      this.sip = '';
+      this.sipAccount = '';
+      this.sipProvider = this.$store.getters.icons[0];
       this.remark = '';
-      this.entity = '';
-      this.lead = '';
-      this.label = '';
       this.selectedTags = [];
       this.icon = 0;
-      this.unit = '';
+    },
+    cancel () {
+      this.$router.go(-1);
     },
     onPickFile () {
       this.$refs.fileInput.click();
@@ -391,6 +413,43 @@ export default {
       })
       fileReader.readAsDataURL(files[0]);
       this.image = files[0];
+    },
+    setIcon (key, item) {
+      this.icon = key;
+      this.sipProvider = item;
+    },
+    onDismissed () {
+      this.$store.dispatch('clearError');
+    },
+  },
+  mounted () {
+    this.imageUrl = this.defaultImage;
+    this.sipProvider = this.$store.getters.icons[0];
+    if (this.id) {
+      this.isEditing = true;
+      const currentWdw = this.$store.getters.selectedWdw(this.id);
+      let providerIndex;
+      for (let idx = 0; idx < this.icons.length; idx++) {
+        if (this.icons[idx]._id === currentWdw.sip._id) {
+          providerIndex = idx;
+        }
+      }
+
+      this.$refs.newWDW.reset();
+      this.imageUrl = currentWdw.imageUrl;
+      this.name = currentWdw.name;
+      this.description = currentWdw.description;
+      this.unit = currentWdw.unit.name;
+      this.entity = currentWdw.entity._id;
+      this.lead = currentWdw.lead._id;
+      this.phone = currentWdw.phone;
+      this.fax = currentWdw.fax;
+      this.email = currentWdw.email;
+      this.sipAccount = currentWdw.sip.account;
+      this.sipProvider = { _id: currentWdw.sip._id, provider: currentWdw.sip.provider, mdi: currentWdw.sip.mdi };
+      this.icon = providerIndex;
+      this.remark = currentWdw.remark;
+      this.selectedTags = currentWdw.tags.split(',');
     }
   }
 }

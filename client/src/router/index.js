@@ -5,6 +5,7 @@ import WdW from '@/components/WDW/WhoDoesWhat';
 import CreateWdW from '@/components/WDW/CreateWDW';
 import TestLayout from '@/components/WDW/TestLayout';
 import AuthGuard from './auth-guard';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -15,6 +16,7 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: WdW,
+      alias: '/wdw',
       beforeEnter: AuthGuard,
     },
     {
@@ -23,14 +25,15 @@ const router = new Router({
       component: Signin
     },
     {
-      path: '/wdw',
-      name: 'wdw',
-      component: WdW,
+      path: '/wdw/new',
+      name: 'createWdW',
+      component: CreateWdW,
       beforeEnter: AuthGuard,
     },
     {
-      path: '/wdw/new',
-      name: 'createWdW',
+      path: '/wdw/edit/:id',
+      name: 'editWdW',
+      props: true,
       component: CreateWdW,
       beforeEnter: AuthGuard,
     },

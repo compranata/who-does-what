@@ -11,8 +11,8 @@ export default {
     return api().post(`${endpoint}/wdws/create`, params);
   },
 
-  updateImageWdw (params) {
-    return api().post(`${endpoint}/wdws/imgupdate`, params);
+  updateWdw (params) {
+    return api().post(`${endpoint}/wdws/update`, params);
   },
 
   removeWdw (params) {

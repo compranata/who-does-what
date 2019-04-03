@@ -7,8 +7,13 @@ const WdwSchema = new Schema({
   description: String,
   phone: String,
   fax: String,
-  mail: String,
-  sip: { provider: String, mdi: String, account: String },
+  email: String,
+  sip: {
+    _id: String,
+    provider: String,
+    mdi: String,
+    account: String,
+  },
   remark: String,
   entity: {
     _id: String,
@@ -21,45 +26,46 @@ const WdwSchema = new Schema({
     _id: String,
     name: String,
     phone: String,
-    mail: String,
+    email: String,
     user_id: String,
   },
   tags: { type: String },
-  unit: { name: String, branding: String },
+  unit: {
+    _id: String,
+    name: String,
+    branding: String,
+  },
   // owner: [{ }],
   publish: Boolean,
   imageUrl: String,
   creatorId: String,
 }, { timestamps: true });
 
-const LeadSchema = new Schema({
-  accountId: Number,
+const UnitSchema = new Schema({
   name: String,
-  phone: String,
-  fax: String,
-  mail: String,
-  sip: [{
-    type: String,
-    number: String,
-    icon: String,
-  }],
+  branding: String,
+}, { timestamps: true });
+
+const IconSchema = new Schema({
+  provider: String,
+  mdi: String,
 }, { timestamps: true });
 
 const EntitySchema = new Schema({
-  office: String,
-  description: String,
+  name: String,
   address: String,
+  country: String,
   phone: String,
 }, { timestamps: true });
 
 const TagSchema = new Schema({
-  type: String,
+  name: String,
   group: String,
-  tag: String,
-  remarks: String,
+  label: String,
 }, { timestamps: true });
 
-exports.Lead = mongoose.model('Lead', LeadSchema);
+exports.Unit = mongoose.model('Unit', UnitSchema);
+exports.Icon = mongoose.model('Icon', IconSchema);
 exports.Entity = mongoose.model('Entity', EntitySchema);
 exports.Tag = mongoose.model('Tag', TagSchema);
 exports.Wdw = mongoose.model('Wdw', WdwSchema);

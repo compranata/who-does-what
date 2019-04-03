@@ -4,12 +4,19 @@
       <v-btn icon right class="grey--text" slot="activator"><v-icon small>open_in_new</v-icon></v-btn>
       <v-card flat :class="`wdw ${wdw.unit}`">
 
-        <v-img class="white--text" height="200px" :src="(wdw.imageUrl) ? wdw.imageUrl : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'">
+        <v-img class="white--text" height="200px" :src="(wdw.imageUrl) ? wdw.imageUrl : 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=8012e3ea-8349-4168-a0c0-06e3db846221'">
           <v-container fill-height fluid class="lightbox">
-            <v-flex xs12 align-end justify-start flexbox>
-              <span class="headline font-weight-medium">{{ wdw.name }}</span>
-              <p>{{ wdw.description }}</p>
-            </v-flex>
+            <v-layout column>
+              <v-flex text-xs-right xs12>
+                <v-btn color="white" flat icon small slot="activator" router :to="{ name: 'editWdW', params: { id: wdw._id }}">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </v-flex>
+              <v-flex xs12 align-end justify-start flexbox>
+                <span class="headline font-weight-medium">{{ wdw.name }}</span>
+                <p>{{ wdw.description }}</p>
+              </v-flex>
+            </v-layout>
           </v-container>
         </v-img>
         <v-card-text class="pb-0" overflow>
@@ -25,14 +32,14 @@
               <h4 class="caption">Contacts: </h4>
               <div v-if="(!!wdw.phone)"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
               <div v-if="(!!wdw.fax)"><v-icon small class="mr-1">print</v-icon>{{ wdw.fax }}</div>
-              <div v-if="(!!wdw.mail)"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.mail }`">{{ wdw.mail }}</a></div>
+              <div v-if="(!!wdw.email)"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.email }`">{{ wdw.email }}</a></div>
               <div v-if="(!!wdw.sip.account)"><v-icon small class="mr-1">{{ wdw.sip.mdi }}</v-icon>{{ wdw.sip.provider }} / {{ wdw.sip.account }}</div>
             </div>
             <v-divider></v-divider>
             <div v-if="(!!wdw.lead.name)" class="grey--text mb-2">
               <h4 class="caption">Team Leader:</h4>
               <div><v-icon small class="mr-1">person</v-icon>{{ wdw.lead.name }}</div>
-              <div><v-icon small class="mr-1 ml-2">alternate_email</v-icon><a :href="`mailto:${ wdw.lead.mail }`">{{ wdw.lead.mail }}</a></div>
+              <div><v-icon small class="mr-1 ml-2">alternate_email</v-icon><a :href="`mailto:${ wdw.lead.email }`">{{ wdw.lead.email }}</a></div>
             </div>
             <v-divider></v-divider>
             <div v-if="(!!wdw.remark)" class="grey--text mb-2">
@@ -46,12 +53,12 @@
         <v-card-actions class="pt-0">
           <v-spacer></v-spacer>
           <v-tooltip top v-if="(!!wdw.lead.name)">
-            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.lead.mail }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
-            <span>Send email to the team leader ({{ wdw.lead.mail }})</span>
+            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.lead.email }`" slot="activator"><v-icon small>mdi-voice</v-icon></v-btn>
+            <span>Send email to the team leader ({{ wdw.lead.email }})</span>
           </v-tooltip>
-          <v-tooltip top v-if="(!!wdw.mail)">
-            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.mail }`" slot="activator"><v-icon small>email</v-icon></v-btn>
-            <span>Send email to the team ({{ wdw.mail }})</span>
+          <v-tooltip top v-if="(!!wdw.email)">
+            <v-btn icon right class="grey--text" :href="`mailto:${ wdw.email }`" slot="activator"><v-icon small>email</v-icon></v-btn>
+            <span>Send email to the team ({{ wdw.email }})</span>
           </v-tooltip>
           <v-tooltip top v-if="(!!wdw.phone)">
             <v-btn icon right class="grey--text" :href="`tel:${ wdw.phone}`" slot="activator"><v-icon small>call</v-icon></v-btn>
