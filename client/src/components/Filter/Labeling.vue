@@ -37,12 +37,6 @@ export default {
       }
       return labels;
     },
-    // isSelectedTags () {
-    //   return this.$store.getters.isSelectedTags(this.label);
-    // },
-    // getCountTags () {
-    //   return this.$store.getters.countTags;
-    // },
   },
   methods: {
     countTags (label) {
@@ -53,11 +47,6 @@ export default {
       });
       return count;
     }
-    // countTags (label) {
-    //   const labelSet = this.$store.getters.countTags(label);
-    //   const count = (count) ? labelSet.count : 0;
-    //   return count;
-    // },
   },
 }
 </script>

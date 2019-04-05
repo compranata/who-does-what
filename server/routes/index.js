@@ -1,6 +1,7 @@
 // ./routes/index.js
 const express = require('express');
 const Mdb = require('../controllers/mdb-wdws');
+const Meta = require('../controllers/mdb-metas');
 
 const router = express.Router();
 
@@ -35,6 +36,13 @@ router.post('/wdws/delete', (req, res) => {
   Mdb.destroyWdw(req, res, (err) => {
     if (err) res.json(err);
     res.json({ value: '', done: true });
+  });
+});
+
+router.post('/datas/:data', (req, res) => {
+  Meta.fetchDatas(req, res, (err, result) => {
+    if (err) res.json(err);
+    res.json(result);
   });
 });
 

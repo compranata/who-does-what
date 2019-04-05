@@ -44,11 +44,13 @@ const WdwSchema = new Schema({
 const UnitSchema = new Schema({
   name: String,
   branding: String,
+  active: Boolean,
 }, { timestamps: true });
 
 const IconSchema = new Schema({
   provider: String,
   mdi: String,
+  active: Boolean,
 }, { timestamps: true });
 
 const EntitySchema = new Schema({
@@ -56,12 +58,14 @@ const EntitySchema = new Schema({
   address: String,
   country: String,
   phone: String,
+  active: Boolean,
 }, { timestamps: true });
 
 const TagSchema = new Schema({
   name: String,
   group: String,
   label: String,
+  active: Boolean,
 }, { timestamps: true });
 
 exports.Unit = mongoose.model('Unit', UnitSchema);

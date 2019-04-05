@@ -46,13 +46,12 @@
           <v-divider></v-divider>
           <Labeling></Labeling>
 
-
     </v-navigation-drawer>
 
     <v-toolbar flat app>
       <template>
         <v-toolbar-side-icon class="grey--text" :disabled="!isAuth" @click="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title class="text-uppercase grey--text">
+        <v-toolbar-title class="text-uppercase grey--text" to="/wdw">
           <span>Who</span>
           <span class="font-weight-light">does</span>
           <span>what</span>
@@ -90,29 +89,6 @@
             </v-flex>
           </v-layout>
         </div>
-
-        <v-menu :nudge-width="100">
-          <template v-slot:activator="{ on }">
-            <v-btn icon class="grey--text" v-on="on">
-              <v-icon >more_vert</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-tile v-for="item in menuItems" :key="item.text" :to="item.route">
-              <v-list-tile-title>
-                <v-icon small left>{{ item.icon }}</v-icon>
-                <span>{{ item.text }}</span>
-              </v-list-tile-title>
-            </v-list-tile>
-            <v-divider v-if="isAuth"></v-divider>
-            <v-list-tile v-if="isAuth">
-              <v-list-tile-title @click="signOut">
-                <v-icon small left>exit_to_app</v-icon>
-                <span>Log Out</span>
-              </v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
 
         <user-profile></user-profile>
       </template>

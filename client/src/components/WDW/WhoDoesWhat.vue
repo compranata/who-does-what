@@ -175,6 +175,9 @@ export default {
       return this.$store.getters.user;
     }
   },
+  mounted () {
+    this.$store.dispatch('setIsForm', false);
+  }
 }
 </script>
 

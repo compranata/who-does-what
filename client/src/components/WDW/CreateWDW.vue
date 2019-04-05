@@ -435,6 +435,7 @@ export default {
     },
   },
   mounted () {
+    this.$store.dispatch('setIsForm', true);
     this.imageUrl = this.defaultImage;
     this.sipProvider = this.$store.getters.icons[0];
     if (this.id) {

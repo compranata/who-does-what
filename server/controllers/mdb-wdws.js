@@ -1,4 +1,4 @@
-// ./controllers/db-cards.js
+// ./controllers/db-wdws.js
 const { Wdw } = require('../models/model');
 
 // functions
@@ -32,7 +32,7 @@ exports.createWdw = (req, res, next) => {
 
 // Read
 exports.fetchWdws = (req, res, next) => {
-  Wdw.find({ publish: true }, (err, wdws) => { // DEV - filter for .publish = true
+  Wdw.find({ publish: true }, (err, wdws) => {
     if (err) next(err);
     // DEV - any other filter, sort before passing
     // populate to join the collections

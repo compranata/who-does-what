@@ -41,16 +41,12 @@ export default {
     ],
     icons: [
       { _id: 'chat', provider: 'Chat', mdi: 'chat' },
-      { _id: 'what', provider: 'WhatsApp', mdi: 'mdi-whatsapp' },
-      { _id: 'face', provider: 'Facebook', mdi: 'mdi-facebook-messenger' },
-      { _id: 'wech', provider: 'WeChat', mdi: 'mdi-wechat' },
-      { _id: 'hang', provider: 'Hangouts', mdi: 'mdi-google-hangouts' },
-      { _id: 'skyp', provider: 'Skype', mdi: 'mdi-skype' },
     ],
 
     defaultImage: 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=9b2ff955-dbb6-4456-8508-59c494938b92',
     keywords: '',
 
+    isForm: false,
     isFiltered: false,
     filterStyle: 'AND',
     filterQuery: [],
@@ -68,6 +64,9 @@ export default {
       state.keywords = payload;
     },
 
+    setIsForm (state, payload) {
+      state.isForm = payload;
+    },
     setFilterStyle (state, payload) {
       state.filterStyle = payload;
     },
@@ -143,6 +142,10 @@ export default {
       commit('setKeywords', payload);
     },
 
+    setIsForm ({ commit }, payload) {
+      commit('setIsForm', payload);
+    },
+
     toggleFilterStyle ({ commit }, payload) {
       commit('setFilterStyle', payload);
     },
@@ -163,12 +166,19 @@ export default {
     },
 
     fetchDataSet ({ commit }) {
-
+      commit('setLoading', true);
+      Ajax.fetchDatas().then((response) => {
+        if (response.icons.data.length) commit('setIcons', response.icons.data);
+        if (response.units.data.length) commit('setUnits', response.units.data);
+        if (response.entities.data.length) commit('setEntities', response.entities.data);
+        if (response.tags.data.length) commit('setTags', response.tags.data);
+        commit('setLoading', false);
+      })
     },
     fetchWdws ({ commit }) {
       commit('setLoading', true);
       Ajax.fetchWdws().then((response) => {
-        commit('setWdws', response.data)
+        commit('setWdws', response.data);
         commit('setLoading', false);
       });
     },
@@ -318,6 +328,9 @@ export default {
       return state.keywords;
     },
 
+    isForm: (state) => {
+      return state.isForm;
+    },
     isFiltered: (state) => {
       return state.isFiltered;
     },
