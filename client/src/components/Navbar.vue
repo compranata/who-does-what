@@ -46,16 +46,6 @@
           <v-divider></v-divider>
           <Labeling></Labeling>
 
-          <v-list>
-            <v-list-tile v-for="item in menuItems" :key="item.text" :to="item.route">
-              <v-list-tile-action>
-                <v-icon class="grey--text">{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title class="grey--text">{{ item.text }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
 
     </v-navigation-drawer>
 
@@ -67,6 +57,12 @@
           <span class="font-weight-light">does</span>
           <span>what</span>
         </v-toolbar-title>
+
+        <v-layout row v-if="infos">
+          <v-flex>
+            <app-info @dismissed="onDismissed" :text="infos.message"></app-info>
+          </v-flex>
+        </v-layout>
         <v-spacer></v-spacer>
 
         <div class="text-xs-center" v-if="isAuth">
@@ -94,6 +90,7 @@
             </v-flex>
           </v-layout>
         </div>
+
         <v-menu :nudge-width="100">
           <template v-slot:activator="{ on }">
             <v-btn icon class="grey--text" v-on="on">
@@ -116,8 +113,9 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-      </template>
 
+        <user-profile></user-profile>
+      </template>
     </v-toolbar>
 
   </nav>
@@ -134,6 +132,7 @@ export default {
       drawer: false,
       expand: false,
       items: ['Name', 'Lead', 'Entity', 'Unit'],
+      infoMsg: { message: 'welcome' },
     }
   },
   computed: {
@@ -148,6 +147,9 @@ export default {
     },
     error () {
       return this.$store.getters.error;
+    },
+    infos () {
+      return this.$store.getters.infos;
     },
     tags () {
       return this.$store.getters.tags;
@@ -203,27 +205,18 @@ export default {
     },
     signOut () {
       this.$store.dispatch('signout', { router: this.$router });
+    },
+    onDismissed () {
+      this.$store.dispatch('clearInfos');
     }
   },
 }
 </script>
 
 <style>
-.wdw.yksi {
-  border-left: 4px solid #5f6a72;
-}
-.wdw.kaksi {
-  border-left: 4px solid #d3222a;
-}
-.wdw.kolme {
-  border-left: 4px solid #00b0e8;
-}
-.wdw.nelja {
-  border-left: 4px solid #719500;
-}
 .lightbox {
   box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 72px);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 40%, transparent 80%);
 }
 a {
   text-decoration: none;

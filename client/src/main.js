@@ -6,12 +6,15 @@ import router from './router';
 import { store } from './store';
 import DateFilter from './filters/date';
 import AlertPop from '@/components/Shared/AlertPop';
+import InfoPop from '@/components/Shared/InfoPop';
+import Profile from '@/components/User/Profile';
 
 Vue.config.productionTip = false;
 
 Vue.filter('date', DateFilter);
 Vue.component('app-alert', AlertPop);
-
+Vue.component('app-info', InfoPop);
+Vue.component('user-profile', Profile);
 
 
 new Vue({
@@ -22,11 +25,9 @@ new Vue({
     firebase.init();
     firebase.auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log('onAuth: true');
         this.$store.dispatch('autoSignin', user);
         this.$store.dispatch('fetchWdws');
       } else {
-        console.log('onAuth: false')
         this.$store.commit('setUser', null);
         this.$store.commit('setWdws', []);
       }

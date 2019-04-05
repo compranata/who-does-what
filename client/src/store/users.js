@@ -19,28 +19,42 @@ export default {
       commit('clearError');
       firebase.auth.createUserWithEmailAndPassword(payload.email, payload.password)
         .then((user) => {
-          user.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
-            .then(() => {
-              commit('setLoading', false);
-              const newUser = {
-                id: user.user.uid,
-                displayName: user.user.displayName,
-                email: user.user.email,
-              };
-              commit('setUser', newUser);
-            })
-            .catch((error) => {
-              commit('setLoading', false);
-              commit('setError', error);
-            })
+          return user.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
+        })
+        .then ((user) => {
+          commit('setLoading', false);
+          const newUser = {
+            id: user.user.uid,
+            displayName: user.user.displayName,
+            email: user.user.email,
+          };
+          commit('setUser', newUser);
         })
         .catch((error) => {
-            commit('setLoading', false);
-            commit('setError', error);
-          }
-        );
-      commit('setIsAuth', true);
-      commit('setLoading', false);
+          commit('setLoading', false);
+          commit('setError', error);
+        });
+        // .then((user) => {
+        //   user.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
+        //     .then(() => {
+        //       commit('setLoading', false);
+        //       const newUser = {
+        //         id: user.user.uid,
+        //         displayName: user.user.displayName,
+        //         email: user.user.email,
+        //       };
+        //       commit('setUser', newUser);
+        //     })
+        //     .catch((error) => {
+        //       commit('setLoading', false);
+        //       commit('setError', error);
+        //     })
+        // })
+        // .catch((error) => {
+        //     commit('setLoading', false);
+        //     commit('setError', error);
+        //   }
+        // );
     },
     signinUser ({ commit }, payload) {
       commit('setLoading', true);
@@ -63,8 +77,6 @@ export default {
             commit('setError', error);
           }
         );
-      commit('setIsAuth', true);
-      commit('setLoading', false);
     },
     autoSignin ({ commit }, payload) {
       commit('setUser', {
@@ -81,7 +93,7 @@ export default {
             user = user ? user : {};
             commit('setUser', user);
             commit('setIsAuth', user.uid ? true : false);
-            payload.router.go('/singin');
+            payload.router.push({ name: 'home', params: { user }});
           }
         );
     },

@@ -43,14 +43,15 @@
 
       <v-layout v-if="!viewStyle" row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="wdw in wdws" :key="wdw._id">
-          <v-card flat :class="`wdw ma-3 ${wdw.unit.name}`">
+          <v-card flat :class="`wdw ma-3 ${wdw.unit.name}`" :style="`border-left: 4px solid ${wdw.unit.branding}`">
 
             <v-img class="white--text" height="80px" :src="(wdw.imageUrl) ? wdw.imageUrl : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'">
-              <v-container fill-height fluid class="lightbox">
-                <v-flex xs12 align-end justify-start flexbox>
+              <v-layout pa-2 column justify-space-between fill-height class="lightbox">
+                <v-spacer></v-spacer>
+                <v-flex shrink>
                   <span class="subheading font-weight-medium">{{ wdw.name }}</span>
                 </v-flex>
-              </v-container>
+              </v-layout>
             </v-img>
             <v-card-text class="pb-0">
               <template>
@@ -92,31 +93,52 @@
 
       <v-layout v-else column>
         <v-card flat v-for="wdw in wdws" :key="wdw._id">
-          <v-layout row wrap :class="`pa-3 wdw ${wdw.unit.name}`">
-            <v-flex xs12 md4>
+          <v-layout row wrap :class="`pa-3 wdw ${wdw.unit.name}`" :style="`border-left: 4px solid ${wdw.unit.branding}`">
+
+            <v-flex xs12 sm6>
               <div class="caption grey--text">Team</div>
-              <div>{{ wdw }}</div>
+              <div class="font-weight-medium">{{ wdw.name }}</div>
             </v-flex>
-            <v-flex xs12 sm2 md2>
-              <div class="caption grey--text">Lead</div>
-              <div>{{ wdw.lead.name }}</div>
+            <v-flex xs8 sm4>
+              <div class="caption grey--text">Entity</div>
+              <div>{{ wdw.entity.name }}</div>
             </v-flex>
-            <v-flex xs12 sm3 md2>
-              <div class="caption grey--text">Phone</div>
-              <div>{{ wdw.phone }}</div>
-            </v-flex>
-            <v-flex xs12 sm3 md2>
-              <div class="caption grey--text">Email</div>
-              <div>{{ wdw.email }}</div>
-            </v-flex>
-            <v-flex xs12 sm3 md2>
+            <v-flex xs4 sm2>
               <div class="right">
-                <v-chip small :class="`${wdw.unit.name} white--text text-uppercase caption my-2`">{{ wdw.unit.name }}</v-chip>
+                <v-chip small :class="`${wdw.unit.name} white--text caption my-2`" :style="`background-color: ${ wdw.unit.branding }`">{{ wdw.unit.name }}</v-chip>
               </div>
             </v-flex>
-            <!-- <v-flex xs1>
-              <v-img src="https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg"></v-img>
-            </v-flex> -->
+
+            <v-flex xs12 sm6 md3>
+              <div class="caption grey--text">Phone</div>
+              <div><a :href="`tel:${ wdw.phone }`">{{ wdw.phone }}</a></div>
+            </v-flex>
+            <v-flex xs12 sm6 md3>
+              <div class="caption grey--text">Fax</div>
+              <div>{{ (wdw.fax) ? wdw.fax : 'N/A' }}</div>
+            </v-flex>
+            <v-flex xs12 sm6 md6>
+              <div class="caption grey--text">Email</div>
+              <div><a :href="`mailto:${ wdw.email }`">{{ wdw.email }}</a></div>
+            </v-flex>
+
+            <v-flex schrink xs12 sm6 offset-md6>
+              <div class="caption grey--text">{{ wdw.sip.provider }}</div>
+              <div>{{ (wdw.sip.account) ? wdw.sip.account : 'N/A' }}</div>
+            </v-flex>
+
+            <v-flex xs12 sm6 class="caption grey--text font-italic mt-2">
+              <span>Team Lead: </span>
+              <span>{{ wdw.lead.name }}</span>
+              <span> (Email: </span>
+              <a :href="`mailto:${ wdw.lead.email }`">{{ wdw.lead.email }}</a>
+              <span>)</span>
+            </v-flex>
+            <v-flex xs12 sm6 class="caption grey--text font-italic mt-2">
+              <div>Remark:</div>
+              <div style="white-space: pre-line">{{ (wdw.remark) ? wdw.remark : '' }}</div>
+            </v-flex>
+
           </v-layout>
           <v-divider></v-divider>
         </v-card>
@@ -157,22 +179,6 @@ export default {
 </script>
 
 <style scoped>
-.wdw.Air {
-  border-left: 4px solid #5f6a72;
-}
-.wdw.Fire {
-  border-left: 4px solid #d3222a;
-}
-.wdw.Water {
-  border-left: 4px solid #00b0e8;
-}
-.wdw.Earth {
-  border-left: 4px solid #719500;
-}
-.lightbox {
-  box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 72px);
-}
 a {
   text-decoration: none;
   color: inherit;

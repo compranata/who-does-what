@@ -11,7 +11,7 @@ export default {
   computed: {
     snackbar: {
       get: function () {
-        return (this.$store.getters.error) ? true : false;
+        return (this.$store.getters.infos) ? true : false;
       },
       set: function (newValue) {
         this.$emit('dismissed');

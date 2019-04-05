@@ -3,9 +3,10 @@
 
     <v-layout row justify-space-around>
       <v-flex xs12 sm10 md8 lg6 color="white">
+
         <v-img height="200" :src="imageUrl">
-          <v-layout wrap>
-            <v-flex xs12>
+          <v-layout column justify-space-between fill-height class="lightbox">
+            <v-flex shrink>
               <v-progress-linear
                 :active="loading"
                 class="ma-0"
@@ -14,7 +15,7 @@
                 indeterminate
               ></v-progress-linear>
             </v-flex>
-            <v-flex text-xs-right xs12>
+            <v-flex text-xs-right shrink>
               <v-tooltip bottom>
                 <v-btn color="white" light fab small @click="onPickFile" slot="activator">
                   <v-icon class="grey--text">mdi-file-upload-outline</v-icon>
@@ -29,10 +30,10 @@
                 <span>Please upload your team image.</span>
               </v-tooltip>
             </v-flex>
-            <v-layout column align-start justify-end pa-3>
+            <v-flex pa-3>
               <h3 class="headline white--text">{{ name }}</h3>
               <span class="grey--text text--lighten-1">{{ description }}</span>
-            </v-layout>
+            </v-flex>
           </v-layout>
         </v-img>
 
@@ -45,9 +46,10 @@
                   outline
                   label="Team Name*"
                   prepend-inner-icon="group"
-                  :rules="[rules.required]"
+                  counter="96"
+                  :rules="[rules.required, rules.max96]"
                   :persistentHint="true"
-                  hint="Unique name of team"
+                  hint="Unique name of team (max 96 characters)"
                   validate-on-blur
                   ></v-text-field>
               </v-flex>
@@ -67,9 +69,15 @@
               </v-flex>
 
               <v-flex xs12>
-                <v-radio-group v-model="unit" row>
+                <v-radio-group v-model="unit" row :rules="[rules.required]" label="Biz Unit*: ">
                   <template v-for="unit in units">
-                    <v-radio :label="`${unit.name}`" :value="unit.name" :key="unit.name" :color="unit.branding"></v-radio>
+                    <v-radio
+                      :label="`${unit.name}`"
+                      :value="unit.name"
+                      :key="unit._id"
+                      :color="unit.branding"
+                      :rules="[rules.required]"
+                    ></v-radio>
                   </template>
                 </v-radio-group>
               </v-flex>
@@ -243,23 +251,23 @@
                 <v-divider></v-divider>
               </v-flex>
 
-              <v-layout row v-if="error">
-                <v-flex>
-                  <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
-                </v-flex>
-              </v-layout>
-              <v-layout row justify-end align-end v-if="!isEditing">
-                  <v-spacer></v-spacer>
-                  <v-btn left flat class="grey--text" @click="clear">Clear</v-btn>
-                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Create</v-btn>
-              </v-layout>
+              <v-flex xs12 v-if="error">
+                <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+              </v-flex>
 
-              <v-layout row justify-end align-end v-else>
+              <v-layout row v-if="!isEditing">
+                  <v-btn left flat class="red--text" @click="clearForm"><v-icon left>mdi-eraser</v-icon>Clear</v-btn>
                   <v-spacer></v-spacer>
                   <v-btn left flat class="grey--text" @click="cancel">Cancel</v-btn>
-                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="save">Update</v-btn>
+                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="saveWdw">Create</v-btn>
               </v-layout>
 
+              <v-layout row v-else>
+                  <v-btn left flat class="red--text" @click="deleteWdw"><v-icon left>mdi-eraser</v-icon>Delete</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn left flat class="grey--text" @click="cancel">Cancel</v-btn>
+                  <v-btn left flat :loading="loading" :disabled="!valid" color="success" @click="saveWdw">Update</v-btn>
+              </v-layout>
 
             </v-layout>
           </v-container>
@@ -282,7 +290,7 @@ export default {
       imageUrl: '',
       image: null,
       name: '',
-      description: ' ',
+      description: '',
       unit: '',
       entity: '',
       lead: '',
@@ -298,6 +306,7 @@ export default {
       label: '',
       rules: {
         required: v => !!v || 'Required.',
+        max96: v => !!v && v.length <= 96 || 'Max 96 characters.',
         max200: v => !!v && v.length <= 200 || 'Max 200 characters.',
         emailValid: v => (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(v) || 'Invalid email address',
       }
@@ -352,7 +361,7 @@ export default {
       const index = this.selectedTags.indexOf(item._id)
       if (index >= 0) this.selectedTags.splice(index, 1)
     },
-    save () {
+    saveWdw () {
       this.$store.dispatch('saveWdw', {
         _id: (this.id) ? this.id : null,
         imageUrl: this.imageUrl,
@@ -374,14 +383,17 @@ export default {
         isEditing: this.isEditing,
       });
     },
-    update () {
-
+    deleteWdw () {
+      this.$store.dispatch('deleteWdw', {
+        _id: this.id,
+        router: this.$router,
+      });
     },
-    clear () {
+    clearForm () {
       this.$refs.newWDW.reset();
       this.imageUrl = this.defaultImage;
       this.name = '';
-      this.description = ' ';
+      this.description = '';
       this.unit = '';
       this.entity = '';
       this.lead = '';

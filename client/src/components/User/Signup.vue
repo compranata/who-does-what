@@ -4,9 +4,9 @@
       <p>If you have no account yet, then just join!</p>
     </div>
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-btn flat small outline color="grey" slot="activator">
+      <v-btn flat small outline color="grey" slot="activator" @click="onDismissed">
         <v-icon left>how_to_reg</v-icon>
-        <span>Join</span>
+        <span>Join / Sign Up</span>
       </v-btn>
       <v-card>
         <v-card-title class="headline">
@@ -71,7 +71,7 @@
           <v-btn
             flat
             class=""
-            @click="dialog = false"
+            @click="onCancel"
             >Cancel</v-btn>
           <v-btn
             flat
@@ -159,7 +159,7 @@ export default {
   watch: {
     user (value) {
       if (value !== null && value !== undefined) {
-        this.$router.push('/');
+        this.$router.push({ name: 'home', params: value });
       }
     },
   },
@@ -168,14 +168,17 @@ export default {
       if (this.$refs.signunForm.validate()) {
         (this.displayName === '') ? this.displayName = this.email : this.displayName;
         this.$store.dispatch('signupUser', {email: this.email, displayName: this.displayName, password: this.password});
-      } else throw new Error('Ensure to fill the fields below!');
+      } else {
+        throw new Error('Ensure to fill the fields below!');
+      }
+    },
+    onCancel () {
+      this.$store.dispatch('clearError');
+      this.dialog = false;
     },
     onDismissed () {
       this.$store.dispatch('clearError');
     },
-  },
-  mounted: function () {
-    this.$store.dispatch('clearError');
   },
 }
 </script>

@@ -48,7 +48,7 @@ export default {
       { _id: 'skyp', provider: 'Skype', mdi: 'mdi-skype' },
     ],
 
-    defaultImage: 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=8012e3ea-8349-4168-a0c0-06e3db846221',
+    defaultImage: 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=9b2ff955-dbb6-4456-8508-59c494938b92',
     keywords: '',
 
     isFiltered: false,
@@ -117,9 +117,18 @@ export default {
     },
     putWdw (state, payload) {
       const wdws = state.wdws;
-      for (let idx = 0; idx < wdws.length; idx++) {
+      for (let idx in wdws) {
         if (wdws[idx]._id === payload._id) {
           wdws.splice(idx, 1, payload);
+          break;
+        }
+      }
+    },
+    removeWdw (state, payload) {
+      const wdws = state.wdws;
+      for (let idx in wdws) {
+        if (wdws[idx]._id === payload._id) {
+          wdws.splice(idx, 1);
           break;
         }
       }
@@ -180,7 +189,6 @@ export default {
         creatorId: getters.user.id,
       };
 
-
       const router = payload.router;
       let imageUrl;
       let key;
@@ -222,11 +230,31 @@ export default {
           } else {
             commit('pushWdw', wdw.data);
           }
-          router.go('/wdw');
+          const user = getters.user;
+          router.push({ name: 'home', params: user });
         })
         .catch((error) => {
           commit('setLoading', false);
-          commit('setError', error)
+          commit('setError', error);
+        })
+    },
+    deleteWdw ({ commit }, payload) {
+      if (!payload._id) commit('setError', new Error('Something went wrong!'));
+      commit('setLoading', true);
+      const router = payload.router;
+      Ajax.removeWdw({ _id: payload._id })
+        .then((result) => {
+          if (!result.data.ok) {
+            commit('setError', new Error('Something went wrong!'));
+            return;
+          }
+          commit('setLoading', false);
+          commit('removeWdw', { _id: payload._id });
+          router.push({ name: 'home' });
+        })
+        .catch((error) => {
+          commit('setLoading', false);
+          commit('setError', error);
         })
     },
     // removeFilter ({ commit}) {

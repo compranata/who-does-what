@@ -2,6 +2,7 @@ export default {
   state: {
     loading: false,
     error: null,
+    infos: { message: 'Welcome!'},
   },
   mutations: {
     setLoading (state, payload) {
@@ -13,10 +14,16 @@ export default {
     clearError (state) {
       state.error = null;
     },
+    setInfos (state, payload) {
+      state.infos = payload;
+    }
   },
   actions: {
     clearError ({ commit }) {
       commit('clearError');
+    },
+    clearInfos ({ commit }) {
+      commit('setInfos', null);
     },
   },
   getters: {
@@ -25,6 +32,9 @@ export default {
     },
     error: (state) => {
       return state.error;
+    },
+    infos: (state) => {
+      return state.infos;
     },
   },
 }

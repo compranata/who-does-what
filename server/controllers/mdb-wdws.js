@@ -32,7 +32,7 @@ exports.createWdw = (req, res, next) => {
 
 // Read
 exports.fetchWdws = (req, res, next) => {
-  Wdw.find({}, (err, wdws) => { // DEV - filter for .publish = true
+  Wdw.find({ publish: true }, (err, wdws) => { // DEV - filter for .publish = true
     if (err) next(err);
     // DEV - any other filter, sort before passing
     // populate to join the collections
@@ -55,16 +55,17 @@ exports.updateWdw = (req, res, next) => {
 exports.removeWdw = (req, res, next) => {
   // DEV - AUth only own cards
   // DEV - get the value from req.body._id
-  Wdw.updateOne({ _id: '' }, { $set: { publish: false } }, (err, wdw) => {
+  Wdw.updateOne({ _id: req.body._id }, { $set: { publish: false } }, (err, wdw) => {
     if (err) next(err);
     // then save this object, also good to ask user to delete parmanent
     next(null, wdw);
   });
 };
 
-exports.Wdw = (req, res, next) => {
+exports.destroyWdw = (req, res, next) => {
   // DEV - auth owners + admin + team leads
   Wdw.remove({ _id: '' }, (err) => {
+    // also remove the picture
     next(err);
   });
 };

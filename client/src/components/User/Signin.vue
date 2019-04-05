@@ -102,7 +102,7 @@ export default {
   watch: {
     user (value) {
       if (value !== null && value !== undefined) {
-        this.$router.push('/');
+        this.$router.push({ name: 'home', params: value });
       }
     },
   },
@@ -110,7 +110,9 @@ export default {
     signIn () {
       if (this.$refs.signinForm.validate()) {
         this.$store.dispatch('signinUser', {email: this.email, password: this.password});
-      } else throw new Error('Ensure to fill the fields below!');
+      } else {
+        throw new Error('Ensure to fill the fields below!');
+      }
     },
     onDismissed () {
       this.$store.dispatch('clearError');
