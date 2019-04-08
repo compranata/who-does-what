@@ -1,7 +1,7 @@
 <template>
   <nav>
 
-    <v-navigation-drawer app light v-model="drawer">
+    <v-navigation-drawer app light v-model="drawer" v-if="isAuth">
 
       <v-img :aspect-ratio="16/9"
         src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80">

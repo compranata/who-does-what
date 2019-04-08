@@ -24,14 +24,21 @@ new Vue({
   created () {
     firebase.init();
     firebase.auth.onAuthStateChanged((user) => {
+      this.$store.commit('setLoading', true);
       if (user) {
+        user.getIdTokenResult().then((idTokenResult) => {
+          user.admin = idTokenResult.claims.admin;
+          user.lead = idTokenResult.claims.lead;
+        });
         this.$store.dispatch('autoSignin', user);
         this.$store.dispatch('fetchDataSet');
         this.$store.dispatch('fetchWdws');
       } else {
         this.$store.commit('setUser', null);
         this.$store.commit('setWdws', []);
+        this.$store.commit('setTags', []);
       }
+      this.$store.commit('setLoading', false);
     })
   },
 }).$mount('#app');

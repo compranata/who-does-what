@@ -19,12 +19,7 @@
               <v-list-tile-sub-title>{{ user.email }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn
-                :class="fav ? 'red--text' : 'grey--text'"
-                icon
-                @click="fav = !fav"
-              ><v-icon>favorite</v-icon>
-              </v-btn>
+              <v-icon class="red--text">mdi-account-edit</v-icon>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
@@ -80,7 +75,6 @@ export default {
   data () {
     return {
       menu: false,
-      fav: false,
       viewStyle: true,
     }
   },

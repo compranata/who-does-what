@@ -2,9 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Signin from '@/components/User/Signin';
 import WdW from '@/components/WDW/WhoDoesWhat';
-import CreateWdW from '@/components/WDW/CreateWDW';
+import FormWDW from '@/components/WDW/FormWDW';
 import TestLayout from '@/components/WDW/TestLayout';
 import AuthGuard from './auth-guard';
+import Admin from '@/components/Admin/Console.vue';
 
 Vue.use(Router);
 
@@ -27,20 +28,25 @@ const router = new Router({
     {
       path: '/wdw/new',
       name: 'createWdW',
-      component: CreateWdW,
+      component: FormWDW,
       beforeEnter: AuthGuard,
     },
     {
       path: '/wdw/edit/:id',
       name: 'editWdW',
       props: true,
-      component: CreateWdW,
+      component: FormWDW,
       beforeEnter: AuthGuard,
     },
     {
       path: '/test',
       name: 'testLayout',
       component: TestLayout
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
     },
   ],
 });

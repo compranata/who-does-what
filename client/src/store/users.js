@@ -18,61 +18,39 @@ export default {
       commit('setLoading', true);
       commit('clearError');
       firebase.auth.createUserWithEmailAndPassword(payload.email, payload.password)
-        .then((user) => {
-          return user.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
-        })
-        .then ((user) => {
-          commit('setLoading', false);
-          const newUser = {
-            id: user.user.uid,
-            displayName: user.user.displayName,
-            email: user.user.email,
-          };
-          commit('setUser', newUser);
-        })
-        .catch((error) => {
-          commit('setLoading', false);
-          commit('setError', error);
-        });
-        // .then((user) => {
-        //   user.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
-        //     .then(() => {
-        //       commit('setLoading', false);
-        //       const newUser = {
-        //         id: user.user.uid,
-        //         displayName: user.user.displayName,
-        //         email: user.user.email,
-        //       };
-        //       commit('setUser', newUser);
-        //     })
-        //     .catch((error) => {
-        //       commit('setLoading', false);
-        //       commit('setError', error);
-        //     })
-        // })
-        // .catch((error) => {
-        //     commit('setLoading', false);
-        //     commit('setError', error);
-        //   }
-        // );
+      .then((cred) => {
+        cred.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
+          .then(() => {
+            commit('setLoading', false);
+            commit('setUser', {
+              id: cred.user.uid,
+              displayName: cred.user.displayName,
+              email: cred.user.email,
+            });
+          })
+          .catch((error) => {
+            commit('setLoading', false);
+            commit('setError', error);
+          });
+      })
+      .catch((error) => {
+        commit('setLoading', false);
+        commit('setError', error);
+      });
     },
     signinUser ({ commit }, payload) {
       commit('setLoading', true);
       commit('clearError');
       firebase.auth.signInWithEmailAndPassword(payload.email, payload.password)
-        .then(
-          user => {
+        .then((cred) => {
             commit('setLoading', false);
-            const newUser = {
-              id: user.user.uid,
-              displayName: user.user.displayName,
-              email: user.user.email
-            }
-            commit('setUser', newUser);
-          }
-        )
-        .catch(
-          error => {
+            commit('setUser', {
+              id: cred.user.uid,
+              displayName: cred.user.displayName,
+              email: cred.user.email
+            });
+          })
+        .catch((error) => {
             commit('setLoading', false);
             commit('setError', error);
           }
@@ -82,7 +60,7 @@ export default {
       commit('setUser', {
         id: payload.uid,
         email: payload.email,
-        displayName: payload.displayName,
+        displayName: payload.displayName ? payload.displayName : 'Error',
       });
       commit('setIsAuth', true);
     },
