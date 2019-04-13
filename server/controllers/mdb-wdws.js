@@ -43,23 +43,33 @@ exports.fetchWdws = (req, res, next) => {
 // Update
 exports.updateWdw = (req, res, next) => {
   // DEV - auth users
-  Wdw.findOneAndUpdate({ _id: req.body._id }, req.body.query, { new: true }, (err, result) => {
-    // preferable, update with $set, in order to avoid override
-    // question is: how to multiple fields (FRONT)
-    if (err) next(err);
-    next(null, result);
-  });
+  Wdw.findOneAndUpdate(
+    { _id: req.body._id },
+    req.body.query,
+    { new: true },
+    (err, result) => {
+      // preferable, update with $set, in order to avoid override
+      // question is: how to multiple fields (FRONT)
+      if (err) next(err);
+      next(null, result);
+    },
+  );
 };
 
 // Delete
 exports.removeWdw = (req, res, next) => {
   // DEV - AUth only own cards
   // DEV - get the value from req.body._id
-  Wdw.updateOne({ _id: req.body._id }, { $set: { publish: false } }, (err, wdw) => {
-    if (err) next(err);
-    // then save this object, also good to ask user to delete parmanent
-    next(null, wdw);
-  });
+  Wdw.findOneAndUpdate(
+    { _id: req.body._id },
+    { $set: { publish: false } },
+    { new: true },
+    (err, result) => {
+      if (err) next(err);
+      // then save this object, also good to ask user to delete parmanent
+      next(null, result);
+    },
+  );
 };
 
 exports.destroyWdw = (req, res, next) => {

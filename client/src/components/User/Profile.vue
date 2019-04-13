@@ -13,7 +13,7 @@
       <v-card v-if="isAuth">
         <v-list>
           <v-list-tile avatar>
-            <v-list-tile-avatar color="primary" class="white--text font-weight-medium">{{ user.displayName.slice(0,1) }}</v-list-tile-avatar>
+            <v-list-tile-avatar color="primary" dark class="white--text font-weight-medium">{{ user.displayName.slice(0,1) }}</v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{ user.displayName }}</v-list-tile-title>
               <v-list-tile-sub-title>{{ user.email }}</v-list-tile-sub-title>
@@ -35,6 +35,8 @@
             <v-list-tile-title v-else class="subheading grey--text">View Style "List"</v-list-tile-title>
           </v-list-tile>
         </v-list>
+
+        <v-divider></v-divider>
 
         <v-card-actions>
           <v-layout row justify-space-around fill-height>

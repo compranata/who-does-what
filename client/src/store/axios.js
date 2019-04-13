@@ -22,13 +22,11 @@ export default {
     const entities = await api().post(`${endpoint}/datas/entity`);
     const tags = await api().post(`${endpoint}/datas/entity`);
 
-    const datas = {
+    return {
       icons: icons,
       units: units,
       entities: entities,
       tags: tags,
     };
-
-    return datas;
   },
 };

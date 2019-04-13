@@ -19,7 +19,7 @@ export default {
       commit('clearError');
       firebase.auth.createUserWithEmailAndPassword(payload.email, payload.password)
       .then((cred) => {
-        cred.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
+        return cred.user.updateProfile({ displayName: (payload.displayName) ? payload.displayName : payload.email })
           .then(() => {
             commit('setLoading', false);
             commit('setUser', {
@@ -27,10 +27,12 @@ export default {
               displayName: cred.user.displayName,
               email: cred.user.email,
             });
+            return cred;
           })
           .catch((error) => {
             commit('setLoading', false);
             commit('setError', error);
+            return cred;
           });
       })
       .catch((error) => {
@@ -38,24 +40,25 @@ export default {
         commit('setError', error);
       });
     },
+
     signinUser ({ commit }, payload) {
       commit('setLoading', true);
       commit('clearError');
       firebase.auth.signInWithEmailAndPassword(payload.email, payload.password)
         .then((cred) => {
-            commit('setLoading', false);
-            commit('setUser', {
-              id: cred.user.uid,
-              displayName: cred.user.displayName,
-              email: cred.user.email
-            });
-          })
+          commit('setLoading', false);
+          commit('setUser', {
+            id: cred.user.uid,
+            displayName: cred.user.displayName,
+            email: cred.user.email
+          });
+        })
         .catch((error) => {
-            commit('setLoading', false);
-            commit('setError', error);
-          }
-        );
+          commit('setLoading', false);
+          commit('setError', error);
+        });
     },
+
     autoSignin ({ commit }, payload) {
       commit('setUser', {
         id: payload.uid,
@@ -64,6 +67,7 @@ export default {
       });
       commit('setIsAuth', true);
     },
+    
     signout ({ commit }, payload) {
       firebase.auth.signOut()
         .then(

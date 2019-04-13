@@ -4,8 +4,8 @@ import Signin from '@/components/User/Signin';
 import WdW from '@/components/WDW/WhoDoesWhat';
 import FormWDW from '@/components/WDW/FormWDW';
 import TestLayout from '@/components/WDW/TestLayout';
-import AuthGuard from './auth-guard';
 import Admin from '@/components/Admin/Console.vue';
+import AuthGuard from './auth-guard';
 
 Vue.use(Router);
 
@@ -47,6 +47,7 @@ const router = new Router({
       path: '/admin',
       name: 'admin',
       component: Admin,
+      beforeEnter: AuthGuard,
     },
   ],
 });

@@ -1,27 +1,30 @@
 <template>
-  <v-container >
-    <v-layout row wrap class="justify-space-around">
-      <v-flex xs3 class="ma-2">
-        <v-layout row wrap>
-          <div d-block class="primary">Primary</div>
-          <div class="secondary">Secondary</div>
-          <div class="warning">Warn</div>
-          <div class="error">Error</div>
-        </v-layout>
+  <v-container grid-list-xs>
+    <v-layout row wrap>
+      <v-flex xs8 offset-xs2>
+        <v-card dark color="purple">
+          <v-card-text>test</v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+      <v-flex xs8 offset-xs4 class="ma-2">
+        <div class="primary">Primary</div>
+        <div class="secondary">Secondary</div>
+        <div class="warning">Warn</div>
+        <div class="error">Error</div>
       </v-flex>
       <v-flex xs3 class="ma-2">
-        <div class="primary text-xs-right">Primary</div>
+        <div class="primary">Primary</div>
         <div class="secondary">Secondary</div>
         <div class="warning">Warn</div>
         <div class="error">Error</div>
       </v-flex>
       <v-flex xs12 class="ma-2">
-        <div d-inline class="primary">{{ }}</div>
+        <div class="primary">Primary</div>
         <div class="secondary">Secondary</div>
         <div class="warning">Warn</div>
         <div class="error">Error</div>
       </v-flex>
-    </v-layout>
   </v-container>
 </template>
 

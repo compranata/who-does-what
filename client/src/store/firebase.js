@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
+import 'firebase/functions';
 import fbKeys from './firebase-config';
 
 const setting = fbKeys[process.env.NODE_ENV];
@@ -20,6 +21,7 @@ export default {
     this.auth = firebase.auth();
     this.db = firebase.firestore();
     this.storage = firebase.storage();
+    this.functions = firebase.functions();
     // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   },
 };

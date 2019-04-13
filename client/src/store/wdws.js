@@ -4,44 +4,6 @@ import Ajax from './axios';
 export default {
   state: {
     wdws: [],
-    entities: [
-      { _id: '001', name: 'Berlin Office', address: 'Friedrichstr. 123, 10211 Berlin', country: 'Germany', phone: '+49-30-12345566' },
-      { _id: '002', name: 'Frankfurt Office', address: 'Rossmarkt. 6, 60311 Frankfurt', country: 'Germany', phone: '+49-69-3432938' },
-      { _id: '003', name: 'London Office', address: 'Goswell Road, London', country: 'United Kingdam', phone: '+44-110202012' },
-      { _id: '004', name: 'Barcelona Office', address: 'Calle de Francisco. 123, Barcelona', country: 'Spain', phone: '+36-30-12345566' },
-      { _id: '005', name: 'Paris Office', address: 'Rue prima. 6, Paris', country: 'France', phone: '+39-69-3432938' },
-      { _id: '006', name: 'Milano Office', address: 'Milano', country: 'Italy', phone: '+42-110202012' },
-    ],
-    tags: [
-      { _id: '001x', name: 'Germany', group: 'C.Europe', label: 'Destinations' },
-      { _id: '005x', name: 'Portugal', group: 'S.Europe', label: 'Destinations' },
-      { _id: '002x', name: 'France', group: 'W.Europe', label: 'Destinations' },
-      { _id: '009x', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
-      { _id: '010x', name: 'Japanese', group: '', label: 'Markets' },
-      { _id: '003x', name: 'United Kingdam', group: 'N.Europe', label: 'Destinations' },
-      { _id: '004x', name: 'Spain', group: 'S.Europe', label: 'Destinations' },
-      { _id: '006r', name: 'Events', group: 'Incentives', label: 'Business' },
-      { _id: '007r', name: 'Customer Care', group: 'Inbound', label: 'Functions' },
-      { _id: '011t', name: 'Chinese', group: '', label: 'Markets' },
-      { _id: '012t', name: 'American', group: '', label: 'Markets' },
-      { _id: '008y', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
-    ],
-    leads: [
-      { _id: 't01o', name: 'Toad', phone: '', email: 'toad@mail.com', user_id: 'asdf'},
-      { _id: 'm02o', name: 'Mario', phone: '', email: 'mario@mail.com', user_id: 'qwer'},
-      { _id: 'l03i', name: 'Luigi', phone: '', email: 'luigi@mail.com', user_id: 'jkly'},
-      { _id: 'p04h', name: 'Peach', phone: '', email: 'peach@mail.com', user_id: 'uiop'},
-      { _id: 'b05r', name: 'Bowser', phone: '', email: 'bowser@mail.com', user_id: 'jfkl'},
-    ],
-    units: [
-      { _id: 'fire', name: 'Fire', branding: '#D3222A' },
-      { _id: 'water', name: 'Water', branding: '#00B0E8'},
-      { _id: 'air', name: 'Air', branding: '#5F6A72'},
-      { _id: 'earth', name: 'Earth', branding: '#719500'},
-    ],
-    icons: [
-      { _id: 'chat', provider: 'Chat', mdi: 'chat' },
-    ],
 
     defaultImage: 'https://firebasestorage.googleapis.com/v0/b/web-auth-1c43f.appspot.com/o/wdws%2FdefaultWdw.jpg?alt=media&token=9b2ff955-dbb6-4456-8508-59c494938b92',
     keywords: '',
@@ -53,7 +15,6 @@ export default {
 
     sorting: '',
 
-    countTags: [],
     isSelectedTags: [],
 
     searchQuery: [],
@@ -96,21 +57,6 @@ export default {
       state.sorting = payload;
     },
 
-    setEntities (state, payload) {
-      state.entities = payload;
-    },
-    setTags (state, payload) {
-      state.tags = payload;
-    },
-    setLeads (state, payload) {
-      state.leads = payload;
-    },
-    setUnits (state, payload) {
-      state.units = payload;
-    },
-    setIcons (state, payload) {
-      state.icons = payload;
-    },
     setWdws (state, payload) {
       state.wdws = payload;
     },
@@ -133,7 +79,7 @@ export default {
       }
     },
     pushWdw (state, payload) {
-      state.wdws.push(payload);
+      state.wdws.unshift(payload);
     },
 
   },
@@ -165,16 +111,6 @@ export default {
       commit('setSorting', payload);
     },
 
-    fetchDataSet ({ commit }) {
-      commit('setLoading', true);
-      Ajax.fetchDatas().then((response) => {
-        if (response.icons.data.length) commit('setIcons', response.icons.data);
-        if (response.units.data.length) commit('setUnits', response.units.data);
-        if (response.entities.data.length) commit('setEntities', response.entities.data);
-        if (response.tags.data.length) commit('setTags', response.tags.data);
-        commit('setLoading', false);
-      })
-    },
     fetchWdws ({ commit }) {
       commit('setLoading', true);
       Ajax.fetchWdws().then((response) => {
@@ -202,14 +138,14 @@ export default {
       const router = payload.router;
       let imageUrl;
       let key;
-      const promise = () => {
+      const ajaxUpsert = () => {
         if (payload.isEditing && payload._id) {
           return Ajax.updateWdw({ _id: payload._id, query: wdw })
         } else {
           return Ajax.createWdw(wdw)
         }
       }
-      promise()
+      ajaxUpsert()
         .then((result) => {
           key = result.data._id;
           return key;
@@ -254,8 +190,9 @@ export default {
       const router = payload.router;
       Ajax.removeWdw({ _id: payload._id })
         .then((result) => {
-          if (!result.data.ok) {
-            commit('setError', new Error('Something went wrong!'));
+          if (result.data.publish) {
+            commit('setLoading', false);
+            commit('setError', result.data);
             return;
           }
           commit('setLoading', false);
@@ -281,28 +218,10 @@ export default {
     // },
   },
   getters: {
-    icons: (state) => {
-      return state.icons;
-    },
-    entities: (state) => {
-      return state.entities;
-    },
-    leads: (state) => {
-      return state.leads;
-    },
-    units: (state) => {
-      return state.units;
-    },
-
     defaultImage: (state) => {
       return state.defaultImage;
     },
 
-    tags: (state) => {
-      return state.tags
-        .sort((a, b) => (a.group < b.group) ? -1 : 1)
-        .sort((a, b) => (a.label < b.label) ? -1 : 1);
-    },
     tagSelections: (state, getters) => {
       const sortedTags = getters.tags;
       const tagSelections = [];

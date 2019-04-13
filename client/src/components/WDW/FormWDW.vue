@@ -464,6 +464,6 @@ export default {
       this.remark = currentWdw.remark;
       this.selectedTags = currentWdw.tags.split(',');
     }
-  }
+  },
 }
 </script>

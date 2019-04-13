@@ -1,10 +1,8 @@
 <template>
   <nav>
+    <v-navigation-drawer app light v-model="drawer" v-if="isAuth && !isForm">
 
-    <v-navigation-drawer app light v-model="drawer" v-if="isAuth">
-
-      <v-img :aspect-ratio="16/9"
-        src="https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80">
+      <v-img :aspect-ratio="16/9" :src="drawerImage">
         <v-layout pa-2 column fill-height class="lightbox white--text">
           <v-spacer></v-spacer>
           <v-flex shrink v-if="user">
@@ -15,7 +13,7 @@
       </v-img>
 
           <div>
-            <v-container class="ma-0 py-0 px-3">
+            <v-container class="ma-0 py-0 px-2">
               <v-select
                 v-model="sorting"
                 :items="items"
@@ -45,13 +43,24 @@
 
           <v-divider></v-divider>
           <Labeling></Labeling>
+          <div>
+            <v-list class="grey--text">
+              <v-list-tile route to="/admin">
+                <v-list-tile-action>
+                  <v-icon>settings</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-title>Administration</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </div>
+
 
     </v-navigation-drawer>
 
     <v-toolbar flat app>
       <template>
-        <v-toolbar-side-icon class="grey--text" :disabled="!isAuth" @click="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title class="text-uppercase grey--text" to="/wdw">
+        <v-toolbar-side-icon class="grey--text" :disabled="!isAuth || isForm" @click="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-title class="text-uppercase grey--text pl-3" to="/wdw">
           <span>Who</span>
           <span class="font-weight-light">does</span>
           <span>what</span>
@@ -64,7 +73,7 @@
         </v-layout>
         <v-spacer></v-spacer>
 
-        <div class="text-xs-center" v-if="isAuth">
+        <div class="text-xs-center" v-if="isAuth && !isForm">
           <v-layout justify-space-around row>
             <v-flex shrink>
               <v-expand-x-transition mode="out-in">
@@ -104,6 +113,7 @@ export default {
   components: { Labeling },
   data () {
     return {
+      drawerImage: 'https://images.unsplash.com/photo-1508238419796-1a1fc1f35dce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80',
       today: new Date(),
       drawer: false,
       expand: false,
@@ -117,6 +127,9 @@ export default {
     },
     isAuth () {
       return this.$store.getters.isAuth;
+    },
+    isForm () {
+      return this.$store.getters.isForm;
     },
     loading () {
       return this.$store.getters.loading;
