@@ -58,23 +58,12 @@ export default {
     setIcons (state, payload) {
       state.icons = payload;
     },
-    pushEntities (state, payload) {
-      state.entities.unshift(payload);
+    pushMeta (state, payload) {
+      if (/^D\w\d{2}$/.test(state[payload.target][0]._id)) state[payload.target].length = 0;
+      state[payload.target].unshift(payload);
     },
-    pushTags (state, payload) {
-      state.tags.unshift(payload);
-    },
-    pushLeads (state, payload) {
-      state.leads.unshift(payload);
-    },
-    pushUnits (state, payload) {
-      state.units.unshift(payload);
-    },
-    pushIcons (state, payload) {
-      state.icons.unshift(payload);
-    },
-    putEntities (state, payload) {
-      const tags = state.entities;
+    putMeta (state, payload) {
+      const tags = state[`${ payload.target }`];
       for (let idx in tags) {
         if (tags[idx]._id === payload._id) {
           tags.splice(idx, 1, payload);
@@ -82,80 +71,8 @@ export default {
         }
       }
     },
-    putTags (state, payload) {
-      const tags = state.tags;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1, payload);
-          break;
-        }
-      }
-    },
-    putLeads (state, payload) {
-      const tags = state.leads;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1, payload);
-          break;
-        }
-      }
-    },
-    putUnits (state, payload) {
-      const tags = state.units;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1, payload);
-          break;
-        }
-      }
-    },
-    putIcons (state, payload) {
-      const tags = state.icons;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1, payload);
-          break;
-        }
-      }
-    },
-    delEntities (state, payload) {
-      const tags = state.entities;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1);
-          break;
-        }
-      }
-    },
-    delTags (state, payload) {
-      const tags = state.tags;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1);
-          break;
-        }
-      }
-    },
-    delLeads (state, payload) {
-      const tags = state.leads;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1);
-          break;
-        }
-      }
-    },
-    delUnits (state, payload) {
-      const tags = state.units;
-      for (let idx in tags) {
-        if (tags[idx]._id === payload._id) {
-          tags.splice(idx, 1);
-          break;
-        }
-      }
-    },
-    delIcons (state, payload) {
-      const tags = state.icons;
+    delMeta (state, payload) {
+      const tags = state[`${ payload.target }`];
       for (let idx in tags) {
         if (tags[idx]._id === payload._id) {
           tags.splice(idx, 1);
@@ -181,10 +98,10 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout((err) => {
           if (err) reject();
-          commit(`put${ payload.target }`, payload);
+          commit('putMeta', payload);
           commit('setLoading', false);
           resolve();
-        }, 3000)
+        }, 2000)
       })
     },
     createMeta ({ commit }, payload) {
@@ -192,10 +109,10 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout((err) => {
           if (err) reject();
-          commit(`push${ payload.target }`, payload);
+          commit('pushMeta', payload);
           commit('setLoading', false);
           resolve();
-        }, 3000)
+        }, 2000)
       })
     },
     removeMeta ({ commit }, payload) {
@@ -203,7 +120,7 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout((err) => {
           if (err) reject();
-          commit(`del${ payload.target }`, payload);
+          commit('delMeta', payload);
           commit('setLoading', false);
           resolve();
         }, 1000)

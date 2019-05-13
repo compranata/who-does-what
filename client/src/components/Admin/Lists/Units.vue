@@ -4,7 +4,7 @@
       <v-flex xs12>
         <v-card-actions class="pa-0">
           <v-icon left :color="`${ form.branding }`">mdi-palette</v-icon>
-          <span v-show="!modified" class="grey--text font-weight-medium">{{ form.target }}</span>
+          <span v-show="!modified" class="grey--text font-weight-medium text-capitalize">{{ target }}</span>
           <v-toolbar flat class="transparent" v-if="!isDummy && !isNew" key="edit">
             <v-chip outline v-show="modified" color="red">Modified</v-chip>
             <v-spacer></v-spacer>
@@ -23,7 +23,7 @@
             <v-spacer></v-spacer>
             <v-tooltip bottom>
               <v-chip outline color="grey" slot="activator">dummies</v-chip>
-              <span>This is dummy record, when you create your own entity, this will be deleted.</span>
+              <span>This is dummy record, when you create your own {{ target }}, this will be deleted.</span>
             </v-tooltip>
           </v-toolbar>
         </v-card-actions>
@@ -72,12 +72,13 @@
 export default {
   props: [
     'item',
+    'target',
     'icon',
   ],
   data () {
     return {
       form: {
-        target: 'Units',
+        target: this.target,
         _id: this.item._id,
         name: this.item.name,
         branding: this.item.branding || '#C0C0C0',
@@ -135,9 +136,9 @@ export default {
       })
     },
     onLeave () {
-      this.form._id = this.item._id,
-      this.form.name = this.item.name,
-      this.form.branding = this.item.branding,
+      this.form._id = this.item._id;
+      this.form.name = this.item.name;
+      this.form.branding = this.item.branding;
       this.isEditing = false;
     },
     onDelete () {
@@ -151,10 +152,10 @@ export default {
     },
     clearForm () {
       this.form = {
-        target: 'Icons',
         _id: '',
         name: '',
         branding: '#C0C0C0',
+        target: this.target,
       }
     },
   },

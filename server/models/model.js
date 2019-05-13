@@ -30,15 +30,27 @@ const WdwSchema = new Schema({
     user_id: String,
   },
   tags: { type: String },
+  // unit: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Unit'
+  // },
   unit: {
     _id: String,
     name: String,
     branding: String,
   },
-  // owner: [{ }],
   publish: Boolean,
   imageUrl: String,
   creatorId: String,
+}, { timestamps: true });
+
+
+const EntitySchema = new Schema({
+  name: String,
+  address: String,
+  country: String,
+  phone: String,
+  active: Boolean,
 }, { timestamps: true });
 
 const UnitSchema = new Schema({
@@ -47,17 +59,17 @@ const UnitSchema = new Schema({
   active: Boolean,
 }, { timestamps: true });
 
-const IconSchema = new Schema({
-  provider: String,
-  mdi: String,
+const LeadSchema = new Schema({
+  name: String,
+  phone: String,
+  email: String,
+  user_id: String,
   active: Boolean,
 }, { timestamps: true });
 
-const EntitySchema = new Schema({
-  name: String,
-  address: String,
-  country: String,
-  phone: String,
+const IconSchema = new Schema({
+  provider: String,
+  mdi: String,
   active: Boolean,
 }, { timestamps: true });
 
@@ -68,8 +80,9 @@ const TagSchema = new Schema({
   active: Boolean,
 }, { timestamps: true });
 
-exports.Unit = mongoose.model('Unit', UnitSchema);
-exports.Icon = mongoose.model('Icon', IconSchema);
 exports.Entity = mongoose.model('Entity', EntitySchema);
+exports.Unit = mongoose.model('Unit', UnitSchema);
+exports.Lead = mongoose.model('Lead', LeadSchema);
+exports.Icon = mongoose.model('Icon', IconSchema);
 exports.Tag = mongoose.model('Tag', TagSchema);
 exports.Wdw = mongoose.model('Wdw', WdwSchema);

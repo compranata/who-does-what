@@ -17,16 +17,20 @@ export default {
   },
 
   async fetchDatas () {
-    const icons = await api().post(`${endpoint}/datas/icons`);
+    const entities = await api().post(`${endpoint}/datas/entities`);
     const units = await api().post(`${endpoint}/datas/units`);
-    const entities = await api().post(`${endpoint}/datas/entity`);
-    const tags = await api().post(`${endpoint}/datas/entity`);
+    const leads = await api().post(`${endpoint}/datas/leads`);
+    const icons = await api().post(`${endpoint}/datas/icons`);
+    const tags = await api().post(`${endpoint}/datas/tags`);
 
     return {
-      icons: icons,
-      units: units,
       entities: entities,
+      units: units,
+      leads: leads,
+      icons: icons,
       tags: tags,
     };
   },
+
+  
 };

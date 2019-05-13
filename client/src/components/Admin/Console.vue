@@ -32,7 +32,7 @@
         <v-list class="pt-0" dense>
           <v-divider></v-divider>
 
-          <v-list-tile v-for="(item, i) in menuItems" :key="i" @click.stop="() => { icon = item[1]; current = item[2]; target = item[3] }">
+          <v-list-tile v-for="(item, i) in menuItems" :key="i" @click.stop="() => { icon = item[1]; current = item[2]; target = item[3] ; mini = true; }">
             <v-list-tile-action>
               <v-icon>{{ item[1] }}</v-icon>
             </v-list-tile-action>
@@ -44,7 +44,12 @@
     </v-card>
     <v-container>
       <v-layout row wrap>
-        <component :is="current" :target="target" :icon="icon" :key="target"></component>
+        <component
+          :is="current"
+          :target="target"
+          :icon="icon"
+          :key="target"
+        ></component>
       </v-layout>
     </v-container>
   </v-layout>
@@ -62,7 +67,7 @@ export default {
   data () {
     return {
       menus: true,
-      mini: true,
+      mini: false,
       current: 'SiteSetting',
       icon: 'mdi-settings-outline',
       target: '',

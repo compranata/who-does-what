@@ -10,6 +10,7 @@
           <component
             :is="targetList"
             :item="target"
+            :target="target"
             :icon="icon"
             @cancel="onCancel"
             :key="target"
@@ -24,6 +25,7 @@
       <component
         :is="targetList"
         :item="item"
+        :target="target"
         :icon="icon"
         :create-new="createNew"
         class="mx-3"

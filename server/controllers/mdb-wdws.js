@@ -58,8 +58,7 @@ exports.updateWdw = (req, res, next) => {
 
 // Delete
 exports.removeWdw = (req, res, next) => {
-  // DEV - AUth only own cards
-  // DEV - get the value from req.body._id
+  // DEV - AUth only own cards?
   Wdw.findOneAndUpdate(
     { _id: req.body._id },
     { $set: { publish: false } },

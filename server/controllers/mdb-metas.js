@@ -1,8 +1,9 @@
 // ./controllers/db-metas.js
 const {
-  Icon,
-  Unit,
   Entity,
+  Unit,
+  Lead,
+  Icon,
   Tag,
 } = require('../models/model');
 
@@ -16,13 +17,15 @@ exports.fetchDatas = (req, res, next) => {
     next(null, result);
   }
   switch (fetch) {
-    case 'icons':
-      return Icon.find(active, callback);
+    case 'entities':
+      return Entity.find(active, callback);
     case 'units':
       return Unit.find(active, callback);
-    case 'entity':
-      return Entity.find(active, callback);
-    case 'tag':
+    case 'leads':
+      return Lead.find(active, callback);
+    case 'icons':
+      return Icon.find(active, callback);
+    case 'tags':
       return Tag.find(active, callback);
     default:
       return false;
