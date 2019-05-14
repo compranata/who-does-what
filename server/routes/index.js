@@ -46,4 +46,25 @@ router.post('/datas/:data', (req, res) => {
   });
 });
 
+router.post('/datas/create/:data', (req, res) => {
+  Meta.createDatas(req, res, (err, result) => {
+    if (err) res.json(err);
+    res.json(result);
+  });
+});
+
+router.post('/datas/update/:data', (req, res) => {
+  Meta.updateDatas(req, res, (err, result) => {
+    if (err) res.json(err);
+    res.json(result);
+  });
+});
+
+router.post('/datas/remove/:data', (req, res) => {
+  Meta.removeDatas(req, res, (err, result) => {
+    if (err) res.json(err);
+    res.json(result);
+  });
+});
+
 module.exports = router;

@@ -88,6 +88,7 @@ export default {
       Ajax.fetchDatas().then((response) => {
         if (response.icons.data.length) commit('setIcons', response.icons.data);
         if (response.units.data.length) commit('setUnits', response.units.data);
+        if (response.leads.data.length) commit('setLeads', response.leads.data);
         if (response.entities.data.length) commit('setEntities', response.entities.data);
         if (response.tags.data.length) commit('setTags', response.tags.data);
         commit('setLoading', false);
@@ -95,36 +96,49 @@ export default {
     },
     saveMeta ({ commit }, payload) {
       commit('setLoading', true);
-      return new Promise((resolve, reject) => {
-        setTimeout((err) => {
-          if (err) reject();
-          commit('putMeta', payload);
-          commit('setLoading', false);
-          resolve();
-        }, 2000)
-      })
+      return Ajax.updateDatas(payload).then((response) => {
+        commit('putMeta', { ...response.data, target: payload.target });
+        commit('setLoading', false);
+      });
+      // return new Promise((resolve, reject) => {
+      //   setTimeout((err) => {
+      //     if (err) reject();
+      //     commit('putMeta', payload);
+      //     commit('setLoading', false);
+      //     resolve();
+      //   }, 2000)
+      // })
     },
     createMeta ({ commit }, payload) {
       commit('setLoading', true);
-      return new Promise((resolve, reject) => {
-        setTimeout((err) => {
-          if (err) reject();
-          commit('pushMeta', payload);
-          commit('setLoading', false);
-          resolve();
-        }, 2000)
-      })
+      return Ajax.createDatas(payload).then((response) => {
+        commit('pushMeta', { ...response.data, target: payload.target });
+        commit('setLoading', false);
+      });
+      // return new Promise((resolve, reject) => {
+      //   setTimeout((err) => {
+      //     if (err) reject();
+      //     commit('pushMeta', payload);
+      //     commit('setLoading', false);
+      //     resolve();
+      //   }, 2000)
+      // })
     },
     removeMeta ({ commit }, payload) {
       commit('setLoading', true);
-      return new Promise((resolve, reject) => {
-        setTimeout((err) => {
-          if (err) reject();
-          commit('delMeta', payload);
-          commit('setLoading', false);
-          resolve();
-        }, 1000)
-      })
+      return Ajax.removeDatas(payload).then((response) => {
+        console.log(response);
+        commit('delMeta', response.data);
+        commit('setLoading', false);
+      });
+      // return new Promise((resolve, reject) => {
+      //   setTimeout((err) => {
+      //     if (err) reject();
+      //     commit('delMeta', payload);
+      //     commit('setLoading', false);
+      //     resolve();
+      //   }, 1000)
+      // })
     },
   },
 

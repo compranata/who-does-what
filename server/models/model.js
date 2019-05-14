@@ -14,6 +14,10 @@ const WdwSchema = new Schema({
     mdi: String,
     account: String,
   },
+  // sip: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Icon',
+  // },
   remark: String,
   entity: {
     _id: String,

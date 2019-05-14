@@ -32,5 +32,15 @@ export default {
     };
   },
 
-  
+  createDatas (params) {
+    return api().post(`${endpoint}/datas/create/${params.target}`, params);
+  },
+
+  updateDatas (params) {
+    return api().post(`${endpoint}/datas/update/${params.target}`, params);
+  },
+
+  removeDatas (params) {
+    return api().post(`${endpoint}/datas/remove/${params.target}`, params);
+  },
 };
