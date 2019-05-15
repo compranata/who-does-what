@@ -169,12 +169,14 @@ export default {
             return Ajax.updateWdw({ _id: key, query: { $set: { imageUrl: imageUrl } } });
           });
         })
-        .then((wdw) => {
+        .then((result) => {
+          result.data.entity = wdw.entity;
+          result.data.unit = wdw.unit;
           commit('setLoading', false);
           if (payload.isEditing) {
-            commit('putWdw', wdw.data);
+            commit('putWdw', result.data);
           } else {
-            commit('pushWdw', wdw.data);
+            commit('pushWdw', result.data);
           }
           const user = getters.user;
           router.push({ name: 'home', params: user });

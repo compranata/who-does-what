@@ -32,12 +32,15 @@ exports.createWdw = (req, res, next) => {
 
 // Read
 exports.fetchWdws = (req, res, next) => {
-  Wdw.find({ publish: true }, (err, wdws) => {
-    if (err) next(err);
-    // DEV - any other filter, sort before passing
-    // populate to join the collections
-    next(null, wdws);
-  });
+  Wdw.find({ publish: true })
+    .populate('entity')
+    .populate('unit')
+    .exec((err, wdws) => {
+      if (err) next(err);
+      // DEV - any other filter, sort before passing
+      // populate to join the collections
+      next(null, wdws);
+    });
 };
 
 // Update

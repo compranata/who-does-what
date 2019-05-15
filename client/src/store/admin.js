@@ -100,14 +100,6 @@ export default {
         commit('putMeta', { ...response.data, target: payload.target });
         commit('setLoading', false);
       });
-      // return new Promise((resolve, reject) => {
-      //   setTimeout((err) => {
-      //     if (err) reject();
-      //     commit('putMeta', payload);
-      //     commit('setLoading', false);
-      //     resolve();
-      //   }, 2000)
-      // })
     },
     createMeta ({ commit }, payload) {
       commit('setLoading', true);
@@ -115,30 +107,13 @@ export default {
         commit('pushMeta', { ...response.data, target: payload.target });
         commit('setLoading', false);
       });
-      // return new Promise((resolve, reject) => {
-      //   setTimeout((err) => {
-      //     if (err) reject();
-      //     commit('pushMeta', payload);
-      //     commit('setLoading', false);
-      //     resolve();
-      //   }, 2000)
-      // })
     },
     removeMeta ({ commit }, payload) {
       commit('setLoading', true);
       return Ajax.removeDatas(payload).then((response) => {
-        console.log(response);
-        commit('delMeta', response.data);
+        commit('delMeta', { ...response.data, target: payload.target });
         commit('setLoading', false);
       });
-      // return new Promise((resolve, reject) => {
-      //   setTimeout((err) => {
-      //     if (err) reject();
-      //     commit('delMeta', payload);
-      //     commit('setLoading', false);
-      //     resolve();
-      //   }, 1000)
-      // })
     },
   },
 

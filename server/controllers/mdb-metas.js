@@ -5,6 +5,7 @@ const {
   Lead,
   Icon,
   Tag,
+  Wdw,
 } = require('../models/model');
 
 // Read
@@ -115,7 +116,7 @@ exports.removeDatas = (req, res, next) => {
     { $set: { active: false } },
     { new: true },
   ];
-
+  // issue - if wdw still has _id, crash at rendering.
   function callback(error, result) {
     if (error) next(error);
     next(null, result);

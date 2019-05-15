@@ -14,17 +14,10 @@ const WdwSchema = new Schema({
     mdi: String,
     account: String,
   },
-  // sip: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Icon',
-  // },
   remark: String,
   entity: {
-    _id: String,
-    name: String,
-    address: String,
-    country: String,
-    phone: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Entity',
   },
   lead: {
     _id: String,
@@ -34,14 +27,9 @@ const WdwSchema = new Schema({
     user_id: String,
   },
   tags: { type: String },
-  // unit: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Unit'
-  // },
   unit: {
-    _id: String,
-    name: String,
-    branding: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Unit',
   },
   publish: Boolean,
   imageUrl: String,
