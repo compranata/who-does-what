@@ -129,7 +129,7 @@ export default {
         phone: payload.phone,
         fax: payload.fax,
         email: payload.email,
-        sip: { ...payload.sipProvider, account: payload.sipAccount },
+        sip: { icon: {...payload.sipProvider}, account: payload.sipAccount },
         remark: payload.remark,
         tags: payload.tags,
         creatorId: getters.user.id,
@@ -313,7 +313,7 @@ export default {
         })
       } else {
         filteredWdws = state.wdws.filter((value) => {
-          return value.tags.split(',').some((tag) => {
+          return value.tags.some((tag) => {
             if (filterQueryArray.includes(tag) && !filteredWdwsId.includes(value._id)) {
               filteredWdwsId.push(value._id);
               return true;

@@ -35,6 +35,8 @@ exports.fetchWdws = (req, res, next) => {
   Wdw.find({ publish: true })
     .populate('entity')
     .populate('unit')
+    .populate('tag')
+    .populate('sip.icon')
     .exec((err, wdws) => {
       if (err) next(err);
       // DEV - any other filter, sort before passing

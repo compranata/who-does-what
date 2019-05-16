@@ -443,7 +443,7 @@ export default {
       const currentWdw = this.$store.getters.selectedWdw(this.id);
       let providerIndex;
       for (let idx = 0; idx < this.icons.length; idx++) {
-        if (this.icons[idx]._id === currentWdw.sip._id) {
+        if (this.icons[idx]._id === currentWdw.sip.icon._id) {
           providerIndex = idx;
         }
       }
@@ -459,10 +459,10 @@ export default {
       this.fax = currentWdw.fax;
       this.email = currentWdw.email;
       this.sipAccount = currentWdw.sip.account;
-      this.sipProvider = { _id: currentWdw.sip._id, provider: currentWdw.sip.provider, mdi: currentWdw.sip.mdi };
+      this.sipProvider = { _id: currentWdw.sip.icon._id, provider: currentWdw.sip.icon.provider, mdi: currentWdw.sip.icon.mdi };
       this.icon = providerIndex;
       this.remark = currentWdw.remark;
-      this.selectedTags = currentWdw.tags.split(',');
+      this.selectedTags = currentWdw.tags;
     }
   },
 }

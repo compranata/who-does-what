@@ -27,7 +27,7 @@
               <div v-if="(!!wdw.phone)"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
               <div v-if="(!!wdw.fax)"><v-icon small class="mr-1">print</v-icon>{{ wdw.fax }}</div>
               <div v-if="(!!wdw.email)"><v-icon small class="mr-1">alternate_email</v-icon><a :href="`mailto:${ wdw.email }`">{{ wdw.email }}</a></div>
-              <div v-if="(!!wdw.sip.account)"><v-icon small class="mr-1">{{ wdw.sip.mdi }}</v-icon>{{ wdw.sip.provider }} / {{ wdw.sip.account }}</div>
+              <div v-if="(!!wdw.sip.account)"><v-icon small class="mr-1">{{ wdw.sip.icon.mdi }}</v-icon>{{ wdw.sip.icon.provider }} / {{ wdw.sip.account }}</div>
             </div>
             <v-divider></v-divider>
             <div v-if="(!!wdw.lead.name)" class="grey--text mb-2">

@@ -63,7 +63,7 @@
                 <div v-if="(!!wdw.phone)" class="grey--text"><v-icon small class="mr-1">phone</v-icon><a :href="`tel:${ wdw.phone}`">{{ wdw.phone }}</a></div>
                 <div v-if="(!!wdw.fax)" class="grey--text"><v-icon small class="mr-1">print</v-icon>{{ wdw.fax }}</div>
                 <div v-if="(!!wdw.email)" class="grey--text"><v-icon small class="mr-1 text-none">alternate_email</v-icon><a :href="`mailto:${ wdw.email }`">{{ wdw.email }}</a></div>
-                <div v-if="(!!wdw.sip.account)" class="grey--text"><v-icon small class="mr-1">{{ wdw.sip.mdi }}</v-icon>{{ wdw.sip.provider }} / {{ wdw.sip.account }}</div>
+                <div v-if="(!!wdw.sip.account)" class="grey--text"><v-icon small class="mr-1">{{ wdw.sip.icon.mdi }}</v-icon>{{ wdw.sip.icon.provider }} / {{ wdw.sip.account }}</div>
                 <div v-if="(!!wdw.lead.name)" class="grey--text"><v-icon small class="mr-1">person</v-icon>{{ wdw.lead.name }}</div>
               </template>
             </v-card-text>
@@ -123,7 +123,7 @@
             </v-flex>
 
             <v-flex schrink xs12 sm6 offset-md6>
-              <div class="caption grey--text">{{ wdw.sip.provider }}</div>
+              <div class="caption grey--text">{{ wdw.sip.icon.provider }}</div>
               <div>{{ (wdw.sip.account) ? wdw.sip.account : 'N/A' }}</div>
             </v-flex>
 

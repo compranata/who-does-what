@@ -3,26 +3,10 @@ import Ajax from './axios';
 export default {
   state: {
     entities: [
-      { _id: 'DE01', name: 'Berlin Office', address: 'Friedrichstr. 123, 10211 Berlin', country: 'Germany', phone: '+49-30-12345566' },
-      { _id: 'DE02', name: 'Frankfurt Office', address: 'Rossmarkt. 6, 60311 Frankfurt', country: 'Germany', phone: '+49-69-3432938' },
-      { _id: 'DE03', name: 'London Office', address: 'Goswell Road, London', country: 'United Kingdam', phone: '+44-110202012' },
-      { _id: 'DE04', name: 'Barcelona Office', address: 'Calle de Francisco. 123, Barcelona', country: 'Spain', phone: '+36-30-12345566' },
-      { _id: 'DE05', name: 'Paris Office', address: 'Rue prima. 6, Paris', country: 'France', phone: '+39-69-3432938' },
-      { _id: 'DE06', name: 'Milano Office', address: 'Milano', country: 'Italy', phone: '+42-110202012' },
+      { _id: 'DE01', name: 'Entity Name', address: 'Entity Address', country: 'Country', phone: '+44-70-8888888' },
     ],
     tags: [
-      { _id: 'DT01', name: 'Germany', group: 'C.Europe', label: 'Destinations' },
-      { _id: 'DT02', name: 'Portugal', group: 'S.Europe', label: 'Destinations' },
-      { _id: 'DT03', name: 'France', group: 'W.Europe', label: 'Destinations' },
-      { _id: 'DT04', name: 'Sales Operations', group: 'Outbound', label: 'Functions' },
-      { _id: 'DT05', name: 'Japanese', group: '', label: 'Markets' },
-      { _id: 'DT06', name: 'United Kingdam', group: 'N.Europe', label: 'Destinations' },
-      { _id: 'DT07', name: 'Spain', group: 'S.Europe', label: 'Destinations' },
-      { _id: 'DT08', name: 'Events', group: 'Incentives', label: 'Business' },
-      { _id: 'DT09', name: 'Customer Care', group: 'Inbound', label: 'Functions' },
-      { _id: 'DT10', name: 'Chinese', group: '', label: 'Markets' },
-      { _id: 'DT11', name: 'American', group: '', label: 'Markets' },
-      { _id: 'DT12', name: 'Service Operations', group: 'Inbound', label: 'Functions' },
+      { _id: 'DT01', name: 'Tag Name', group: 'Tag Group', label: 'Tag Label' },
     ],
     leads: [
       { _id: 'DL01', name: 'Toad', phone: '', email: 'toad@mail.com', user_id: 'asdf'},
@@ -32,10 +16,10 @@ export default {
       { _id: 'DL05', name: 'Bowser', phone: '', email: 'bowser@mail.com', user_id: 'jfkl'},
     ],
     units: [
-      { _id: 'DU01', name: 'Fire', branding: '#D3222A' },
-      { _id: 'DU02', name: 'Water', branding: '#00B0E8'},
-      { _id: 'DU03', name: 'Air', branding: '#5F6A72'},
-      { _id: 'DU04', name: 'Earth', branding: '#719500'},
+      { _id: 'DU01', name: 'Red', branding: '#D3222A' },
+      { _id: 'DU02', name: 'Blue', branding: '#00B0E8'},
+      { _id: 'DU03', name: 'Grey', branding: '#5F6A72'},
+      { _id: 'DU04', name: 'Green', branding: '#719500'},
     ],
     icons: [
       { _id: 'DI01', provider: 'Chat', mdi: 'chat' },

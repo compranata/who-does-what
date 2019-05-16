@@ -8,10 +8,17 @@ const WdwSchema = new Schema({
   phone: String,
   fax: String,
   email: String,
+  // sip: {
+  //   _id: String,
+  //   provider: String,
+  //   mdi: String,
+  //   account: String,
+  // },
   sip: {
-    _id: String,
-    provider: String,
-    mdi: String,
+    icon: {
+      type: Schema.Types.ObjectId,
+      ref: 'Icon',
+    },
     account: String,
   },
   remark: String,
@@ -26,7 +33,10 @@ const WdwSchema = new Schema({
     email: String,
     user_id: String,
   },
-  tags: { type: String },
+  tags: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Tag',
+  }],
   unit: {
     type: Schema.Types.ObjectId,
     ref: 'Unit',
