@@ -18,10 +18,11 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
     <h1 class="subheading grey--text mb-2 text-capitalize">{{ this.target }}</h1>
     <p class="grey--text mb-2 pr-5">{{ this.note }}</p>
 
-    <v-card flat v-for="(item, i) in items" transition="slide-x-transition" :key="i">
+    <v-card flat v-for="(item, i) in items" transition="slide-x-transition" :key="i" class="mb-2">
       <component
         :is="targetList"
         :item="item"
